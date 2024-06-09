@@ -1,0 +1,18 @@
+trigger:
+- main
+
+pool:
+  name: Default
+  demands:
+  - agent.name -equals test-deneme
+
+variables:
+  ANDROID_HOME: 'C:\agent\Android\Sdk'
+
+steps:
+- script: |
+    echo Starting Gradle Build
+    ./gradlew assembleDebug --stacktrace --debug
+  displayName: 'Run Gradle Build'
+  env:
+    ANDROID_HOME: $(ANDROID_HOME)
