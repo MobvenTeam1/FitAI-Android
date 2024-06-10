@@ -6,6 +6,7 @@ import com.mobven.fitai.data.model.dto.SignInDto
 import com.mobven.fitai.data.model.dto.SignUpDto
 import com.mobven.fitai.data.model.dto.WorkoutDetailsDto
 import com.mobven.fitai.data.model.entity.UserEntity
+import com.mobven.fitai.data.model.response.LoginResponse
 import com.mobven.fitai.domain.repository.FitAIRepository
 import com.mobven.fitai.domain.source.LocalDataSource
 import com.mobven.fitai.domain.source.RemoteDataSource
@@ -19,18 +20,17 @@ class FitAIRepositoryImpl @Inject constructor(
     private val provideLocalSource: LocalDataSource
 ) : FitAIRepository {
 
-    override fun registerUser(registerUser: SignUpDto): Flow<ResponseState<String>> {
+    override fun registerUser(registerUser: SignUpDto): Flow<ResponseState<LoginResponse>> {
         return flow {
             emit(ResponseState.Loading)
             val response = provideRemoteSource.registerUser(registerUser)
-            insertUserKey(response)
             emit(ResponseState.Success(response))
         }.catch {
             emit(ResponseState.Error(it.message.orEmpty()))
         }
     }
 
-    override fun loginUser(loginUser: SignInDto): Flow<ResponseState<String>> {
+    override fun loginUser(loginUser: SignInDto): Flow<ResponseState<LoginResponse>> {
         return flow {
             emit(ResponseState.Loading)
             val response = provideRemoteSource.loginUser(loginUser)

@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mobven.fitai.common.ResponseState
-import com.mobven.fitai.data.dto.SignInDto
+import com.mobven.fitai.data.model.dto.SignInDto
 import com.mobven.fitai.domain.usecase.LoginUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -39,14 +39,14 @@ class SignInViewModel @Inject constructor(
                         _signInUiState.value = _signInUiState.value?.copy(
                             isLoading = false,
                             isError = true,
-                            errorMessage = it.message ?: "Bir hata oluştu"
+                            errorMessage = it.message
                         )
                     }
                     is ResponseState.Success -> {
                         _signInUiState.value = _signInUiState.value?.copy(
                             isLoading = false,
                             isError = false,
-                            userAuthKey = it.data
+                            userAuthKey = it.data.userToken
                         )
                     }
                 }

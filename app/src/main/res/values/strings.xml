@@ -264,4 +264,12 @@
     <string name="registerfragmenterror">RegisterFragmentError</string>
     <string name="add_plan">AI Destekli Plan Ekle</string>
     <string name="loginfragment">LoginFragment</string>
+    <string name="please_give_gender">Cinsiyetinizi seçiniz</string>
+    <string name="please_enter_your_weight">Please enter your weight.</string>
+    <string name="please_enter_your_weight_goal">Please enter your weight goal.</string>
+    <string name="slash">/</string>
+    <string name="please_enter_your_birthday">Please enter your birthday.</string>
+    <string name="please_enter_your_goals">Lütfen hedeflerinizi girin</string>
+    <string name="empty_string" />
+    <string name="please_enter_your_height">Please enter your height.</string>
 </resources>

@@ -15,7 +15,7 @@ class ForgotPasswordFragment :
     override fun observeUi() {
         binding.tvLoginWithEmail.setOnClickListener {
             val action =
-                ForgotPasswordFragmentDirections.actionResetPasswordEmailFragmentToForgotPasswordEmailFragment()
+                ForgotPasswordFragmentDirections.actionForgotPasswordFragmentToForgotPasswordEmailFragment()
             navigate(action)
         }
 
@@ -29,7 +29,7 @@ class ForgotPasswordFragment :
             binding.phoneContainer.helperText = viewModel.validPhone(emailText)
             if (binding.phoneContainer.helperText == null) {
                 val action =
-                    ForgotPasswordFragmentDirections.actionResetPasswordEmailFragmentToOTPFragment()
+                    ForgotPasswordFragmentDirections.actionForgotPasswordFragmentToOTPFragment()
                 navigate(action)
             }
         }

@@ -1,11 +1,11 @@
 package com.mobven.fitai.presentation.login.sign_up.screens
 
 import android.util.Log
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.mobven.fitai.R
-import com.mobven.fitai.common.ResponseState
 import com.mobven.fitai.common.SharedPreferencesHelper
 import com.mobven.fitai.data.model.dto.SignUpDto
 import com.mobven.fitai.databinding.FragmentRegisterBinding
@@ -21,7 +21,7 @@ typealias RDirections = RegisterFragmentDirections
 class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterBinding::inflate) {
 
     private val signInViewModel: SignInViewModel by viewModels()
-    private val signUpViewModel: SignUpViewModel by viewModels()
+    private val signUpViewModel: SignUpViewModel by activityViewModels()
 
     override fun observeUi() {
         with(binding) {
@@ -74,7 +74,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
                                 )
                             }
 
-                            else -> {
+                            signUpState.isRegisterSuccess -> {
                                 SharedPreferencesHelper.saveUserAuthKey(
                                     requireContext(),
                                     signUpState.userAuthKey

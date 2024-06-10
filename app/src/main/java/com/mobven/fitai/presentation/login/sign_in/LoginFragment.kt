@@ -1,12 +1,8 @@
 package com.mobven.fitai.presentation.login.sign_in
 
 
-import android.content.Intent
-import android.util.Log
 import androidx.fragment.app.viewModels
-import com.mobven.fitai.MainActivity
-import com.mobven.fitai.R
-import com.mobven.fitai.data.dto.SignInDto
+import com.mobven.fitai.data.model.dto.SignInDto
 import com.mobven.fitai.databinding.FragmentLoginBinding
 import com.mobven.fitai.presentation.base.BaseFragment
 import com.mobven.fitai.presentation.login.sign_in.viewmodel.SignInAction
@@ -25,7 +21,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
             }
 
             loginButton.setOnClickListener {
-
                 val editTextEmail = editTextEmailLogin.text.toString()
                 loginEmail.helperText = viewModel.validEmail(editTextEmail)
 
@@ -41,35 +36,15 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
                             )
                         )
                     )
-                    viewModel.signInUiState.observe(viewLifecycleOwner){
-                        when{
-                            it.userAuthKey != "" -> {
-                                // TODO codes will be added here, when backend turns 200
-                                // val intent = Intent(requireActivity(), MainActivity::class.java)
-                                // startActivity(intent)
-                                // requireActivity().finish()
-                            }
-                            it.isError -> {
-                                loginEmail.helperText = it.errorMessage
-                            }
-                            it.isLoading -> {
-                                Log.e(getString(R.string.login), getString(R.string.loading))
-                            }
-                        }
-                    }
-                    // TODO codes will be removed here, when backend turns 200
-                    val intent = Intent(requireActivity(), MainActivity::class.java)
-                    startActivity(intent)
-                    requireActivity().finish()
                 }
             }
 
-            binding.tvRegister.setOnClickListener {
+            tvRegister.setOnClickListener {
                 val action = LoginFragmentDirections.actionLoginFragmentToRegisterFragment()
                 navigate(action)
             }
 
-            binding.loginForgotPassword.setOnClickListener {
+            loginForgotPassword.setOnClickListener {
                 val action =
                     LoginFragmentDirections.actionLoginFragmentToResetPasswordEmailFragment()
                 navigate(action)

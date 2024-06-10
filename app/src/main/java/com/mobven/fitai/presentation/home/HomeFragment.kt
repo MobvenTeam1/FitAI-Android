@@ -1,6 +1,5 @@
 package com.mobven.fitai.presentation.home
 
-
 import android.os.Build
 import android.view.View
 import android.widget.ImageView

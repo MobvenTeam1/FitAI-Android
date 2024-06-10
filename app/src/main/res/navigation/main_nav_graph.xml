@@ -100,7 +100,7 @@
             android:id="@+id/action_forgotPasswordFragment_to_forgotPasswordEmailFragment"
             app:destination="@id/forgotPasswordEmailFragment" />
         <action
-            android:id="@+id/action_forgotPasswordFragment_to_OTPFragment2"
+            android:id="@+id/action_forgotPasswordFragment_to_OTPFragment"
             app:destination="@id/OTPFragment" />
     </fragment>
     <fragment
@@ -112,8 +112,8 @@
             android:id="@+id/action_forgotPasswordEmailFragment_to_forgotPasswordFragment"
             app:destination="@id/forgotPasswordFragment" />
         <action
-            android:id="@+id/action_forgotPasswordEmailFragment_to_OTPEmailFragment2"
-            app:destination="@id/OTPEmailFragment2" />
+            android:id="@+id/action_forgotPasswordEmailFragment_to_OTPEmailFragment"
+            app:destination="@id/OTPEmailFragment" />
     </fragment>
     <fragment
         android:id="@+id/OTPFragment"
@@ -125,12 +125,12 @@
             app:destination="@id/resetPasswordFragment" />
     </fragment>
     <fragment
-        android:id="@+id/OTPEmailFragment2"
+        android:id="@+id/OTPEmailFragment"
         android:name="com.mobven.fitai.presentation.login.sign_in.OTPEmailFragment"
         android:label="fragment_otp_email"
         tools:layout="@layout/fragment_otp_email" >
         <action
-            android:id="@+id/action_OTPEmailFragment2_to_resetPasswordFragment"
+            android:id="@+id/action_OTPEmailFragment_to_resetPasswordFragment"
             app:destination="@id/resetPasswordFragment" />
     </fragment>
     <dialog

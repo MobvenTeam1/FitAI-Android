@@ -16,7 +16,7 @@ class OnboardingFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         SharedPreferencesHelper.getIsFirstLaunch(requireContext()).let {
-            if (it == true) {
+            if (it) {
                 val action = OnboardingFragmentDirections.actionOnboardingFragmentToAuthFragment()
                 navigate(action)
             }
