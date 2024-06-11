@@ -152,7 +152,7 @@ class SignUpViewModel @Inject constructor(
                             isError = false,
                             isLoading = false,
                             isRegisterSuccess = true,
-                            userAuthKey = registerResponse.data.userToken
+                            userAuthKey = registerResponse.data.userToken.token
                         )
                     }
                 }
