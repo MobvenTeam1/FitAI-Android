@@ -1,5 +1,5 @@
 trigger:
-- master
+- main
 
 pool:
   name: Default
@@ -10,19 +10,9 @@ variables:
   ANDROID_HOME: 'C:\agent\Android\Sdk'
 
 steps:
-# - script: |
-#     echo Starting Gradle Build
-#     ./gradlew --stacktrace --debug
-#   displayName: 'Run Gradle Build'
-#   env:
-#     ANDROID_HOME: $(ANDROID_HOME)
-
-- task: Gradle@3
-  inputs:
-    gradleWrapperFile: 'gradlew'
-    tasks: 'assembleDebug'
-    publishJUnitResults: true
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.17'
-    sonarQubeRunAnalysis: false
-    spotBugsAnalysis: false 
+- script: |
+    echo Starting Gradle Build
+    ./gradlew assembleDebug 
+  displayName: 'Run Gradle Build'
+  env:
+    ANDROID_HOME: $(ANDROID_HOME)
