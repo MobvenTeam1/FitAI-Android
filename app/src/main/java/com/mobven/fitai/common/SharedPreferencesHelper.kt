@@ -29,4 +29,12 @@ object SharedPreferencesHelper {
         val sharedPref = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
         return sharedPref.getString("userAuthKey", "")
     }
+
+    fun deleteUserAuthKey(context: Context) {
+        val sharedPref = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+        with(sharedPref.edit()) {
+            putString("userAuthKey", null)
+            apply()
+        }
+    }
 }
