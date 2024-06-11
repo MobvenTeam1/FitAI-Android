@@ -20,7 +20,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -221,10 +222,10 @@
                 app:boxStrokeColor="@color/white_100"
                 app:boxStrokeWidth="@dimen/_1dp"
                 app:cursorColor="@color/black"
-                app:helperTextTextColor="@color/red_50"
                 app:endIconDrawable="@drawable/selector_password_toggle"
                 app:endIconMode="password_toggle"
                 app:errorEnabled="true"
+                app:helperTextTextColor="@color/red_50"
                 app:hintTextColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

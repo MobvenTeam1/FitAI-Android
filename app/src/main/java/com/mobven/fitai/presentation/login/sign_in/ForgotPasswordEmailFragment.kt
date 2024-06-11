@@ -16,7 +16,7 @@ class ForgotPasswordEmailFragment :
 
     override fun observeUi() {
         binding.tvLoginWithNumber.setOnClickListener {
-            findNavController().navigate(R.id.action_forgotPasswordEmailFragment_to_resetPasswordEmailFragment)
+            findNavController().navigate(R.id.action_forgotPasswordEmailFragment_to_forgotPasswordFragment)
         }
 
         binding.toolbarForgotPassword.toolbarBack.setOnClickListener {
