@@ -22,7 +22,6 @@ steps:
     gradleWrapperFile: 'gradlew'
     tasks: 'assembleDebug'
     publishJUnitResults: true
-    testResultsFiles: '**/TEST-*.xml'
     javaHomeOption: 'JDKVersion'
     jdkVersionOption: '1.17'
     sonarQubeRunAnalysis: false
