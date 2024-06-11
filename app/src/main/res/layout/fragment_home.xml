@@ -51,8 +51,8 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/_24dp"
         android:background="@color/transparent"
-        android:src="@drawable/ic_notification"
         android:contentDescription="@string/contentDescription"
+        android:src="@drawable/ic_notification"
         app:layout_constraintBottom_toBottomOf="@+id/tv_home_welcome_message"
         app:layout_constraintEnd_toStartOf="@id/iv_home_profile"
         app:layout_constraintTop_toTopOf="@id/tv_home_welcome_message" />
@@ -150,14 +150,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_30dp"
+                android:progress="45"
                 app:indicatorColor="@color/green_500"
                 app:indicatorSize="165dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ebtn_home_add_food"
                 app:trackColor="@color/gray_50"
-                app:trackThickness="10dp"
-                android:progress="45"/>
+                app:trackThickness="10dp" />
 
             <TextView
                 android:id="@+id/tv_home_goal_complete"
@@ -230,13 +230,13 @@
 
             <LinearLayout
                 android:id="@+id/ll_calorie"
-                android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="110dp"
-                android:layout_marginTop="@dimen/_24dp"
                 android:layout_marginVertical="@dimen/_18dp"
-                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/_24dp"
+                android:background="@color/white"
                 android:gravity="center"
+                android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_home_goal_remaining">
@@ -251,8 +251,8 @@
                     android:id="@+id/include_home_burned_calorie"
                     layout="@layout/card_calorie_track"
                     android:layout_width="wrap_content"
-                    android:layout_marginHorizontal="@dimen/_5dp"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_5dp" />
 
                 <include
                     android:id="@+id/include_home_remaining_calorie"
@@ -266,42 +266,15 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_24dp"
+                android:gravity="center"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ll_calorie"
-                android:gravity="center">
+                app:layout_constraintTop_toBottomOf="@id/ll_calorie">
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/card_view_plan"
-                    android:layout_width="327dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
-                    app:cardElevation="4dp"
-                    app:cardCornerRadius="@dimen/_12dp"
-                    android:background="#777677">
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <ImageView
-                                android:id="@+id/card_view_image"
-                                android:layout_width="match_parent"
-                                android:layout_height="100dp"
-                                android:src="@color/transparent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                android:scaleType="center"/>
-
-                            <include layout="@layout/plan_card_view_layout" />
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-                </androidx.cardview.widget.CardView>
-
-
+                <include
+                    android:id="@+id/include_home_personalized_training"
+                    layout="@layout/plan_card_view_layout" />
 
                 <include
                     android:id="@+id/include_home_personalized_food"
@@ -325,8 +298,8 @@
                 android:id="@+id/tv_see_all_training"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/_24dp"
                 android:layout_marginTop="@dimen/_24dp"
+                android:layout_marginEnd="@dimen/_24dp"
                 android:fontFamily="@font/urbanist_regular"
                 android:text="@string/see_all"
                 android:textColor="@color/gray_200"
@@ -338,14 +311,14 @@
                 android:id="@+id/rv_home_training_category"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_24dp"
                 android:layout_marginTop="@dimen/_12dp"
                 android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginStart="@dimen/_24dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/card_home_categories"
-                app:layout_constraintTop_toBottomOf="@id/tv_home_training_category"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_home_training_category"
+                tools:listitem="@layout/card_home_categories" />
 
             <TextView
                 android:id="@+id/tv_home_food_category"
@@ -364,8 +337,8 @@
                 android:id="@+id/tv_see_all_food"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/_24dp"
                 android:layout_marginTop="@dimen/_24dp"
+                android:layout_marginEnd="@dimen/_24dp"
                 android:fontFamily="@font/urbanist_regular"
                 android:text="@string/see_all"
                 android:textColor="@color/gray_200"
@@ -377,16 +350,16 @@
                 android:id="@+id/rv_home_food_category"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_24dp"
                 android:layout_marginTop="@dimen/_12dp"
                 android:layout_marginBottom="@dimen/_80dp"
                 android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginStart="@dimen/_24dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/card_home_categories"
-                app:layout_constraintTop_toBottomOf="@id/tv_home_food_category"/>
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_home_food_category"
+                tools:listitem="@layout/card_home_categories" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
