@@ -1,7 +1,7 @@
 package com.mobven.fitai.domain.source
 
-import com.mobven.fitai.data.model.response.LoginResponse
 import com.mobven.fitai.data.model.dto.FirstLoginDto
+import com.mobven.fitai.data.model.response.LoginResponse
 import com.mobven.fitai.data.model.dto.SignInDto
 import com.mobven.fitai.data.model.dto.SignUpDto
 import com.mobven.fitai.data.model.dto.WorkoutDetailsDto

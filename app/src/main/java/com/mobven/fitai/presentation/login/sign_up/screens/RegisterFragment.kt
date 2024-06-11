@@ -79,7 +79,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
                                     requireContext(),
                                     signUpState.userAuthKey
                                 )
-                                navigate(RDirections.actionRegisterFragmentToSignUpFragment())
+                                findNavController().navigate(R.id.action_registerFragment_to_signUpFragment)
                             }
                         }
                     }
