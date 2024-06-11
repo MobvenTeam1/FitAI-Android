@@ -1,6 +1,5 @@
 package com.mobven.fitai.presentation.login.sign_in
 
-
 import android.content.Intent
 import android.util.Log
 import androidx.fragment.app.viewModels
