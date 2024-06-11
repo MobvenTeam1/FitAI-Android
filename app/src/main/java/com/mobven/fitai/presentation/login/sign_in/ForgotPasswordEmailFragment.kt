@@ -27,7 +27,7 @@ class ForgotPasswordEmailFragment :
             val emailText = binding.editTextForgotPasswordEmail.text.toString()
             binding.emailContainer.helperText = viewModel.validEmail(emailText)
             if (binding.emailContainer.helperText == null) {
-                findNavController().navigate(R.id.action_forgotPasswordEmailFragment_to_OTPEmailFragment)
+                findNavController().navigate(R.id.action_forgotPasswordEmailFragment_to_OTPFragment)
             }
         }
     }

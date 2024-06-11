@@ -1,4 +1,4 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="#33000000"/>
+    <solid android:color="#33000000"/> <!-- Yarı saydam siyah arka plan -->
     <corners android:radius="12dp"/>
 </shape>

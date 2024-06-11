@@ -3,12 +3,4 @@ package com.mobven.fitai.presentation.training_detail
 import com.mobven.fitai.databinding.FragmentTrainingDetailBinding
 import com.mobven.fitai.presentation.base.BaseFragment
 
-class TrainingDetailFragment : BaseFragment<FragmentTrainingDetailBinding>(FragmentTrainingDetailBinding::inflate){
-
-    override fun observeUi() {
-        binding.StartTrainingButton.setOnClickListener {
-            val action = TrainingDetailFragmentDirections.actionTrainingDetailFragmentToStartTrainingFragment()
-            navigate(action)
-        }
-    }
-}
+class TrainingDetailFragment : BaseFragment<FragmentTrainingDetailBinding>(FragmentTrainingDetailBinding::inflate)
