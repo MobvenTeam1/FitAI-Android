@@ -102,10 +102,19 @@
         android:label="fragment_forgot_password_email"
         tools:layout="@layout/fragment_forgot_password_email" >
         <action
-            android:id="@+id/action_forgotPasswordEmailFragment_to_OTPFragment"
-            app:destination="@id/OTPFragment" />
-        <action
             android:id="@+id/action_forgotPasswordEmailFragment_to_forgotPasswordFragment"
             app:destination="@id/forgotPasswordFragment" />
+        <action
+            android:id="@+id/action_forgotPasswordEmailFragment_to_OTPEmailFragment"
+            app:destination="@id/OTPEmailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/OTPEmailFragment"
+        android:name="com.mobven.fitai.presentation.login.sign_in.OTPEmailFragment"
+        android:label="fragment_otp_email"
+        tools:layout="@layout/fragment_otp_email" >
+        <action
+            android:id="@+id/action_OTPEmailFragment_to_resetPasswordFragment"
+            app:destination="@id/resetPasswordFragment" />
     </fragment>
 </navigation>

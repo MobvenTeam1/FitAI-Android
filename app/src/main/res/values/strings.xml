@@ -276,4 +276,6 @@
     <string name="user_auth_key">User Auth Key: %1$s</string>
     <string name="error">Error: %1$s</string>
     <string name="success">Success: %1$s</string>
+    <string name="fourty_five_min">45 Dakika</string>
+    <string name="one_fifty_five_cal">155 Kalori</string>
 </resources>

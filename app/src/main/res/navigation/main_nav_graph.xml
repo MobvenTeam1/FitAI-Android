@@ -28,6 +28,9 @@
         <action
             android:id="@+id/action_homeFragment_to_bottomSheetFragment"
             app:destination="@id/bottomSheetFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_trainingDetailFragment"
+            app:destination="@id/trainingDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/nutritionFragment"
@@ -80,4 +83,25 @@
             android:id="@+id/action_bottomSheetFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </dialog>
+    <fragment
+        android:id="@+id/trainingDetailFragment"
+        android:name="com.mobven.fitai.presentation.training_detail.TrainingDetailFragment"
+        android:label="fragment_training_detail"
+        tools:layout="@layout/fragment_training_detail" >
+        <action
+            android:id="@+id/action_trainingDetailFragment_to_startTrainingFragment"
+            app:destination="@id/startTrainingFragment" />
+        <action
+            android:id="@+id/action_trainingDetailFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/startTrainingFragment"
+        android:name="com.mobven.fitai.presentation.training_detail.StartTrainingFragment"
+        android:label="fragment_start_training"
+        tools:layout="@layout/fragment_start_training" >
+        <action
+            android:id="@+id/action_startTrainingFragment_to_trainingDetailFragment"
+            app:destination="@id/trainingDetailFragment" />
+    </fragment>
 </navigation>
