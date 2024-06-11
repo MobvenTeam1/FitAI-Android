@@ -34,13 +34,15 @@ class GenderSignUpFragment :
                 }
 
                 else -> {
-                    handleSuccess(signUpState.signUpSelectorList)
+                    handleSuccess()
                 }
             }
         }
     }
 
-    private fun handleSuccess(genderList: List<ListSelectorItem>) {
+    private fun handleSuccess() {
+
+        val genderList = viewModel.signUpSelectorList
 
         adapter.submitList(genderList)
         binding.rvGender.adapter = adapter

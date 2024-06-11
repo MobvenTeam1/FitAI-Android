@@ -276,4 +276,6 @@
     <string name="user_auth_key">User Auth Key: %1$s</string>
     <string name="error">Error: %1$s</string>
     <string name="success">Success: %1$s</string>
+    <string name="goalsfragment">GoalsFragment</string>
+    <string name="show_exercise">Antremanını Görüntüle</string>
 </resources>

@@ -71,7 +71,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
         val arrow : ImageView = requireView().findViewById(R.id.ivArrow)
 
-        binding.cardViewPlan.setOnClickListener {
+        binding.includeHomePersonalizedTraining.cardViewImage.setOnClickListener {
             if (isExpanded) {
                 arrow.setImageResource(R.drawable.ic_arrow_down)
                 llPlanCard.visibility = View.GONE
@@ -86,7 +86,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     private fun getUserData() {
 
-        binding.cardViewImage.setImageResource(R.drawable.pilates)
+        binding.includeHomePersonalizedTraining.cardViewImage.setImageResource(R.drawable.pilates_woman)
         val planRecyclerView : RecyclerView = requireView().findViewById(R.id.plan_recycler_view)
         llPlanCard  = requireView().findViewById(R.id.llPlanCardDetail)
         planRecyclerView.layoutManager = LinearLayoutManager(requireContext())

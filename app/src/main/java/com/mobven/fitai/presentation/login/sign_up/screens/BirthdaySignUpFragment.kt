@@ -18,7 +18,6 @@ class BirthdaySignUpFragment :
 
     override fun observeUi() {
         with(binding) {
-
             binding.btnBirthdayContinue.setOnClickListener {
                 val birthdayCondition =
                     etBirthdayDay.text.toString().isEmpty() && etBirthdayMonth.text.toString()

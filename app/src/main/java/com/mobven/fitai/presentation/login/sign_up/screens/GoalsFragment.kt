@@ -33,14 +33,17 @@ class GoalsFragment : BaseFragment<FragmentGoalsBinding>(FragmentGoalsBinding::i
                 }
 
                 else -> {
-                    handleSuccess(signUpState.signUpSelectorList)
+                    handleSuccess()
                 }
             }
         }
     }
 
-    private fun handleSuccess(goalList: List<ListSelectorItem>) {
+    private fun handleSuccess() {
         with(binding) {
+
+            val goalList = signUpViewModel.signUpSelectorList
+
             adapter.submitList(goalList)
             rvGoals.adapter = adapter
 
@@ -57,7 +60,7 @@ class GoalsFragment : BaseFragment<FragmentGoalsBinding>(FragmentGoalsBinding::i
                         )
 
                         Log.e(
-                            "GoalsFragment",
+                            getString(R.string.goalsfragment),
                             "User auth key: ${
                                 SharedPreferencesHelper.getUserAuthKey(
                                     requireActivity()
