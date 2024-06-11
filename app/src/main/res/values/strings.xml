@@ -274,4 +274,5 @@
     <string name="please_enter_your_height">Please enter your height.</string>
     <string name="splashactivity">SplashActivity</string>
     <string name="user_auth_key">User Auth Key: %1$s</string>
+    <string name="error">Error: %1$s</string>
 </resources>
