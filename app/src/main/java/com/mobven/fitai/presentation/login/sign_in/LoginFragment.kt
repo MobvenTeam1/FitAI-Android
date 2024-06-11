@@ -1,7 +1,12 @@
 package com.mobven.fitai.presentation.login.sign_in
 
 
+import android.content.Intent
+import android.util.Log
 import androidx.fragment.app.viewModels
+import com.mobven.fitai.MainActivity
+import com.mobven.fitai.R
+import com.mobven.fitai.common.SharedPreferencesHelper
 import com.mobven.fitai.data.model.dto.SignInDto
 import com.mobven.fitai.databinding.FragmentLoginBinding
 import com.mobven.fitai.presentation.base.BaseFragment
@@ -36,6 +41,32 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
                             )
                         )
                     )
+
+                    viewModel.signInUiState.observe(viewLifecycleOwner) {
+                        when {
+                            it.isLoading -> {
+                                Log.e(getString(R.string.login), getString(R.string.loading))
+                            }
+
+                            it.isError -> {
+                                Log.e(getString(R.string.login),
+                                    getString(R.string.error, it.errorMessage))
+                            }
+
+                            else -> {
+                                SharedPreferencesHelper.saveUserAuthKey(
+                                    requireActivity(),
+                                    it.userAuthKey
+                                )
+                                val intent = Intent(requireActivity(), MainActivity::class.java)
+                                startActivity(intent)
+                                requireActivity().finish()
+
+                                Log.e(getString(R.string.login),
+                                    getString(R.string.success, it.userAuthKey))
+                            }
+                        }
+                    }
                 }
             }
 

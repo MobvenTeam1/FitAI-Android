@@ -62,7 +62,7 @@ class SignInViewModel @Inject constructor(
     }
 
     fun validPhone(phoneText: String): String? {
-        if (!Patterns.EMAIL_ADDRESS.matcher(phoneText).matches()) {
+        if (!Patterns.PHONE.matcher(phoneText).matches()) {
             return "Lütfen geçerli bir telefon numarası giriniz!"
         }
         return null
