@@ -1,5 +1,5 @@
 trigger:
-- main
+- master
 
 pool:
   name: Default
@@ -14,5 +14,11 @@ steps:
     echo Starting Gradle Build
     ./gradlew assembleDebug 
   displayName: 'Run Gradle Build'
+  env:
+    ANDROID_HOME: $(ANDROID_HOME)
+
+- script: |
+    ./gradlew sonar -Dsonar.projectKey=FitAI-Android -Dsonar.projectName='FitAI-AndroidFitAI-Android' -Dsonar.host.url=http://localhost:9000 -Dsonar.login=sqp_ce94ce25d0ae5f17a06e639a8186627833aefdde
+  displayName: 'Run SonarQube Analysis'
   env:
     ANDROID_HOME: $(ANDROID_HOME)
