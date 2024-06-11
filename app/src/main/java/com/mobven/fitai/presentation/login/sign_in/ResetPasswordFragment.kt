@@ -22,8 +22,7 @@ class ResetPasswordFragment : BaseFragment<FragmentResetPasswordBinding>(Fragmen
             binding.resetPasswordConfirm.helperText = viewModel.isSamePassword(editTextPassword, editTextPasswordAgain)
 
             if (allFieldsValid()){
-                val action = ResetPasswordFragmentDirections.actionResetPasswordFragmentToResetPasswordSuccessFragment()
-                navigate(action)
+                findNavController().navigate(R.id.action_resetPasswordFragment_to_resetPasswordSuccessFragment)
             }
         }
     }

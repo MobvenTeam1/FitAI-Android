@@ -129,9 +129,9 @@ class OTPFragment : BaseFragment<FragmentOtpBinding>(FragmentOtpBinding::inflate
                     .setPopUpTo(R.id.OTPFragment, true)
                     .setPopUpTo(R.id.resetPasswordEmailFragment, true)
                     .build()
-            val action = OTPFragmentDirections.actionOTPFragmentToResetPasswordFragment()
             findNavController().navigate(
-                action,
+                R.id.action_OTPFragment_to_resetPasswordFragment,
+                null,
                 navOptions
             )
         } else {

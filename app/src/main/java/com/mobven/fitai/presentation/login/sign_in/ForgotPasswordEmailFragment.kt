@@ -2,6 +2,8 @@ package com.mobven.fitai.presentation.login.sign_in
 
 
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.mobven.fitai.R
 import com.mobven.fitai.databinding.FragmentForgotPasswordEmailBinding
 import com.mobven.fitai.presentation.base.BaseFragment
 import com.mobven.fitai.presentation.login.sign_in.viewmodel.SignInViewModel
@@ -14,8 +16,7 @@ class ForgotPasswordEmailFragment :
 
     override fun observeUi() {
         binding.tvLoginWithNumber.setOnClickListener {
-            val action = ForgotPasswordEmailFragmentDirections.actionForgotPasswordEmailFragmentToForgotPasswordFragment()
-            navigate(action)
+            findNavController().navigate(R.id.action_forgotPasswordEmailFragment_to_resetPasswordEmailFragment)
         }
 
         binding.toolbarForgotPassword.toolbarBack.setOnClickListener {
@@ -26,9 +27,7 @@ class ForgotPasswordEmailFragment :
             val emailText = binding.editTextForgotPasswordEmail.text.toString()
             binding.emailContainer.helperText = viewModel.validEmail(emailText)
             if (binding.emailContainer.helperText == null) {
-                val action =
-                    ForgotPasswordEmailFragmentDirections.actionForgotPasswordEmailFragmentToOTPEmailFragment()
-                navigate(action)
+                findNavController().navigate(R.id.action_forgotPasswordEmailFragment_to_OTPFragment)
             }
         }
     }
