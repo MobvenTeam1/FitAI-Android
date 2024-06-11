@@ -23,7 +23,6 @@
         android:src="@drawable/nav_add_plus"
         app:backgroundTint="@color/green_500"
         app:fabSize="normal"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_nav"
         app:layout_constraintEnd_toEndOf="@+id/bottom_nav"
         app:layout_constraintStart_toStartOf="@+id/bottom_nav"
         app:layout_constraintTop_toTopOf="@+id/bottom_nav"/>
@@ -35,7 +34,7 @@
         app:backgroundTint="#FDFCFC"
         android:elevation="@dimen/_12dp"
         android:paddingHorizontal="@dimen/_12dp"
-        android:paddingBottom="8dp"
+        android:paddingBottom="@dimen/_60dp"
         app:itemRippleColor="@color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
