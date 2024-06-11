@@ -114,7 +114,7 @@ class OTPEmailFragment : BaseFragment<FragmentOtpEmailBinding>(FragmentOtpEmailB
             Toast.makeText(requireContext(), getString(R.string.login_success), Toast.LENGTH_SHORT).show()
             val color = R.drawable.bg_green_stroke
             changeColor(color)
-            findNavController().navigate(R.id.action_OTPFragment_to_resetPasswordFragment)
+            findNavController().navigate(R.id.action_OTPEmailFragment_to_resetPasswordFragment)
 
         } else {
             Toast.makeText(requireContext(), getString(R.string.login_failed), Toast.LENGTH_SHORT).show()
