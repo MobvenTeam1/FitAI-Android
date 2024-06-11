@@ -4,4 +4,5 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android) apply false
     alias(libs.plugins.hilt.plugin) apply false
     alias(libs.plugins.kapt) apply false
+    id("org.sonarqube") version "5.0.0.4638"
 }
