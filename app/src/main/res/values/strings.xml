@@ -18,6 +18,7 @@
     <string name="back_button">Back Button</string>
     <string name="close_button">Close Button</string>
     <string name="toolbar_logo">toolbar_logo</string>
+    <string name="create">Oluştur</string>
     <string name="sign_up_title">Merhaba!\nBaşlamak için kaydolun</string>
     <string name="nickname">Kullanıcı Adı</string>
     <string name="email">Email</string>
@@ -36,7 +37,7 @@
     <string name="what_is_your_height">Boyunuz kaç?</string>
     <string name="cm">cm</string>
     <string name="kg">kg</string>
-    <string name="what_is_your_weight">Kilonuz kaç?</string>
+    <string name="what_is_your_weight">Mevcut kilonuz kaç?</string>
     <string name="goal">Goal</string>
     <string name="what_is_your_weight_goal">Hedef kilonuz kaç?</string>
     <string name="height">Height</string>
