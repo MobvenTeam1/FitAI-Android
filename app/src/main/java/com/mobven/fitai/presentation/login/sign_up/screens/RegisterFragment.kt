@@ -1,6 +1,8 @@
 package com.mobven.fitai.presentation.login.sign_up.screens
 
 import android.app.AlertDialog
+import android.text.InputFilter
+import android.text.Spanned
 import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.viewModels
@@ -27,6 +29,9 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
 
     override fun observeUi() {
         with(binding) {
+
+            binding.editTextNameSignUp.filters = arrayOf(LetterInputFilter())
+            binding.editTextSurnameSignUp.filters = arrayOf(LetterInputFilter())
 
             signUpTermsCheckbox.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
@@ -140,6 +145,26 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
 
         val dialog = builder.create()
         dialog.show()
+    }
+}
+
+private class LetterInputFilter : InputFilter {
+    override fun filter(
+        source: CharSequence?,
+        start: Int,
+        end: Int,
+        dest: Spanned?,
+        dstart: Int,
+        dend: Int
+    ): CharSequence? {
+        if (source == null) return null
+
+        val filtered = source.filter { it.isLetter() }
+        return if (filtered.length == source.length) {
+            null
+        } else {
+            filtered
+        }
     }
 }
 
