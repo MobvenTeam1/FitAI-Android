@@ -15,8 +15,7 @@
         android:layout_above="@+id/tv_introduction_title"
         android:layout_marginBottom="@dimen/_4dp"
         android:contentDescription="@string/plans_creating"
-        android:src="@drawable/ic_circle_selected"
-        app:tint="@color/light_grey_5" />
+        android:src="@drawable/ic_star_soft"/>
 
     <TextView
         android:id="@+id/tv_introduction_title"
