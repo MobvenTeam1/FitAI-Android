@@ -86,7 +86,7 @@
         android:id="@+id/resetPasswordSuccessFragment"
         android:name="com.mobven.fitai.presentation.login.sign_in.ResetPasswordSuccessFragment"
         android:label="fragment_reset_password_succes"
-        tools:layout="@layout/fragment_reset_password_succes" >
+        tools:layout="@layout/fragment_reset_password_success" >
         <action
             android:id="@+id/action_resetPasswordSuccessFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
