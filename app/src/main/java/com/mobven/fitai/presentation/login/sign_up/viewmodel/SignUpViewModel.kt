@@ -34,6 +34,7 @@ class SignUpViewModel @Inject constructor(
     private var givenWeightGoal: Int = 0
     private var givenBirthday: String = ""
     private var selectedGoal: String = ""
+
     var signUpSelectorList: List<ListSelectorItem> = emptyList()
 
     fun onAction(action: SignUpAction) {
@@ -156,7 +157,7 @@ class SignUpViewModel @Inject constructor(
                             isError = false,
                             isLoading = false,
                             isRegisterSuccess = true,
-                            userAuthKey = registerResponse.data.userToken.token
+                            userAuthKey = registerResponse.data.token
                         )
                     }
                 }
@@ -170,9 +171,9 @@ class SignUpViewModel @Inject constructor(
                 userAuthKey,
                 FirstLoginDto(
                     dateOfBirth = this@SignUpViewModel.givenBirthday,
-                    firstWeight = this@SignUpViewModel.givenWeight,
-                    height = this@SignUpViewModel.givenHeight,
-                    targetWeight = this@SignUpViewModel.givenWeightGoal,
+                    firstWeight = this@SignUpViewModel.givenWeight.toDouble(),
+                    height = this@SignUpViewModel.givenHeight.toDouble(),
+                    targetWeight = this@SignUpViewModel.givenWeightGoal.toDouble(),
                     goals = this@SignUpViewModel.selectedGoal,
                     gender = this@SignUpViewModel.selectedGender
                 )
@@ -197,8 +198,7 @@ class SignUpViewModel @Inject constructor(
                         _signUpState.value = _signUpState.value?.copy(
                             isLoading = false,
                             isError = false,
-                            isFirstLoginSuccess = true,
-                            successResponse = it.data
+                            isFirstLoginSuccess = true
                         )
                     }
                 }
@@ -211,7 +211,7 @@ class SignUpViewModel @Inject constructor(
     }
 
     private fun enterGivenWeight(givenWeight: Int) {
-        this.givenWeightGoal = givenWeight
+        this.givenWeight = givenWeight
     }
 
     private fun enterGivenHeight(givenHeight: Int) {

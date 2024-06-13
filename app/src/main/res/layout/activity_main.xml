@@ -23,10 +23,10 @@
         android:src="@drawable/nav_add_plus"
         app:backgroundTint="@color/green_500"
         app:fabSize="normal"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_nav"
-        app:layout_constraintEnd_toEndOf="@+id/bottom_nav"
-        app:layout_constraintStart_toStartOf="@+id/bottom_nav"
-        app:layout_constraintTop_toTopOf="@+id/bottom_nav"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/bottom_nav"
+        app:layout_constraintStart_toStartOf="@id/bottom_nav"
+        app:layout_constraintTop_toTopOf="@+id/bottom_nav" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav"

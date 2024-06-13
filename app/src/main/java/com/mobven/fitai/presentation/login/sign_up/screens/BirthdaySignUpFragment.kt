@@ -1,5 +1,6 @@
 package com.mobven.fitai.presentation.login.sign_up.screens
 
+import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.widget.ViewPager2
@@ -11,6 +12,7 @@ import com.mobven.fitai.presentation.login.sign_up.viewmodel.SignUpViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
+@SuppressLint("SimpleDateFormat")
 class BirthdaySignUpFragment :
     BaseFragment<FragmentBirthdaySignUpBinding>(FragmentBirthdaySignUpBinding::inflate) {
 
@@ -31,12 +33,18 @@ class BirthdaySignUpFragment :
                     ).show()
                     return@setOnClickListener
                 } else {
-                    val givenBirthday =
-                        etBirthdayDay.text.toString() + getString(R.string.slash) + etBirthdayMonth.text.toString() + getString(
-                            R.string.slash
-                        ) + etBirthdayYear.text.toString()
+                    val givenBirthday = "${etBirthdayYear.text}-${etBirthdayMonth.text}-${etBirthdayDay.text}"
 
-                    viewModel.onAction(SignUpAction.EnterBirthday(givenBirthday))
+                    try {
+                        viewModel.onAction(SignUpAction.EnterBirthday(givenBirthday))
+                    }catch (e: Exception){
+                        Toast.makeText(
+                            requireContext(),
+                            getString(R.string.please_enter_a_valid_date),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        return@setOnClickListener
+                    }
 
                     val currentItem =
                         requireActivity().findViewById<ViewPager2>(R.id.sign_up_view_pager).currentItem

@@ -1,48 +1,56 @@
 package com.mobven.fitai.presentation.home.screens
 
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.mobven.fitai.R
+import com.mobven.fitai.databinding.FragmentSportOftenBinding
 import com.mobven.fitai.presentation.base.BaseFragment
-import com.mobven.fitai.databinding.FragmentGoalsBinding
-import com.mobven.fitai.presentation.home.viewmodel.HomeAction
-import com.mobven.fitai.presentation.home.viewmodel.HomeViewModel
+import com.mobven.fitai.presentation.home.training.viewmodel.TrainingAction
+import com.mobven.fitai.presentation.home.training.viewmodel.TrainingViewModel
 import com.mobven.fitai.presentation.login.sign_up.adapter.SignUpListAdapter
 import com.mobven.fitai.presentation.login.sign_up.model.ListSelectorItem
-import com.mobven.fitai.util.enums.HomeFragmentType
+import com.mobven.fitai.util.enums.TrainingSelectorItem
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
-class SportOftenFragment : BaseFragment<FragmentGoalsBinding>(FragmentGoalsBinding::inflate) {
+class SportOftenFragment :
+    BaseFragment<FragmentSportOftenBinding>(FragmentSportOftenBinding::inflate) {
 
     private val adapter = SignUpListAdapter()
-    private val homeViewModel: HomeViewModel by viewModels()
+    private val trainingViewModel: TrainingViewModel by activityViewModels()
 
     override fun observeUi() {
-        homeViewModel.homeUiState.observe(viewLifecycleOwner) { homeState ->
+        trainingViewModel.trainingUiState.observe(viewLifecycleOwner) { trainingState ->
             when {
-                homeState.isError -> {
-                    handleError(homeState.errorMessage)
+                trainingState.isError -> {
+                    handleError(trainingState.errorMessage)
                 }
 
-                homeState.isLoading -> {
+                trainingState.isLoading -> {
                     handleLoading()
                 }
 
                 else -> {
-                    handleSuccess(homeState.signUpSelectorList)
+                    handleSuccess()
                 }
 
             }
         }
     }
 
-    private fun handleSuccess(sportOftenList: List<ListSelectorItem>) {
-        adapter.submitList(sportOftenList)
-        binding.rvGoals.adapter = adapter
+    private fun handleSuccess() {
 
-        binding.btnGoalsContinue.setOnClickListener {
+        val sportOftenList = trainingViewModel.trainingSelectorItem
+
+        adapter.submitList(sportOftenList)
+        binding.rvSportsOften.adapter = adapter
+
+        binding.btnSportsOftenContinue.setOnClickListener {
+            sportOftenList.forEach {
+                if (it.isSelected) {
+                    trainingViewModel.workoutDetails.workoutFrequency = it.title
+                }
+            }
             val currentItem =
                 requireActivity().findViewById<ViewPager2>(R.id.vp_training).currentItem
             val nextItem = currentItem + 1
@@ -60,7 +68,6 @@ class SportOftenFragment : BaseFragment<FragmentGoalsBinding>(FragmentGoalsBindi
     }
 
     override fun callInitialViewModelFunction() {
-        homeViewModel.onAction(HomeAction.GetSelectorItem(HomeFragmentType.SPORT_OFTEN))
+        trainingViewModel.onAction(TrainingAction.GetTrainingSelectorItem(TrainingSelectorItem.SPORT_OFTEN))
     }
-
 }

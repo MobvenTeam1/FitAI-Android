@@ -37,4 +37,32 @@ object SharedPreferencesHelper {
             apply()
         }
     }
+
+    fun saveNutritionPlan(context: Context, isNutritionPlanAdded: Boolean) {
+        val sharedPref = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+        with(sharedPref.edit()) {
+            putBoolean("nutritionPlan", isNutritionPlanAdded)
+            apply()
+        }
+    }
+
+    fun getNutritionPlan(context: Context): Boolean {
+        val sharedPref = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+        return sharedPref.getBoolean("nutritionPlan", false)
+    }
+
+    fun saveExercisePlan(context: Context, isExercisePlanAdded: Boolean) {
+        val sharedPref = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+        with(sharedPref.edit()) {
+            putBoolean("exercisePlan", isExercisePlanAdded)
+            apply()
+        }
+    }
+
+    fun getExercisePlan(context: Context): Boolean {
+        val sharedPref = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+        return sharedPref.getBoolean("exercisePlan", false)
+    }
+
+
 }

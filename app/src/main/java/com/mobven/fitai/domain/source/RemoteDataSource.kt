@@ -12,8 +12,8 @@ interface RemoteDataSource {
 
     suspend fun loginUser(loginUser: SignInDto): LoginResponse
 
-    suspend fun saveFirstLogin(authToken: String, firstLoginDto: FirstLoginDto): String
+    suspend fun saveFirstLogin(authToken: String, firstLoginDto: FirstLoginDto): Boolean
 
-    suspend fun saveWorkoutDetails(authToken: String, workoutDetailsDto: WorkoutDetailsDto): String
+    suspend fun saveWorkoutDetails(authToken: String, workoutDetailsDto: WorkoutDetailsDto): Boolean
 
 }

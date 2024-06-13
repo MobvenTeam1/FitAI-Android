@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mobven.fitai.R
+import com.mobven.fitai.common.SharedPreferencesHelper
 import com.mobven.fitai.databinding.FragmentHomeBinding
 import com.mobven.fitai.presentation.base.BaseFragment
 import com.mobven.fitai.presentation.home.adapter.CategoryItem
@@ -51,7 +52,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     handleSuccess(
                         trainingList = homeState.trainingCategoryList,
                         foodList = homeState.foodCategoryList,
-                        dateList = homeState.dateList
+                        dateList = homeViewModel.dateList
                     )
                 }
             }
@@ -67,9 +68,25 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             navigate(action)
         }
 
+        if (SharedPreferencesHelper.getNutritionPlan(requireContext())) {
+            binding.includeHomeCreateNutrition.cardHomePersonalized.visibility = View.GONE
+            binding.includeHomePersonalizedNutrition.planCardView.visibility = View.VISIBLE
+        } else {
+            binding.includeHomeCreateNutrition.cardHomePersonalized.visibility = View.VISIBLE
+            binding.includeHomePersonalizedNutrition.planCardView.visibility = View.GONE
+        }
+
+        if (SharedPreferencesHelper.getExercisePlan(requireContext())) {
+            binding.includeHomeCreateExercise.cardHomePersonalized.visibility = View.GONE
+            binding.includeHomePersonalizedTraining.planCardView.visibility = View.VISIBLE
+        } else {
+            binding.includeHomeCreateExercise.cardHomePersonalized.visibility = View.VISIBLE
+            binding.includeHomePersonalizedTraining.planCardView.visibility = View.GONE
+        }
+
         getUserData()
 
-        val arrow : ImageView = requireView().findViewById(R.id.ivArrow)
+        val arrow: ImageView = requireView().findViewById(R.id.ivArrow)
 
         binding.includeHomePersonalizedTraining.cardViewImage.setOnClickListener {
             if (isExpanded) {
@@ -87,16 +104,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private fun getUserData() {
 
         binding.includeHomePersonalizedTraining.cardViewImage.setImageResource(R.drawable.pilates_woman)
-        val planRecyclerView : RecyclerView = requireView().findViewById(R.id.plan_recycler_view)
-        llPlanCard  = requireView().findViewById(R.id.llPlanCardDetail)
+        val planRecyclerView: RecyclerView = requireView().findViewById(R.id.plan_recycler_view)
+        llPlanCard = requireView().findViewById(R.id.llPlanCardDetail)
         planRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         planRecyclerView.setHasFixedSize(true)
-        val planArrayList : ArrayList<PersonalPlanData> = arrayListOf()
+        val planArrayList: ArrayList<PersonalPlanData> = arrayListOf()
 
         val header: TextView = requireView().findViewById(R.id.tvHeader)
-        val cardHeader : TextView = requireView().findViewById(R.id.tv_card_header)
-        val time : TextView = requireView().findViewById(R.id.tvTime)
-        val kcal : TextView = requireView().findViewById(R.id.tvKcal)
+        val cardHeader: TextView = requireView().findViewById(R.id.tv_card_header)
+        val time: TextView = requireView().findViewById(R.id.tvTime)
+        val kcal: TextView = requireView().findViewById(R.id.tvKcal)
 
         header.text = "Setler"
         cardHeader.text = "Pilates"
@@ -104,19 +121,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         kcal.text = "150 kcal"
 
 
-       val imageId : Array<Int> = arrayOf(
+        val imageId: Array<Int> = arrayOf(
             R.drawable.ic_warm_up,
             R.drawable.ic_main_set,
             R.drawable.ic_cool_down
         )
 
-        val name : Array<String> = arrayOf(
+        val name: Array<String> = arrayOf(
             "Isınma Seti",
             "Ana Set",
             "Soğuma Seti"
         )
 
-        val detail : Array<String> = arrayOf(
+        val detail: Array<String> = arrayOf(
             "Mat",
             "Mat - Direnç Bandı",
             "Mat"
@@ -166,13 +183,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 this.tvCalorieCardValue.text = getString(R.string._2500_kcal)
             }
 
-            with(includeHomePersonalizedFood) {
+            with(includeHomeCreateNutrition) {
                 ivPersonalizedCardIcon.setImageResource(
                     R.drawable.pan,
                 )
                 tvCreatePersonalized.text = getString(R.string.create_personalized_food)
                 cardHomePersonalized.setOnClickListener {
                     findNavController().navigate(R.id.action_homeFragment_to_nutritionFragment)
+                }
+            }
+
+            with(includeHomeCreateExercise){
+                ivPersonalizedCardIcon.setImageResource(
+                    R.drawable.dumbell,
+                )
+                tvCreatePersonalized.text = getString(R.string.create_personalized_training)
+                cardHomePersonalized.setOnClickListener {
+                    findNavController().navigate(R.id.action_homeFragment_to_trainingFragment)
                 }
             }
 

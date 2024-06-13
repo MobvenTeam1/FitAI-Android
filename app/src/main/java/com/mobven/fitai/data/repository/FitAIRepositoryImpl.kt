@@ -43,7 +43,7 @@ class FitAIRepositoryImpl @Inject constructor(
     override fun saveFirstLogin(
         authToken: String,
         firstLoginDto: FirstLoginDto
-    ): Flow<ResponseState<String>> {
+    ): Flow<ResponseState<Boolean>> {
         return flow {
             emit(ResponseState.Loading)
             val response = provideRemoteSource.saveFirstLogin(authToken, firstLoginDto)
@@ -57,7 +57,7 @@ class FitAIRepositoryImpl @Inject constructor(
     override fun saveWorkoutDetails(
         authToken: String,
         workoutDetailsDto: WorkoutDetailsDto
-    ): Flow<ResponseState<String>> {
+    ): Flow<ResponseState<Boolean>> {
         return flow {
             emit(ResponseState.Loading)
             val response = provideRemoteSource.saveWorkoutDetails(authToken, workoutDetailsDto)

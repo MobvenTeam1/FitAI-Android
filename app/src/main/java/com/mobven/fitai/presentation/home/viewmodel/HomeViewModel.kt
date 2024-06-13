@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mobven.fitai.R
+import com.mobven.fitai.domain.usecase.SaveWorkoutDetailsUseCase
 import com.mobven.fitai.infrastructure.string_resource.StringResourceProvider
 import com.mobven.fitai.presentation.home.adapter.CategoryItem
 import com.mobven.fitai.presentation.home.calendar.CalendarItem
@@ -22,9 +23,13 @@ import javax.inject.Inject
 @RequiresApi(Build.VERSION_CODES.O)
 class HomeViewModel @Inject constructor(
     private val stringRes: StringResourceProvider,
+    private val saveWorkoutDetailsUseCase: SaveWorkoutDetailsUseCase
 ) : ViewModel() {
+
     private val _homeUiState = MutableLiveData(HomeUiState())
     val homeUiState: LiveData<HomeUiState> = _homeUiState
+
+    var dateList: MutableList<CalendarItem> = mutableListOf()
 
     private val dayFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern(stringRes.getString(R.string.eeee))
     private val dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern(stringRes.getString(R.string.dd))
@@ -57,7 +62,7 @@ class HomeViewModel @Inject constructor(
                     isSelected = isSelected,
                 )
             )
-            _homeUiState.value = _homeUiState.value?.copy(dateList = tempDateList)
+            this.dateList = tempDateList
         }
     }
 
@@ -99,7 +104,7 @@ class HomeViewModel @Inject constructor(
                         image = R.drawable.snack_categories,
                         categoryType = CategoryType.NUTRITION,
                     )
-                ),
+                )
             )
     }
 
@@ -142,30 +147,6 @@ class HomeViewModel @Inject constructor(
                             )
                         )
 
-                    HomeFragmentType.GOALS ->
-                        listOf(
-                            ListSelectorItem(
-                                title = stringRes.getString(R.string.healthy_life),
-                                isSelected = false,
-                                type = SignUpSelectorType.RADIO,
-                            ),
-                            ListSelectorItem(
-                                title = stringRes.getString(R.string.muscle_gain),
-                                isSelected = false,
-                                type = SignUpSelectorType.RADIO,
-                            ),
-                            ListSelectorItem(
-                                title = stringRes.getString(R.string.weight_gain),
-                                isSelected = false,
-                                type = SignUpSelectorType.RADIO,
-                            ),
-                            ListSelectorItem(
-                                title = stringRes.getString(R.string.weight_loss),
-                                isSelected = false,
-                                type = SignUpSelectorType.RADIO,
-                            )
-                        )
-
                     HomeFragmentType.OTHER_HEALTH_PROBLEM ->
                         listOf(
                             ListSelectorItem(
@@ -195,103 +176,30 @@ class HomeViewModel @Inject constructor(
                             )
                         ).reversed()
 
-                    HomeFragmentType.PREFERRED_SPORT ->
-                        listOf(
-                            ListSelectorItem(
-                                title = stringRes.getString(R.string.all),
-                                isSelected = false,
-                                type = SignUpSelectorType.CHECKBOX,
-                                image = R.drawable.all_select,
-                            ),
-                            ListSelectorItem(
-                                title = stringRes.getString(R.string.yoga),
-                                isSelected = false,
-                                type = SignUpSelectorType.CHECKBOX,
-                                image = R.drawable.yoga,
-                            ),
-                            ListSelectorItem(
-                                title = stringRes.getString(R.string.fitness),
-                                isSelected = false,
-                                type = SignUpSelectorType.CHECKBOX,
-                                image = R.drawable.fitness,
-                            ),
-                            ListSelectorItem(
-                                title = stringRes.getString(R.string.running),
-                                isSelected = false,
-                                type = SignUpSelectorType.CHECKBOX,
-                                image = R.drawable.running,
-                            ),
-                            ListSelectorItem(
-                                title = stringRes.getString(R.string.walking),
-                                isSelected = false,
-                                type = SignUpSelectorType.CHECKBOX,
-                                image = R.drawable.walking,
-                            )
-                        ).reversed()
 
-                    HomeFragmentType.SPORT_BODY ->
+                    HomeFragmentType.GOALS ->
                         listOf(
                             ListSelectorItem(
-                                title = stringRes.getString(R.string.all),
-                                isSelected = false,
-                                type = SignUpSelectorType.CHECKBOX,
-                                image = R.drawable.all_select,
-                            ),
-                            ListSelectorItem(
-                                title = stringRes.getString(R.string.shoulder_arms),
-                                isSelected = false,
-                                type = SignUpSelectorType.CHECKBOX,
-                                image = R.drawable.arms,
-                            ),
-                            ListSelectorItem(
-                                title = stringRes.getString(R.string.chest),
-                                isSelected = false,
-                                type = SignUpSelectorType.CHECKBOX,
-                                image = R.drawable.chest,
-                            ),
-                            ListSelectorItem(
-                                title = stringRes.getString(R.string.belly_back),
-                                isSelected = false,
-                                type = SignUpSelectorType.CHECKBOX,
-                                image = R.drawable.belly,
-                            ),
-                            ListSelectorItem(
-                                title = stringRes.getString(R.string.hip),
-                                isSelected = false,
-                                type = SignUpSelectorType.CHECKBOX,
-                                image = R.drawable.hips,
-                            ),
-                            ListSelectorItem(
-                                title = stringRes.getString(R.string.leg),
-                                isSelected = false,
-                                type = SignUpSelectorType.CHECKBOX,
-                                image = R.drawable.legs,
-                            ),
-                        ).reversed()
-
-                    HomeFragmentType.SPORT_OFTEN ->
-                        listOf(
-                            ListSelectorItem(
-                                title = stringRes.getString(R.string.as_much_as_offered),
+                                title = stringRes.getString(R.string.healthy_life),
                                 isSelected = false,
                                 type = SignUpSelectorType.RADIO,
                             ),
                             ListSelectorItem(
-                                title = stringRes.getString(R.string.on_two_times_week),
+                                title = stringRes.getString(R.string.muscle_gain),
                                 isSelected = false,
                                 type = SignUpSelectorType.RADIO,
                             ),
                             ListSelectorItem(
-                                title = stringRes.getString(R.string.three_four_times_week),
+                                title = stringRes.getString(R.string.weight_gain),
                                 isSelected = false,
                                 type = SignUpSelectorType.RADIO,
                             ),
                             ListSelectorItem(
-                                title = stringRes.getString(R.string.five_six_times_week),
+                                title = stringRes.getString(R.string.weight_loss),
                                 isSelected = false,
                                 type = SignUpSelectorType.RADIO,
                             )
-                        ).reversed()
+                        )
                 },
             )
     }
@@ -304,8 +212,7 @@ data class HomeUiState(
     val errorMessage: String = "",
     val signUpSelectorList: List<ListSelectorItem> = emptyList(),
     val trainingCategoryList: List<CategoryItem> = emptyList(),
-    val foodCategoryList: List<CategoryItem> = emptyList(),
-    val dateList: MutableList<CalendarItem> = mutableListOf()
+    val foodCategoryList: List<CategoryItem> = emptyList()
 ) {
     companion object {
         fun initial() =

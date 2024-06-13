@@ -278,4 +278,8 @@
     <string name="success">Success: %1$s</string>
     <string name="goalsfragment">GoalsFragment</string>
     <string name="show_exercise">Antremanını Görüntüle</string>
+    <string name="comma">,</string>
+    <string name="please_enter_a_valid_date">Please enter a valid date</string>
+    <string name="ai_suggestions">AI Önerileri</string>
+    <string name="card_ai_description">2 kaşık, 180 kcal</string>
 </resources>

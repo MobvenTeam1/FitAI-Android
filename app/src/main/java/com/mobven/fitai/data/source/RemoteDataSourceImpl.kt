@@ -21,11 +21,11 @@ class RemoteDataSourceImpl @Inject constructor(
         return fitAIService.loginUser(loginUser)
     }
 
-    override suspend fun saveFirstLogin(authToken: String, firstLoginDto: FirstLoginDto) : String {
+    override suspend fun saveFirstLogin(authToken: String, firstLoginDto: FirstLoginDto) : Boolean {
         return fitAIService.saveFirstLogin(authToken ,firstLoginDto)
     }
 
-    override suspend fun saveWorkoutDetails(authToken: String, workoutDetailsDto: WorkoutDetailsDto) : String {
+    override suspend fun saveWorkoutDetails(authToken: String, workoutDetailsDto: WorkoutDetailsDto) : Boolean {
         return fitAIService.saveWorkoutDetails(authToken ,workoutDetailsDto)
     }
 

@@ -11,24 +11,24 @@ import retrofit2.http.POST
 
 interface FitAIService {
 
-    @POST("api/User/Register")
+    @POST("api/User/register")
     suspend fun registerUser(@Body registerModel: SignUpDto): LoginResponse
 
-    @POST("api/User/Login")
+    @POST("api/User/login")
     suspend fun loginUser(
         @Body loginModel: SignInDto
     ): LoginResponse
 
-    @POST("api/User/SaveFirstLoginDetails")
+    @POST("api/User/savefirstlogindetails")
     suspend fun saveFirstLogin(
         @Header("Authorization") token: String,
         @Body saveFirstLoginModel: FirstLoginDto
-    ): String
+    ): Boolean
 
-    @POST("api/User/Workout-Details")
+    @POST("api/User/workoutdetails")
     suspend fun saveWorkoutDetails(
         @Header("Authorization") token: String,
         @Body workoutDetailsModel: WorkoutDetailsDto
-    ): String
+    ): Boolean
 
 }

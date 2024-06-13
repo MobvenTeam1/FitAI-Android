@@ -274,10 +274,17 @@
 
                 <include
                     android:id="@+id/include_home_personalized_training"
-                    layout="@layout/plan_card_view_layout" />
-
+                    layout="@layout/plan_card_view_layout"
+                    android:visibility="gone"/>
                 <include
-                    android:id="@+id/include_home_personalized_food"
+                    android:id="@+id/include_home_personalized_nutrition"
+                    layout="@layout/plan_card_view_layout"
+                    android:visibility="visible" />
+                <include
+                    android:id="@+id/include_home_create_exercise"
+                    layout="@layout/card_home_personalized" />
+                <include
+                    android:id="@+id/include_home_create_nutrition"
                     layout="@layout/card_home_personalized" />
             </LinearLayout>
 

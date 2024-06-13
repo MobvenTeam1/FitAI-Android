@@ -1,5 +1,6 @@
 package com.mobven.fitai.data.model.response
 
 data class LoginResponse(
-    val userToken: UserToken
+    val token: String,
+    val isFirstLogin: String
 )

@@ -11,13 +11,14 @@ import kotlinx.coroutines.flow.Flow
 
 interface FitAIRepository {
 
+    // Remote
     fun registerUser(registerUser: SignUpDto) : Flow<ResponseState<LoginResponse>>
 
     fun loginUser(loginUser: SignInDto) : Flow<ResponseState<LoginResponse>>
 
-    fun saveFirstLogin(authToken: String, firstLoginDto: FirstLoginDto) : Flow<ResponseState<String>>
+    fun saveFirstLogin(authToken: String, firstLoginDto: FirstLoginDto) : Flow<ResponseState<Boolean>>
 
-    fun saveWorkoutDetails(authToken: String, workoutDetailsDto: WorkoutDetailsDto) : Flow<ResponseState<String>>
+    fun saveWorkoutDetails(authToken: String, workoutDetailsDto: WorkoutDetailsDto) : Flow<ResponseState<Boolean>>
 
     // Local
     fun getUser(): Flow<ResponseState<UserEntity>>

@@ -13,12 +13,12 @@ viewpagerdotsindicator = "5.0"
 navVersion = "2.7.7"
 hilt = "2.50"
 hiltNavigation = "1.2.0"
-ksp = "1.8.10-1.0.9"
 androidxNavigation = "2.7.7"
 retrofit = "2.11.0"
 okhttp = "5.0.0-alpha.2"
 chucker = "4.0.0"
 room_version = "2.6.1"
+lottieVersion = "3.4.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -43,6 +43,7 @@ github-chucker = { group = "com.github.chuckerteam.chucker", name = "library", v
 room = { group = "androidx.room", name = "room-runtime", version.ref = "room_version" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room_version" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room_version" }
+lottie = { group = "com.airbnb.android", name = "lottie", version.ref = "lottieVersion" }
 
 
 [plugins]
