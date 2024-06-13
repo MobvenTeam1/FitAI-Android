@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_24dp"
+        app:cardCornerRadius="@dimen/_24dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_margin="@dimen/_24dp">
+
+            <TextView
+                android:id="@+id/tvWarning"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/logout_popup"
+                android:gravity="center"
+                android:textSize="@dimen/_16sp"
+                android:fontFamily="@font/urbanist_bold"
+                android:textColor="@color/gray_900"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/_20dp"
+                android:gravity="center"
+                android:weightSum="2">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnBack"
+                    style="@style/lightButtonStyle"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="55dp"
+                    android:layout_marginEnd="@dimen/_12dp"
+                    android:text="@string/turn_back"
+                    android:layout_marginBottom="1dp"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnLogoutConfirm"
+                    style="@style/darkButtonStyle"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="55dp"
+                    android:fontFamily="@font/urbanist_semibold"
+                    android:text="@string/logout"
+                    android:textColor="@color/black"
+                    android:layout_marginBottom="1dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>

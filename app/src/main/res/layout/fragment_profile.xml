@@ -515,7 +515,7 @@
        </LinearLayout>
 
        <androidx.appcompat.widget.AppCompatButton
-           android:id="@+id/loginButton"
+           android:id="@+id/btnLogout"
            style="@style/lightButtonStyle"
            android:layout_width="0dp"
            android:layout_height="55dp"

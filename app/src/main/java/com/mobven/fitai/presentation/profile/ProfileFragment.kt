@@ -1,6 +1,12 @@
 package com.mobven.fitai.presentation.profile
 
+import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.view.Window
+import android.widget.Button
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobven.fitai.R
 import com.mobven.fitai.databinding.FragmentProfileBinding
@@ -20,6 +26,10 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
     override fun observeUi() {
         binding.rvPersonalization.adapter = personalizationAdapter
         binding.rvPersonalization.layoutManager = NonScrollableLinearLayoutManager(requireContext())
+
+        binding.btnLogout.setOnClickListener {
+            showCustomDialogBox()
+        }
 
         val personalization = listOf(
             ProfileItem(R.drawable.ic_personalization, "Kişisel Bilgiler", ProfileItemType.SIMPLE),
@@ -82,7 +92,32 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
 
         legalAdapter.submitList(legal)
     }
+
+    private fun showCustomDialogBox(){
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.logout_popup)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val btnYes : Button = dialog.findViewById(R.id.btnLogoutConfirm)
+        val btnCancel : Button = dialog.findViewById(R.id.btnBack)
+
+        btnYes.setOnClickListener {
+            //Logout işlemi burada yapılacak
+            dialog.dismiss()
+            Toast.makeText(requireContext(), "Başarıyla çıkış yapıldı.", Toast.LENGTH_SHORT).show()
+        }
+
+        btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
 }
+
+
 
 
 class NonScrollableLinearLayoutManager(context: Context) : LinearLayoutManager(context) {
