@@ -3,7 +3,7 @@ package com.mobven.fitai.presentation.login.sign_up.screens
 import android.content.Intent
 import android.util.Log
 import androidx.fragment.app.activityViewModels
-import com.mobven.fitai.MainActivity
+import com.mobven.fitai.presentation.MainActivity
 import com.mobven.fitai.R
 import com.mobven.fitai.common.SharedPreferencesHelper
 import com.mobven.fitai.databinding.FragmentGoalsBinding

@@ -1,4 +1,4 @@
-package com.mobven.fitai
+package com.mobven.fitai.presentation
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -6,6 +6,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.mobven.fitai.R
 import com.mobven.fitai.presentation.login.sign_up.viewmodel.SignUpViewModel
 import dagger.hilt.android.AndroidEntryPoint
 

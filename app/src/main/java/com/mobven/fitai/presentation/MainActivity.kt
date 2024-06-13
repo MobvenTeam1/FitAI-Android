@@ -1,4 +1,4 @@
-package com.mobven.fitai
+package com.mobven.fitai.presentation
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -8,6 +8,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
+import com.mobven.fitai.R
 import com.mobven.fitai.databinding.ActivityMainBinding
 import com.mobven.fitai.presentation.home.HomeFragmentDirections
 import com.mobven.fitai.presentation.home.training.viewmodel.TrainingViewModel
