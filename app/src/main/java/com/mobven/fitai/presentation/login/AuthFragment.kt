@@ -12,6 +12,7 @@ typealias AuthDirections = AuthFragmentDirections
 class AuthFragment : BaseFragment<FragmentAuthBinding>(FragmentAuthBinding::inflate) {
 
     override fun observeUi() {
+
         binding.registerButton.setOnClickListener {
             val registerAction = AuthDirections.actionAuthFragmentToRegisterFragment()
             navigate(registerAction)

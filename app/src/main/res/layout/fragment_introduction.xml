@@ -8,15 +8,14 @@
     android:orientation="vertical"
     tools:context=".presentation.home.screens.IntroductionFragment">
 
-    <ImageView
-        android:id="@+id/iv_introduction_image"
-        android:layout_width="match_parent"
-        android:layout_height="176dp"
+    <com.airbnb.lottie.LottieAnimationView
+        android:layout_width="@dimen/_150dp"
+        android:layout_height="@dimen/_150dp"
         android:layout_above="@+id/tv_introduction_title"
-        android:layout_marginBottom="@dimen/_4dp"
-        android:contentDescription="@string/plans_creating"
-        android:src="@drawable/ic_circle_selected"
-        app:tint="@color/light_grey_5" />
+        app:lottie_rawRes="@raw/sample_anim"
+        android:layout_centerHorizontal="true"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"/>
 
     <TextView
         android:id="@+id/tv_introduction_title"
@@ -25,6 +24,7 @@
         android:layout_centerInParent="true"
         android:fontFamily="@font/urbanist_bold"
         android:maxEms="10"
+        android:layout_marginTop="@dimen/_24dp"
         android:text="@string/training_plan_ai_powered"
         android:textAlignment="center"
         android:textSize="@dimen/_26sp" />

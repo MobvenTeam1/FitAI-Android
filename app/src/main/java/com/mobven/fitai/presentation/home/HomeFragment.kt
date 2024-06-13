@@ -18,6 +18,7 @@ import com.mobven.fitai.presentation.home.calendar.HomeCalendarAdapter
 import com.mobven.fitai.presentation.home.personal_plan.PersonalPlanAdapter
 import com.mobven.fitai.presentation.home.viewmodel.HomeAction
 import com.mobven.fitai.presentation.home.viewmodel.HomeViewModel
+import com.mobven.fitai.util.LoadingDialogHelper
 import dagger.hilt.android.AndroidEntryPoint
 
 typealias HDirections = HomeFragmentDirections
@@ -45,6 +46,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 }
 
                 else -> {
+                    LoadingDialogHelper.dismissLoadingDialog()
                     handleSuccess(
                         trainingList = homeState.trainingCategoryList,
                         foodList = homeState.foodCategoryList,
@@ -187,10 +189,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
 
     private fun handleError(error: String) {
+        LoadingDialogHelper.dismissLoadingDialog()
         println(error)
     }
 
     private fun handleLoading() {
+        LoadingDialogHelper.showLoadingDialog(requireActivity())
         println(getString(R.string.loading))
     }
 

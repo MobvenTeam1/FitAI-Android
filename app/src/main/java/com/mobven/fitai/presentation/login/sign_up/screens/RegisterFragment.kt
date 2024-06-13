@@ -17,6 +17,7 @@ import com.mobven.fitai.presentation.base.BaseFragment
 import com.mobven.fitai.presentation.login.sign_in.viewmodel.SignInViewModel
 import com.mobven.fitai.presentation.login.sign_up.viewmodel.SignUpAction
 import com.mobven.fitai.presentation.login.sign_up.viewmodel.SignUpViewModel
+import com.mobven.fitai.util.LoadingDialogHelper
 import dagger.hilt.android.AndroidEntryPoint
 
 typealias RDirections = RegisterFragmentDirections
@@ -89,13 +90,11 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
                     signUpViewModel.signUpState.observe(viewLifecycleOwner) { signUpState ->
                         when {
                             signUpState.isLoading -> {
-                                Log.e(
-                                    getString(R.string.registerfragment),
-                                    getString(R.string.loading)
-                                )
+                                LoadingDialogHelper.showLoadingDialog(requireActivity())
                             }
 
                             signUpState.isError -> {
+                                LoadingDialogHelper.dismissLoadingDialog()
                                 Log.e(
                                     getString(R.string.registerfragmenterror),
                                     signUpState.errorMessage
@@ -103,6 +102,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
                             }
 
                             signUpState.isRegisterSuccess -> {
+                                LoadingDialogHelper.dismissLoadingDialog()
                                 SharedPreferencesHelper.saveUserAuthKey(
                                     requireContext(),
                                     signUpState.userAuthKey

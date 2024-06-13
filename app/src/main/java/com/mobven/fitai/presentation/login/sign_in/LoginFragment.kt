@@ -11,6 +11,7 @@ import com.mobven.fitai.databinding.FragmentLoginBinding
 import com.mobven.fitai.presentation.base.BaseFragment
 import com.mobven.fitai.presentation.login.sign_in.viewmodel.SignInAction
 import com.mobven.fitai.presentation.login.sign_in.viewmodel.SignInViewModel
+import com.mobven.fitai.util.LoadingDialogHelper
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -44,15 +45,18 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
                     viewModel.signInUiState.observe(viewLifecycleOwner) {
                         when {
                             it.isLoading -> {
+                                LoadingDialogHelper.showLoadingDialog(requireActivity())
                                 Log.e(getString(R.string.login), getString(R.string.loading))
                             }
 
                             it.isError -> {
+                                LoadingDialogHelper.dismissLoadingDialog()
                                 Log.e(getString(R.string.login),
                                     getString(R.string.error, it.errorMessage))
                             }
 
                             else -> {
+                                LoadingDialogHelper.dismissLoadingDialog()
                                 SharedPreferencesHelper.saveUserAuthKey(
                                     requireActivity(),
                                     it.userAuthKey
