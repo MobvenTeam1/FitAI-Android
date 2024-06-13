@@ -304,4 +304,5 @@
     <string name="suggests_loading">AI önerileri yükleniyor</string>
     <string name="nutritions">Besinler</string>
     <string name="auth_user_key">User auth key: %1$s</string>
+    <string name="logout_succesfully">Başarıyla çıkış yapıldı.</string>
 </resources>

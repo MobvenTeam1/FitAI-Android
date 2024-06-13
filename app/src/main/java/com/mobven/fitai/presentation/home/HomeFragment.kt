@@ -25,12 +25,14 @@ typealias HDirections = HomeFragmentDirections
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
+
     private val calendarAdapter = HomeCalendarAdapter()
     private val trainingAdapter = HomeCategoryAdapter()
     private val foodAdapter = HomeCategoryAdapter()
+
     private val trainingPlanAdapter = PersonalPlanAdapter()
     private val foodPlanAdapter = PersonalPlanAdapter()
-    private var isExpanded = false
+
     private val homeViewModel: HomeViewModel by viewModels()
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -145,7 +147,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 tvTime.text = getString(R.string._15_minutes)
                 tvKcal.text = getString(R.string._550_kcal)
                 cardViewImage.setOnClickListener {
-                    llPlanCardDetail.visibility = if (isExpanded) View.GONE else View.VISIBLE
+                    llPlanCardDetail.visibility =
+                        if (llPlanCardDetail.visibility == View.VISIBLE)
+                            View.GONE
+                        else
+                            View.VISIBLE
                 }
             }
 
@@ -157,7 +163,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 tvTime.text = getString(R.string._15_minutes)
                 tvKcal.text = getString(R.string._250_kcal)
                 cardViewImage.setOnClickListener {
-                    llPlanCardDetail.visibility = if (isExpanded) View.GONE else View.VISIBLE
+                    llPlanCardDetail.visibility =
+                        if (llPlanCardDetail.visibility == View.VISIBLE)
+                            View.GONE
+                        else
+                            View.VISIBLE
                 }
                 with(homeViewModel) {
                     foodPlanAdapter.submitList(

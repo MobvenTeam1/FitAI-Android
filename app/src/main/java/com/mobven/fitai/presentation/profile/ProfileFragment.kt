@@ -40,7 +40,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
             }
 
             binding.btnLogout.setOnClickListener {
-                /*showCustomDialogBox()*/
+                showCustomDialogBox()
             }
 
             val personalization = listOf(
@@ -130,7 +130,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
         }
     }
 
-    /*private fun showCustomDialogBox() {
+    private fun showCustomDialogBox() {
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
@@ -141,9 +141,13 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
         val btnCancel: Button = dialog.findViewById(R.id.btnBack)
 
         btnYes.setOnClickListener {
-            //Logout işlemi burada yapılacak
+            logoutOfProfile()
             dialog.dismiss()
-            Toast.makeText(requireContext(), "Başarıyla çıkış yapıldı.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.logout_succesfully),
+                Toast.LENGTH_SHORT
+            ).show()
         }
 
         btnCancel.setOnClickListener {
@@ -151,8 +155,18 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
         }
 
         dialog.show()
-    }*/
+    }
+
+    private fun logoutOfProfile() {
+        SharedPreferencesHelper.deleteUserAuthKey(requireActivity())
+        SharedPreferencesHelper.saveNutritionPlan(requireActivity(), false)
+        SharedPreferencesHelper.saveExercisePlan(requireActivity(), false)
+        val intent = Intent(requireActivity(), LoginActivity::class.java)
+        startActivity(intent)
+        requireActivity().finish()
+    }
 }
+
 
 class NonScrollableLinearLayoutManager(context: Context) : LinearLayoutManager(context) {
 
