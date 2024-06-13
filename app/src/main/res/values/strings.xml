@@ -247,6 +247,9 @@
     <string name="enter_minutes">Dakika Girin</string>
     <string name="_45_minute">45\'</string>
     <string name="x2">x2</string>
+    <string name="running_training">Koşu Antrenmanı</string>
+    <string name="fourty_five_minutes">45 Dakika</string>
+    <string name="one_fifty_five">155 Kalori</string>
     <string name="start_training">Antrenmana Başla</string>
     <string name="lose_weight">Kilo Verme</string>
     <string name="begineer_level">Başlangıç Seviyesi</string>

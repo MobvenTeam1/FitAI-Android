@@ -149,4 +149,13 @@
         <item name="cornerSize">10%</item>
     </style>
 
+    <style name="SquareImageView">
+        <item name="cornerSize">10%</item>
+    </style>
+
+    <style name="roundedBottomEdges">
+        <item name="cornerSizeBottomRight">@dimen/_24dp</item>
+        <item name="cornerSizeBottomLeft">@dimen/_24dp</item>
+    </style>
+
 </resources>
