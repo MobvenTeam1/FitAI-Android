@@ -282,4 +282,10 @@
     <string name="goalsfragment">GoalsFragment</string>
     <string name="show_exercise">Antremanını Görüntüle</string>
     <string name="explore_app">Uygulamayı Keşfet</string>
+    <string name="please_give_valid_time">Lütfen geçerli bir tarih girin</string>
+    <string name="please_accept_terms">Lütfen şartları ve gizlilik politikasını kabul edin</string>
+    <string name="cancel">İptal</string>
+    <string name="read_approve">Okudum, Onaylıyorum</string>
+    <string name="i_read_and_i_approve">Bu uygulamanın şartlarını ve gizlilik sözleşmesini okudum ve kabul ediyorum.</string>
+    <string name="terms_and_privacy">Şartlar ve Gizlilik Politkası</string>
 </resources>

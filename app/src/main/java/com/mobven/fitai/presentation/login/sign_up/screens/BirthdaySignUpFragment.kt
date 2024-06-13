@@ -13,6 +13,7 @@ import com.mobven.fitai.databinding.FragmentBirthdaySignUpBinding
 import com.mobven.fitai.presentation.base.BaseFragment
 import com.mobven.fitai.presentation.login.sign_up.viewmodel.SignUpAction
 import com.mobven.fitai.presentation.login.sign_up.viewmodel.SignUpViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -83,36 +84,43 @@ class BirthdaySignUpFragment :
                 }
             }
         }
+    }
 
-        @RequiresApi(Build.VERSION_CODES.O)
-        fun isDateOfBirthValid(date: String): Boolean {
-            try {
-                val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
-                val localDate = LocalDate.parse(date, formatter)
-                return !(formatter.format(localDate) != date || localDate > LocalDate.now())
-            } catch (e: Exception) {
-                return false
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun isDateOfBirthValid(date: String): Boolean {
+        try {
+            val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+            val localDate = LocalDate.parse(date, formatter)
+            return !(formatter.format(localDate) != date || localDate > LocalDate.now())
+        } catch (e: Exception) {
+            return false
+        }
+    }
+
+    private fun focusEditText(edittextFirst: EditText, editTextSecond: EditText) {
+        edittextFirst.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if (s?.length == 2) {
+                    editTextSecond.requestFocus()
+                }
             }
-        }
 
-        fun focusEditText(edittextFirst: EditText, editTextSecond: EditText) {
-            edittextFirst.addTextChangedListener(object : TextWatcher {
-                override fun afterTextChanged(s: Editable?) {
-                    if (s?.length == 2) {
-                        editTextSecond.requestFocus()
-                    }
-                }
+            override fun beforeTextChanged(
+                s: CharSequence?,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
 
-                override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) {
-                }
+            }
 
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-            })
-        }
+            override fun onTextChanged(
+                s: CharSequence?,
+                start: Int,
+                before: Int,
+                count: Int
+            ) {
+            }
+        })
     }
 }
