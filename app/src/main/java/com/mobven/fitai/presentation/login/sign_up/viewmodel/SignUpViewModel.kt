@@ -171,9 +171,9 @@ class SignUpViewModel @Inject constructor(
                 userAuthKey,
                 FirstLoginDto(
                     dateOfBirth = this@SignUpViewModel.givenBirthday,
-                    firstWeight = this@SignUpViewModel.givenWeight.toDouble(),
-                    height = this@SignUpViewModel.givenHeight.toDouble(),
-                    targetWeight = this@SignUpViewModel.givenWeightGoal.toDouble(),
+                    firstWeight = this@SignUpViewModel.givenWeight,
+                    height = this@SignUpViewModel.givenHeight,
+                    targetWeight = this@SignUpViewModel.givenWeightGoal,
                     goals = this@SignUpViewModel.selectedGoal,
                     gender = this@SignUpViewModel.selectedGender
                 )

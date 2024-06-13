@@ -5,8 +5,14 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.mobven.fitai.R
-import com.mobven.fitai.domain.usecase.SaveWorkoutDetailsUseCase
+import com.mobven.fitai.common.ResponseState
+import com.mobven.fitai.data.model.entity.WorkoutEntity
+import com.mobven.fitai.data.model.response.FitnessAntrenman
+import com.mobven.fitai.domain.usecase.GenerateWorkoutPlanUseCase
+import com.mobven.fitai.domain.usecase.GetWorkoutListUseCase
+import com.mobven.fitai.domain.usecase.InsertWorkoutUseCase
 import com.mobven.fitai.infrastructure.string_resource.StringResourceProvider
 import com.mobven.fitai.presentation.home.adapter.CategoryItem
 import com.mobven.fitai.presentation.home.calendar.CalendarItem
@@ -15,6 +21,7 @@ import com.mobven.fitai.util.enums.CategoryType
 import com.mobven.fitai.util.enums.HomeFragmentType
 import com.mobven.fitai.util.enums.SignUpSelectorType
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
@@ -23,7 +30,8 @@ import javax.inject.Inject
 @RequiresApi(Build.VERSION_CODES.O)
 class HomeViewModel @Inject constructor(
     private val stringRes: StringResourceProvider,
-    private val saveWorkoutDetailsUseCase: SaveWorkoutDetailsUseCase
+    private val generateWorkoutPlanUseCase: GenerateWorkoutPlanUseCase,
+    private val getWorkoutListUseCase: GetWorkoutListUseCase
 ) : ViewModel() {
 
     private val _homeUiState = MutableLiveData(HomeUiState())
@@ -31,19 +39,93 @@ class HomeViewModel @Inject constructor(
 
     var dateList: MutableList<CalendarItem> = mutableListOf()
 
-    private val dayFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern(stringRes.getString(R.string.eeee))
-    private val dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern(stringRes.getString(R.string.dd))
+    private val dayFormatter: DateTimeFormatter =
+        DateTimeFormatter.ofPattern(stringRes.getString(R.string.eeee))
+    private val dateFormatter: DateTimeFormatter =
+        DateTimeFormatter.ofPattern(stringRes.getString(R.string.dd))
+
+    var generatedWorkoutPlan: List<FitnessAntrenman> = emptyList()
+    var workoutModelList : WorkoutEntity = WorkoutEntity()
 
     fun onAction(action: HomeAction) {
         when (action) {
             is HomeAction.GetSelectorItem -> {
                 getSignUpSelectorList(action.fragmentType)
             }
+
             is HomeAction.GetCategoryItem -> {
                 getCategoryItems()
             }
+
             is HomeAction.GetCalendarItem -> {
                 getDate()
+            }
+
+            is HomeAction.GenerateWorkoutPlan -> {
+                generateWorkoutPlan(action.authToken)
+            }
+
+            HomeAction.GetWorkoutList -> {
+                getWorkoutPlan()
+            }
+        }
+    }
+
+    private fun generateWorkoutPlan(authKey: String) {
+        viewModelScope.launch {
+            generateWorkoutPlanUseCase(authKey).collect { responseState ->
+                when (responseState) {
+                    is ResponseState.Loading -> {
+                        _homeUiState.value = _homeUiState.value?.copy(
+                            isLoading = true
+                        )
+                    }
+
+                    is ResponseState.Error -> {
+                        _homeUiState.value = _homeUiState.value?.copy(
+                            isError = true,
+                            errorMessage = responseState.message
+                        )
+                    }
+
+                    is ResponseState.Success -> {
+                        this@HomeViewModel.generatedWorkoutPlan =
+                            responseState.data.fitness_antrenman
+                        _homeUiState.value = _homeUiState.value?.copy(
+                            isLoading = false
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getWorkoutPlan() {
+        viewModelScope.launch {
+            getWorkoutListUseCase().collect { responseState ->
+                when (responseState) {
+                    is ResponseState.Loading -> {
+                        _homeUiState.value = _homeUiState.value?.copy(
+                            isLoading = true
+                        )
+                    }
+
+                    is ResponseState.Error -> {
+                        _homeUiState.value = _homeUiState.value?.copy(
+                            isLoading = false,
+                            isError = true,
+                            errorMessage = responseState.message
+                        )
+                    }
+
+                    is ResponseState.Success -> {
+                        workoutModelList = responseState.data.first()
+                        _homeUiState.value = _homeUiState.value?.copy(
+                            isError = false,
+                            isLoading = false
+                        )
+                    }
+                }
             }
         }
     }
@@ -109,99 +191,97 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getSignUpSelectorList(fragmentType: HomeFragmentType) {
-        _homeUiState.value =
-            HomeUiState(
-                signUpSelectorList =
-                when (fragmentType) {
-                    HomeFragmentType.DIET ->
-                        listOf(
-                            ListSelectorItem(
-                                title = stringRes.getString(R.string.ketogenic),
-                                isSelected = false,
-                                type = SignUpSelectorType.RADIO,
-                                image = R.drawable.ketogenic,
-                            ),
-                            ListSelectorItem(
-                                title = stringRes.getString(R.string.pescetarian),
-                                isSelected = false,
-                                type = SignUpSelectorType.RADIO,
-                                image = R.drawable.pesketarian,
-                            ),
-                            ListSelectorItem(
-                                title = stringRes.getString(R.string.vegan),
-                                isSelected = false,
-                                type = SignUpSelectorType.RADIO,
-                                image = R.drawable.vegan,
-                            ),
-                            ListSelectorItem(
-                                title = stringRes.getString(R.string.vegetarian),
-                                isSelected = false,
-                                type = SignUpSelectorType.RADIO,
-                                image = R.drawable.vegetarian,
-                            ),
-                            ListSelectorItem(
-                                title = stringRes.getString(R.string.traditional),
-                                isSelected = false,
-                                type = SignUpSelectorType.RADIO,
-                                image = R.drawable.traditional,
-                            )
+        _homeUiState.value = _homeUiState.value?.copy(
+            signUpSelectorList = when (fragmentType) {
+                HomeFragmentType.DIET ->
+                    listOf(
+                        ListSelectorItem(
+                            title = stringRes.getString(R.string.ketogenic),
+                            isSelected = false,
+                            type = SignUpSelectorType.RADIO,
+                            image = R.drawable.ketogenic,
+                        ),
+                        ListSelectorItem(
+                            title = stringRes.getString(R.string.pescetarian),
+                            isSelected = false,
+                            type = SignUpSelectorType.RADIO,
+                            image = R.drawable.pesketarian,
+                        ),
+                        ListSelectorItem(
+                            title = stringRes.getString(R.string.vegan),
+                            isSelected = false,
+                            type = SignUpSelectorType.RADIO,
+                            image = R.drawable.vegan,
+                        ),
+                        ListSelectorItem(
+                            title = stringRes.getString(R.string.vegetarian),
+                            isSelected = false,
+                            type = SignUpSelectorType.RADIO,
+                            image = R.drawable.vegetarian,
+                        ),
+                        ListSelectorItem(
+                            title = stringRes.getString(R.string.traditional),
+                            isSelected = false,
+                            type = SignUpSelectorType.RADIO,
+                            image = R.drawable.traditional,
                         )
+                    )
 
-                    HomeFragmentType.OTHER_HEALTH_PROBLEM ->
-                        listOf(
-                            ListSelectorItem(
-                                title = stringRes.getString(R.string.celiac),
-                                isSelected = false,
-                                type = SignUpSelectorType.RADIO,
-                            ),
-                            ListSelectorItem(
-                                title = stringRes.getString(R.string.diabetes_1),
-                                isSelected = false,
-                                type = SignUpSelectorType.RADIO,
-                            ),
-                            ListSelectorItem(
-                                title = stringRes.getString(R.string.diabetes_2),
-                                isSelected = false,
-                                type = SignUpSelectorType.RADIO,
-                            ),
-                            ListSelectorItem(
-                                title = stringRes.getString(R.string.tension),
-                                isSelected = false,
-                                type = SignUpSelectorType.RADIO,
-                            ),
-                            ListSelectorItem(
-                                title = stringRes.getString(R.string.intolerance_allergy),
-                                isSelected = false,
-                                type = SignUpSelectorType.RADIO,
-                            )
-                        ).reversed()
-
-
-                    HomeFragmentType.GOALS ->
-                        listOf(
-                            ListSelectorItem(
-                                title = stringRes.getString(R.string.healthy_life),
-                                isSelected = false,
-                                type = SignUpSelectorType.RADIO,
-                            ),
-                            ListSelectorItem(
-                                title = stringRes.getString(R.string.muscle_gain),
-                                isSelected = false,
-                                type = SignUpSelectorType.RADIO,
-                            ),
-                            ListSelectorItem(
-                                title = stringRes.getString(R.string.weight_gain),
-                                isSelected = false,
-                                type = SignUpSelectorType.RADIO,
-                            ),
-                            ListSelectorItem(
-                                title = stringRes.getString(R.string.weight_loss),
-                                isSelected = false,
-                                type = SignUpSelectorType.RADIO,
-                            )
+                HomeFragmentType.OTHER_HEALTH_PROBLEM ->
+                    listOf(
+                        ListSelectorItem(
+                            title = stringRes.getString(R.string.celiac),
+                            isSelected = false,
+                            type = SignUpSelectorType.RADIO,
+                        ),
+                        ListSelectorItem(
+                            title = stringRes.getString(R.string.diabetes_1),
+                            isSelected = false,
+                            type = SignUpSelectorType.RADIO,
+                        ),
+                        ListSelectorItem(
+                            title = stringRes.getString(R.string.diabetes_2),
+                            isSelected = false,
+                            type = SignUpSelectorType.RADIO,
+                        ),
+                        ListSelectorItem(
+                            title = stringRes.getString(R.string.tension),
+                            isSelected = false,
+                            type = SignUpSelectorType.RADIO,
+                        ),
+                        ListSelectorItem(
+                            title = stringRes.getString(R.string.intolerance_allergy),
+                            isSelected = false,
+                            type = SignUpSelectorType.RADIO,
                         )
-                },
-            )
+                    ).reversed()
+
+
+                HomeFragmentType.GOALS ->
+                    listOf(
+                        ListSelectorItem(
+                            title = stringRes.getString(R.string.healthy_life),
+                            isSelected = false,
+                            type = SignUpSelectorType.RADIO,
+                        ),
+                        ListSelectorItem(
+                            title = stringRes.getString(R.string.muscle_gain),
+                            isSelected = false,
+                            type = SignUpSelectorType.RADIO,
+                        ),
+                        ListSelectorItem(
+                            title = stringRes.getString(R.string.weight_gain),
+                            isSelected = false,
+                            type = SignUpSelectorType.RADIO,
+                        ),
+                        ListSelectorItem(
+                            title = stringRes.getString(R.string.weight_loss),
+                            isSelected = false,
+                            type = SignUpSelectorType.RADIO,
+                        )
+                    )
+            }
+        )
     }
 }
 
@@ -215,9 +295,6 @@ data class HomeUiState(
     val foodCategoryList: List<CategoryItem> = emptyList()
 ) {
     companion object {
-        fun initial() =
-            HomeUiState(
-                isLoading = true,
-            )
+        fun initial() = HomeUiState(isLoading = true)
     }
 }

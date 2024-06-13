@@ -12,7 +12,7 @@ import com.mobven.fitai.presentation.home.screens.PlanCreatingFragment
 class NutritionPagerAdapter(
     fragmentActivity: FragmentActivity,
 ) : FragmentStateAdapter(fragmentActivity) {
-    override fun getItemCount(): Int = 5
+    override fun getItemCount(): Int = 4
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
@@ -20,8 +20,7 @@ class NutritionPagerAdapter(
             1 -> OtherHealthProblemFragment()
             2 -> FoodAllergiesFragment()
             3 -> DietTypeFragment()
-            4 -> PlanCreatingFragment()
-            else -> PlanCreatingFragment()
+            else -> DietTypeFragment()
         }
     }
 }

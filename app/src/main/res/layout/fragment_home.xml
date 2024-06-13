@@ -274,11 +274,11 @@
 
                 <include
                     android:id="@+id/include_home_personalized_training"
-                    layout="@layout/plan_card_view_layout"
-                    android:visibility="gone"/>
+                    layout="@layout/plan_training_view_layout"
+                    android:visibility="visible"/>
                 <include
                     android:id="@+id/include_home_personalized_nutrition"
-                    layout="@layout/plan_card_view_layout"
+                    layout="@layout/plan_nutrition_view_layout"
                     android:visibility="visible" />
                 <include
                     android:id="@+id/include_home_create_exercise"

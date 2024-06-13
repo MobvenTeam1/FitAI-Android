@@ -2,25 +2,20 @@ package com.mobven.fitai.presentation.home
 
 import android.os.Build
 import android.view.View
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.mobven.fitai.R
 import com.mobven.fitai.common.SharedPreferencesHelper
+import com.mobven.fitai.data.mapper.toPersonalPlanModelList
 import com.mobven.fitai.databinding.FragmentHomeBinding
 import com.mobven.fitai.presentation.base.BaseFragment
 import com.mobven.fitai.presentation.home.adapter.CategoryItem
 import com.mobven.fitai.presentation.home.adapter.HomeCategoryAdapter
 import com.mobven.fitai.presentation.home.calendar.CalendarItem
 import com.mobven.fitai.presentation.home.calendar.HomeCalendarAdapter
-import com.mobven.fitai.presentation.home.personal_plan.PersonalPlanData
-import com.mobven.fitai.presentation.home.personal_plan.PlanAdapter
+import com.mobven.fitai.presentation.home.personal_plan.PersonalPlanAdapter
 import com.mobven.fitai.presentation.home.viewmodel.HomeAction
 import com.mobven.fitai.presentation.home.viewmodel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,8 +27,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private val calendarAdapter = HomeCalendarAdapter()
     private val trainingAdapter = HomeCategoryAdapter()
     private val foodAdapter = HomeCategoryAdapter()
+    private val trainingPlanAdapter = PersonalPlanAdapter()
+    private val foodPlanAdapter = PersonalPlanAdapter()
     private var isExpanded = false
-    private lateinit var llPlanCard: LinearLayout
     private val homeViewModel: HomeViewModel by viewModels()
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -68,83 +64,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             navigate(action)
         }
 
-        if (SharedPreferencesHelper.getNutritionPlan(requireContext())) {
-            binding.includeHomeCreateNutrition.cardHomePersonalized.visibility = View.GONE
-            binding.includeHomePersonalizedNutrition.planCardView.visibility = View.VISIBLE
-        } else {
-            binding.includeHomeCreateNutrition.cardHomePersonalized.visibility = View.VISIBLE
-            binding.includeHomePersonalizedNutrition.planCardView.visibility = View.GONE
-        }
-
-        if (SharedPreferencesHelper.getExercisePlan(requireContext())) {
-            binding.includeHomeCreateExercise.cardHomePersonalized.visibility = View.GONE
-            binding.includeHomePersonalizedTraining.planCardView.visibility = View.VISIBLE
-        } else {
-            binding.includeHomeCreateExercise.cardHomePersonalized.visibility = View.VISIBLE
-            binding.includeHomePersonalizedTraining.planCardView.visibility = View.GONE
-        }
-
-        getUserData()
-
-        val arrow: ImageView = requireView().findViewById(R.id.ivArrow)
-
-        binding.includeHomePersonalizedTraining.cardViewImage.setOnClickListener {
-            if (isExpanded) {
-                arrow.setImageResource(R.drawable.ic_arrow_down)
-                llPlanCard.visibility = View.GONE
-            } else {
-                arrow.setImageResource(R.drawable.ic_arrow_up)
-                llPlanCard.visibility = View.VISIBLE
-            }
-            isExpanded = !isExpanded
-        }
-
-    }
-
-    private fun getUserData() {
-
-        binding.includeHomePersonalizedTraining.cardViewImage.setImageResource(R.drawable.pilates_woman)
-        val planRecyclerView: RecyclerView = requireView().findViewById(R.id.plan_recycler_view)
-        llPlanCard = requireView().findViewById(R.id.llPlanCardDetail)
-        planRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        planRecyclerView.setHasFixedSize(true)
-        val planArrayList: ArrayList<PersonalPlanData> = arrayListOf()
-
-        val header: TextView = requireView().findViewById(R.id.tvHeader)
-        val cardHeader: TextView = requireView().findViewById(R.id.tv_card_header)
-        val time: TextView = requireView().findViewById(R.id.tvTime)
-        val kcal: TextView = requireView().findViewById(R.id.tvKcal)
-
-        header.text = "Setler"
-        cardHeader.text = "Pilates"
-        time.text = "15 dakika"
-        kcal.text = "150 kcal"
-
-
-        val imageId: Array<Int> = arrayOf(
-            R.drawable.ic_warm_up,
-            R.drawable.ic_main_set,
-            R.drawable.ic_cool_down
-        )
-
-        val name: Array<String> = arrayOf(
-            "Isınma Seti",
-            "Ana Set",
-            "Soğuma Seti"
-        )
-
-        val detail: Array<String> = arrayOf(
-            "Mat",
-            "Mat - Direnç Bandı",
-            "Mat"
-        )
-
-        for (i in imageId.indices) {
-            val planData = PersonalPlanData(imageId[i], name[i], detail[i])
-            planArrayList.add(planData)
-        }
-
-        planRecyclerView.adapter = PlanAdapter(planArrayList)
     }
 
 
@@ -159,6 +78,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         dateList: List<CalendarItem>
     ) {
         with(binding) {
+
+            if (SharedPreferencesHelper.getNutritionPlan(requireContext())) {
+                includeHomeCreateNutrition.cardHomePersonalized.visibility = View.GONE
+                includeHomePersonalizedNutrition.planCardView.visibility = View.VISIBLE
+            } else {
+                includeHomeCreateNutrition.cardHomePersonalized.visibility = View.VISIBLE
+                includeHomePersonalizedNutrition.planCardView.visibility = View.GONE
+            }
+
+            if (SharedPreferencesHelper.getExercisePlan(requireContext())) {
+                includeHomeCreateExercise.cardHomePersonalized.visibility = View.GONE
+                includeHomePersonalizedTraining.planCardView.visibility = View.VISIBLE
+            } else {
+                includeHomeCreateExercise.cardHomePersonalized.visibility = View.VISIBLE
+                includeHomePersonalizedTraining.planCardView.visibility = View.GONE
+            }
+
             with(includeHomeIntakeCalorie) {
                 ivCalorieCardIcon.setImageResource(
                     R.drawable.intake_calorie,
@@ -193,13 +129,42 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 }
             }
 
-            with(includeHomeCreateExercise){
+            with(includeHomeCreateExercise) {
                 ivPersonalizedCardIcon.setImageResource(
                     R.drawable.dumbell,
                 )
                 tvCreatePersonalized.text = getString(R.string.create_personalized_training)
                 cardHomePersonalized.setOnClickListener {
                     findNavController().navigate(R.id.action_homeFragment_to_trainingFragment)
+                }
+            }
+
+            with(includeHomePersonalizedNutrition) {
+                cardViewImage.setImageResource(
+                    R.drawable.breakfast_category,
+                )
+                tvCardHeader.text = getString(R.string.breakfast)
+                tvTime.text = getString(R.string._15_minutes)
+                tvKcal.text = getString(R.string._550_kcal)
+                cardViewImage.setOnClickListener {
+                    llPlanCardDetail.visibility = if (isExpanded) View.GONE else View.VISIBLE
+                }
+            }
+
+            with(includeHomePersonalizedTraining) {
+                cardViewImage.setImageResource(
+                    R.drawable.pilates_woman,
+                )
+                tvCardHeader.text = getString(R.string.pilates)
+                tvTime.text = getString(R.string._15_minutes)
+                tvKcal.text = getString(R.string._250_kcal)
+                cardViewImage.setOnClickListener {
+                    llPlanCardDetail.visibility = if (isExpanded) View.GONE else View.VISIBLE
+                }
+                with(homeViewModel) {
+                    foodPlanAdapter.submitList(
+                        workoutModelList.workoutList.toPersonalPlanModelList()
+                    )
                 }
             }
 

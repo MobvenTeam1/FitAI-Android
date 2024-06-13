@@ -4,15 +4,20 @@ import com.mobven.fitai.data.model.dto.FirstLoginDto
 import com.mobven.fitai.data.model.dto.SignInDto
 import com.mobven.fitai.data.model.dto.SignUpDto
 import com.mobven.fitai.data.model.dto.WorkoutDetailsDto
+import com.mobven.fitai.data.model.response.GeneratePlanResponse
 import com.mobven.fitai.data.model.response.LoginResponse
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.HeaderMap
 import retrofit2.http.POST
 
 interface FitAIService {
 
     @POST("api/User/register")
-    suspend fun registerUser(@Body registerModel: SignUpDto): LoginResponse
+    suspend fun registerUser(
+        @Body registerModel: SignUpDto
+    ): LoginResponse
 
     @POST("api/User/login")
     suspend fun loginUser(
@@ -30,5 +35,10 @@ interface FitAIService {
         @Header("Authorization") token: String,
         @Body workoutDetailsModel: WorkoutDetailsDto
     ): Boolean
+
+    @GET("api/WorkoutPlan/generateworkoutplan")
+    suspend fun generateWorkoutPlan(
+        @Header("Authorization") token: String
+    ): GeneratePlanResponse
 
 }

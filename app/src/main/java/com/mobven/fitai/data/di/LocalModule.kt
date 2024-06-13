@@ -26,4 +26,7 @@ object LocalModule {
     @[Provides Singleton]
     fun provideUserDao(database: FitAIDatabase) = database.userDao()
 
+    @[Provides Singleton]
+    fun provideWorkoutDao(database: FitAIDatabase) = database.workoutDao()
+
 }

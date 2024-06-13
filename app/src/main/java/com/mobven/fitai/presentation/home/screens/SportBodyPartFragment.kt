@@ -1,6 +1,7 @@
 package com.mobven.fitai.presentation.home.screens
 
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.mobven.fitai.R
@@ -9,6 +10,8 @@ import com.mobven.fitai.databinding.FragmentSportBodyPartBinding
 import com.mobven.fitai.presentation.base.BaseFragment
 import com.mobven.fitai.presentation.home.training.viewmodel.TrainingAction
 import com.mobven.fitai.presentation.home.training.viewmodel.TrainingViewModel
+import com.mobven.fitai.presentation.home.viewmodel.HomeAction
+import com.mobven.fitai.presentation.home.viewmodel.HomeViewModel
 import com.mobven.fitai.presentation.login.sign_up.adapter.SignUpListAdapter
 import com.mobven.fitai.util.enums.TrainingSelectorItem
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,6 +22,7 @@ class SportBodyPartFragment :
 
     private val adapter = SignUpListAdapter()
     private val trainingViewModel: TrainingViewModel by activityViewModels()
+    private val homeViewModel: HomeViewModel by viewModels()
 
     override fun observeUi() {
         trainingViewModel.trainingUiState.observe(viewLifecycleOwner) { trainingState ->
@@ -55,9 +59,12 @@ class SportBodyPartFragment :
                 }
             }
 
+            SharedPreferencesHelper.saveExercisePlan(requireActivity(), true)
+
             val userAuthKey = SharedPreferencesHelper.getUserAuthKey(requireActivity()) ?: ""
 
             trainingViewModel.onAction(TrainingAction.SaveWorkoutDetails(userAuthKey))
+            homeViewModel.onAction(HomeAction.GenerateWorkoutPlan(userAuthKey))
 
             val navOptions =
                 NavOptions.Builder()

@@ -214,13 +214,14 @@
         android:layout_height="@dimen/_64dp"
         android:layout_marginHorizontal="@dimen/_8dp"
         android:layout_marginTop="@dimen/_22dp"
-        android:layout_marginBottom="@dimen/_8dp"
+        android:layout_marginBottom="83dp"
         android:background="@drawable/bg_grey_stroke"
         android:contentDescription="@string/google_register_button"
         android:focusable="true"
         android:paddingHorizontal="@dimen/_8dp"
         android:paddingVertical="@dimen/_10dp"
         android:src="@drawable/google_icon"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toStartOf="@id/btn_login_apple"
         app:layout_constraintStart_toEndOf="@id/btn_login_facebook"
         app:layout_constraintTop_toBottomOf="@id/divider_sign_up_left" />
@@ -241,6 +242,7 @@
         app:layout_constraintTop_toTopOf="@id/btn_login_google" />
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/_32dp"
@@ -248,7 +250,10 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_login_google"
+        app:layout_constraintVertical_bias="1.0">
 
         <TextView
             android:id="@+id/tvDontHavenAnAccount"
