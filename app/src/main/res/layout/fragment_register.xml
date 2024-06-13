@@ -8,15 +8,9 @@
     android:orientation="vertical"
     tools:context=".presentation.login.sign_up.screens.RegisterFragment">
 
-    <ImageView
-        android:id="@+id/iv_register_top"
-        android:layout_width="@dimen/_32dp"
-        android:layout_height="@dimen/_35dp"
-        android:layout_gravity="top|end"
-        android:layout_marginVertical="@dimen/_16dp"
-        android:layout_marginEnd="@dimen/_24dp"
-        android:contentDescription="@string/toolbar_logo"
-        android:src="@drawable/fit_black" />
+    <include
+        android:id="@+id/toolbar_sign_up"
+        layout="@layout/toolbar_sign_up" />
 
     <ScrollView
         android:layout_width="match_parent"

@@ -57,10 +57,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             }
         }
 
-        binding.ivHomeProfile.setOnClickListener {
-            val action = HomeFragmentDirections.actionHomeFragmentToProfileFragment()
-            navigate(action)
-        }
 
         binding.tvHomeDailyGoals.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToBottomSheetFragment()

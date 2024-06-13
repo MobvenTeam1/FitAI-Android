@@ -1,9 +1,9 @@
 package com.mobven.fitai.presentation.login.sign_in
 
 import androidx.fragment.app.viewModels
+import com.mobven.fitai.R
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
-import com.mobven.fitai.R
 import com.mobven.fitai.databinding.FragmentForgotPasswordBinding
 import com.mobven.fitai.presentation.base.BaseFragment
 import com.mobven.fitai.presentation.login.sign_in.viewmodel.SignInViewModel
@@ -28,7 +28,7 @@ class ForgotPasswordFragment :
             val emailText = binding.editTextForgotPassword.text.toString()
             binding.phoneContainer.helperText = viewModel.validPhone(emailText)
             if (binding.phoneContainer.helperText == null) {
-                    findNavController().navigate(R.id.action_forgotPasswordFragment_to_OTPFragment)
+                findNavController().navigate(R.id.action_forgotPasswordFragment_to_OTPFragment)
             }
         }
     }
