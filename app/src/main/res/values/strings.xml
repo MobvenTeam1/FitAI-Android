@@ -291,4 +291,14 @@
     <string name="read_approve">Okudum, Onaylıyorum</string>
     <string name="i_read_and_i_approve">Bu uygulamanın şartlarını ve gizlilik sözleşmesini okudum ve kabul ediyorum.</string>
     <string name="terms_and_privacy">Şartlar ve Gizlilik Politkası</string>
+    <string name="comma">,</string>
+    <string name="please_enter_a_valid_date">Please enter a valid date</string>
+    <string name="ai_suggestions">AI Önerileri</string>
+    <string name="card_ai_description">2 kaşık, 180 kcal</string>
+    <string name="_15_minutes">15 Dakika</string>
+    <string name="_550_kcal">550 kcal</string>
+    <string name="_250_kcal">250_kcal</string>
+    <string name="sets">Setler</string>
+    <string name="suggests_loading">AI önerileri yükleniyor</string>
+    <string name="nutritions">Besinler</string>
 </resources>

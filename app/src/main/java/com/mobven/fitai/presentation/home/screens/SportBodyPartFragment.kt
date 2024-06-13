@@ -1,15 +1,19 @@
 package com.mobven.fitai.presentation.home.screens
 
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.viewpager2.widget.ViewPager2
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
 import com.mobven.fitai.R
-import com.mobven.fitai.presentation.base.BaseFragment
+import com.mobven.fitai.common.SharedPreferencesHelper
 import com.mobven.fitai.databinding.FragmentSportBodyPartBinding
+import com.mobven.fitai.presentation.base.BaseFragment
+import com.mobven.fitai.presentation.home.training.viewmodel.TrainingAction
+import com.mobven.fitai.presentation.home.training.viewmodel.TrainingViewModel
 import com.mobven.fitai.presentation.home.viewmodel.HomeAction
 import com.mobven.fitai.presentation.home.viewmodel.HomeViewModel
 import com.mobven.fitai.presentation.login.sign_up.adapter.SignUpListAdapter
-import com.mobven.fitai.presentation.login.sign_up.model.ListSelectorItem
-import com.mobven.fitai.util.enums.HomeFragmentType
+import com.mobven.fitai.util.enums.TrainingSelectorItem
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -17,37 +21,61 @@ class SportBodyPartFragment :
     BaseFragment<FragmentSportBodyPartBinding>(FragmentSportBodyPartBinding::inflate) {
 
     private val adapter = SignUpListAdapter()
+    private val trainingViewModel: TrainingViewModel by activityViewModels()
     private val homeViewModel: HomeViewModel by viewModels()
 
     override fun observeUi() {
-        homeViewModel.homeUiState.observe(viewLifecycleOwner) { homeState ->
+        trainingViewModel.trainingUiState.observe(viewLifecycleOwner) { trainingState ->
             when {
-                homeState.isError -> {
-                    handleError(homeState.errorMessage)
+                trainingState.isError -> {
+                    handleError(trainingState.errorMessage)
                 }
 
-                homeState.isLoading -> {
+                trainingState.isLoading -> {
                     handleLoading()
                 }
 
                 else -> {
-                    handleSuccess(homeState.signUpSelectorList)
+                    handleSuccess()
                 }
 
             }
         }
     }
 
-    private fun handleSuccess(bodyPartList: List<ListSelectorItem>) {
+    private fun handleSuccess() {
+        val bodyPartList = trainingViewModel.trainingSelectorItem
+
         adapter.submitList(bodyPartList)
         binding.rvBodyPartSport.adapter = adapter
 
         binding.btnBodyPartContinue.setOnClickListener {
-            val currentItem =
-                requireActivity().findViewById<ViewPager2>(R.id.vp_training).currentItem
-            val nextItem = currentItem + 1
-            requireActivity().findViewById<ViewPager2>(R.id.vp_training)
-                .setCurrentItem(nextItem, true)
+            bodyPartList.forEach {
+                if (it.isSelected) {
+                    trainingViewModel.workoutDetails.focusAreas =
+                        trainingViewModel.workoutDetails.focusAreas +
+                                it.title +
+                                getString(R.string.comma)
+                }
+            }
+
+            SharedPreferencesHelper.saveExercisePlan(requireActivity(), true)
+
+            val userAuthKey = SharedPreferencesHelper.getUserAuthKey(requireActivity()) ?: ""
+
+            trainingViewModel.onAction(TrainingAction.SaveWorkoutDetails(userAuthKey))
+            homeViewModel.onAction(HomeAction.GenerateWorkoutPlan(userAuthKey))
+
+            val navOptions =
+                NavOptions.Builder()
+                    .setPopUpTo(R.id.trainingFragment, true)
+                    .build()
+
+            findNavController().navigate(
+                R.id.action_trainingFragment_to_planCreatingFragment,
+                null,
+                navOptions
+            )
         }
     }
 
@@ -60,7 +88,6 @@ class SportBodyPartFragment :
     }
 
     override fun callInitialViewModelFunction() {
-        homeViewModel.onAction(HomeAction.GetSelectorItem(HomeFragmentType.SPORT_BODY))
+        trainingViewModel.onAction(TrainingAction.GetTrainingSelectorItem(TrainingSelectorItem.SPORT_BODY))
     }
-
 }

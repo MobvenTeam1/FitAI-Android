@@ -5,7 +5,6 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.mobven.fitai.presentation.home.screens.HealthProblemFragment
 import com.mobven.fitai.presentation.home.screens.IntroductionFragment
-import com.mobven.fitai.presentation.home.screens.PlanCreatingFragment
 import com.mobven.fitai.presentation.home.screens.PreferredSportFragment
 import com.mobven.fitai.presentation.home.screens.SportBodyPartFragment
 import com.mobven.fitai.presentation.home.screens.SportOftenFragment
@@ -13,7 +12,7 @@ import com.mobven.fitai.presentation.home.screens.SportOftenFragment
 class TrainingPagerAdapter(
     fragmentActivity: FragmentActivity,
 ) : FragmentStateAdapter(fragmentActivity) {
-    override fun getItemCount(): Int = 6
+    override fun getItemCount(): Int = 5
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
@@ -22,8 +21,7 @@ class TrainingPagerAdapter(
             2 -> PreferredSportFragment()
             3 -> SportOftenFragment()
             4 -> SportBodyPartFragment()
-            5 -> PlanCreatingFragment()
-            else -> PlanCreatingFragment()
+            else -> SportBodyPartFragment()
         }
     }
 }
