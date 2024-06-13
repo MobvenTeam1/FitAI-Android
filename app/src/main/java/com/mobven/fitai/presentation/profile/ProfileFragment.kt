@@ -1,7 +1,13 @@
 package com.mobven.fitai.presentation.profile
 
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.view.Window
+import android.widget.Button
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobven.fitai.LoginActivity
 import com.mobven.fitai.R
@@ -22,7 +28,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
     private val legalAdapter = ProfileListAdapter()
 
     override fun observeUi() {
-        with(binding){
+        with(binding) {
             rvPersonalization.adapter = personalizationAdapter
             rvPersonalization.layoutManager = NonScrollableLinearLayoutManager(requireContext())
 
@@ -33,12 +39,21 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
                 requireActivity().finish()
             }
 
+            binding.btnLogout.setOnClickListener {
+                /*showCustomDialogBox()*/
+            }
+
             val personalization = listOf(
-                ProfileItem(R.drawable.ic_personalization, "Kişisel Bilgiler", ProfileItemType.SIMPLE),
+                ProfileItem(
+                    R.drawable.ic_personalization,
+                    "Kişisel Bilgiler",
+                    ProfileItemType.SIMPLE
+                ),
                 ProfileItem(R.drawable.ic_meal, "Beslenme Planı", ProfileItemType.SIMPLE),
                 ProfileItem(R.drawable.ic_dumbell, "Antreman Planı", ProfileItemType.SIMPLE),
                 ProfileItem(R.drawable.ic_kcal, "Kalori Takibi", ProfileItemType.SIMPLE),
-                ProfileItem(R.drawable.ic_glass, "Su Takibi", ProfileItemType.SIMPLE))
+                ProfileItem(R.drawable.ic_glass, "Su Takibi", ProfileItemType.SIMPLE)
+            )
 
             personalizationAdapter.submitList(personalization)
 
@@ -48,7 +63,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
             val connectedAccounts = listOf(
                 ProfileItem(R.drawable.apple_health, "Apple Health", ProfileItemType.SIMPLE),
                 ProfileItem(R.drawable.googl_calendar, "Google", ProfileItemType.SIMPLE),
-                ProfileItem(R.drawable.ic_watch, "Watch", ProfileItemType.SIMPLE))
+                ProfileItem(R.drawable.ic_watch, "Watch", ProfileItemType.SIMPLE)
+            )
 
             connectedAccountsAdapter.submitList(connectedAccounts)
 
@@ -58,7 +74,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
             val track = listOf(
                 ProfileItem(R.drawable.ic_kg, "Kilo Güncellemesi", ProfileItemType.ON_OFF),
                 ProfileItem(R.drawable.ic_glass, "Su Tüketim", ProfileItemType.ON_OFF),
-                ProfileItem(R.drawable.ic_step, "Adım", ProfileItemType.ON_OFF))
+                ProfileItem(R.drawable.ic_step, "Adım", ProfileItemType.ON_OFF)
+            )
 
             trackAdapter.submitList(track)
 
@@ -67,7 +84,11 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
 
             val notification = listOf(
                 ProfileItem(R.drawable.ic_clock, "Görev Anımsatıcısı", ProfileItemType.TOGGLE),
-                ProfileItem(R.drawable.ic_motivation, "Motivasyon Bildirimi", ProfileItemType.TOGGLE),
+                ProfileItem(
+                    R.drawable.ic_motivation,
+                    "Motivasyon Bildirimi",
+                    ProfileItemType.TOGGLE
+                ),
                 ProfileItem(R.drawable.ic_diary, "Gün Sonu Özeti", ProfileItemType.TOGGLE)
             )
 
@@ -79,8 +100,16 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
             val support = listOf(
                 ProfileItem(R.drawable.ic_question_mark, "Yardım Merkezi", ProfileItemType.SIMPLE),
                 ProfileItem(R.drawable.ic_security, "Güvenlik", ProfileItemType.SIMPLE),
-                ProfileItem(R.drawable.ic_how_it_works, "FitAI Nasıl Çalışır?", ProfileItemType.SIMPLE),
-                ProfileItem(R.drawable.ic_feedback, "Geri Bildirimde Bulunun", ProfileItemType.SIMPLE)
+                ProfileItem(
+                    R.drawable.ic_how_it_works,
+                    "FitAI Nasıl Çalışır?",
+                    ProfileItemType.SIMPLE
+                ),
+                ProfileItem(
+                    R.drawable.ic_feedback,
+                    "Geri Bildirimde Bulunun",
+                    ProfileItemType.SIMPLE
+                )
             )
 
             supportAdapter.submitList(support)
@@ -90,13 +119,40 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
 
             val legal = listOf(
                 ProfileItem(R.drawable.ic_term_of_use, "Kullanım Şartları", ProfileItemType.SIMPLE),
-                ProfileItem(R.drawable.ic_privacy_policy, "Gizlilik Politikası", ProfileItemType.SIMPLE))
+                ProfileItem(
+                    R.drawable.ic_privacy_policy,
+                    "Gizlilik Politikası",
+                    ProfileItemType.SIMPLE
+                )
+            )
 
             legalAdapter.submitList(legal)
         }
     }
-}
 
+    /*private fun showCustomDialogBox() {
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.logout_popup)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val btnYes: Button = dialog.findViewById(R.id.btnLogoutConfirm)
+        val btnCancel: Button = dialog.findViewById(R.id.btnBack)
+
+        btnYes.setOnClickListener {
+            //Logout işlemi burada yapılacak
+            dialog.dismiss()
+            Toast.makeText(requireContext(), "Başarıyla çıkış yapıldı.", Toast.LENGTH_SHORT).show()
+        }
+
+        btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }*/
+}
 
 class NonScrollableLinearLayoutManager(context: Context) : LinearLayoutManager(context) {
 

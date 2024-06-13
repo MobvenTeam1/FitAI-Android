@@ -38,12 +38,14 @@
     <string name="cm">cm</string>
     <string name="kg">kg</string>
     <string name="what_is_your_weight">Mevcut kilonuz kaç?</string>
+    <string name="logout_popup">FitAI uygulamasından çıkış yapmak istediğinize emin misiniz?</string>
     <string name="goal">Goal</string>
     <string name="what_is_your_weight_goal">Hedef kilonuz kaç?</string>
     <string name="height">Height</string>
     <string name="weight">Weight</string>
     <string name="cinsiyetiniz_nedir">Cinsiyetiniz nedir?</string>
     <string name="other_gender">Belirtmek istemiyorum</string>
+    <string name="turn_back">Geri Dön</string>
     <string name="male_gender">Erkek</string>
     <string name="female_gender">Kadın</string>
     <string name="enter_birthday">Enter Your Birthday</string>

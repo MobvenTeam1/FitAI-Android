@@ -204,30 +204,6 @@
                 app:layout_constraintStart_toStartOf="@id/circular_progress_home"
                 app:layout_constraintTop_toTopOf="@id/circular_progress_home" />
 
-            <TextView
-                android:id="@+id/tv_home_goal_remaining"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_6dp"
-                android:fontFamily="@font/urbanist_regular"
-                android:text="@string/goal_remaining"
-                android:textColor="@color/gray_500"
-                app:layout_constraintEnd_toStartOf="@id/tv_home_goal_remaining_number"
-                app:layout_constraintStart_toStartOf="@+id/tv_home_percent"
-                app:layout_constraintTop_toBottomOf="@id/circular_progress_home" />
-
-            <TextView
-                android:id="@+id/tv_home_goal_remaining_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_6dp"
-                android:fontFamily="@font/urbanist_regular"
-                android:text=" 5 kg"
-                android:textColor="@color/gray_500"
-                app:layout_constraintEnd_toEndOf="@+id/tv_home_goal_complete"
-                app:layout_constraintStart_toEndOf="@+id/tv_home_goal_remaining"
-                app:layout_constraintTop_toBottomOf="@id/circular_progress_home" />
-
             <LinearLayout
                 android:id="@+id/ll_calorie"
                 android:layout_width="match_parent"
@@ -239,7 +215,7 @@
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_home_goal_remaining">
+                app:layout_constraintTop_toBottomOf="@id/circular_progress_home">
 
                 <include
                     android:id="@+id/include_home_intake_calorie"

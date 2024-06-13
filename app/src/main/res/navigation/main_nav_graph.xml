@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav_graph"
     app:startDestination="@id/homeFragment">
+
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.mobven.fitai.presentation.home.HomeFragment"
