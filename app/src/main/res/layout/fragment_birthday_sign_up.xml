@@ -26,6 +26,7 @@
         android:layout_marginTop="@dimen/_24dp"
         android:autofillHints="day"
         android:hint="@string/_29"
+        android:maxLength="2"
         android:maxEms="10"
         android:padding="@dimen/_20dp" />
 
@@ -40,6 +41,7 @@
         android:autofillHints="month"
         android:hint="@string/_09"
         android:maxEms="10"
+        android:maxLength="2"
         android:padding="@dimen/_20dp"
         android:paddingVertical="@dimen/_16dp" />
 

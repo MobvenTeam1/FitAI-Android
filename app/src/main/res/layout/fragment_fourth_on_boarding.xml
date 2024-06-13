@@ -44,11 +44,12 @@
         android:text="@string/onboarding_description_4"
         android:textSize="@dimen/_16sp" />
 
-    <com.google.android.material.button.MaterialButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_onboarding_4_skip"
-        style="@style/skipButtonOnBoardingStyle"
-        android:text="@string/sonraki"
-        android:layout_width="wrap_content"
+        style="@style/darkButtonStyle"
+        android:layout_marginHorizontal="@dimen/_24dp"
+        android:text="@string/explore_app"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"

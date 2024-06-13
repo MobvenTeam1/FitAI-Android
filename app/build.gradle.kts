@@ -18,6 +18,9 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary = true
+        }
     }
 
     buildTypes {
@@ -38,11 +41,13 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    
-    buildFeatures{
+
+    buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
+
 
 dependencies {
 
@@ -69,5 +74,9 @@ dependencies {
 
     // OkHttp
     implementation(libs.bundles.http)
+
+    // Room
+    implementation(libs.bundles.room)
+    kapt(libs.room.compiler)
 
 }

@@ -128,16 +128,25 @@
     </style>
 
     <style name="Style.App.circleImageView" parent="">
-        <item name="shapeAppearance">@style/ShapeAppearanceOverlay.App.circleImageView</item>
+        <item name="shapeAppearance">@style/ShapeAppearanceOverlay.App.squareImageView</item>
     </style>
 
-    <style name="ShapeAppearanceOverlay.App.circleImageView" parent="">
+    <style name="ShapeAppearanceOverlay.App.squareImageView" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">10%</item>
     </style>
 
     <style name="CircularImageView">
         <item name="cornerSize">50%</item>
+    </style>
+  
+    <style name="roundedBottomEdges">
+        <item name="cornerSizeBottomRight">@dimen/_24dp</item>
+        <item name="cornerSizeBottomLeft">@dimen/_24dp</item>
+    </style>
+
+    <style name="SquareImageView">
+        <item name="cornerSize">10%</item>
     </style>
 
     <style name="SquareImageView">

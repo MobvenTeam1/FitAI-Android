@@ -8,19 +8,14 @@
     android:orientation="vertical"
     tools:context=".presentation.login.sign_up.screens.RegisterFragment">
 
-    <ImageView
-        android:id="@+id/iv_register_top"
-        android:layout_width="@dimen/_32dp"
-        android:layout_height="@dimen/_35dp"
-        android:layout_gravity="top|end"
-        android:layout_marginVertical="@dimen/_16dp"
-        android:layout_marginEnd="@dimen/_24dp"
-        android:contentDescription="@string/toolbar_logo"
-        android:src="@drawable/fit_black" />
+    <include
+        android:id="@+id/toolbar_sign_up"
+        layout="@layout/toolbar_sign_up" />
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -221,10 +216,10 @@
                 app:boxStrokeColor="@color/white_100"
                 app:boxStrokeWidth="@dimen/_1dp"
                 app:cursorColor="@color/black"
-                app:helperTextTextColor="@color/red_50"
                 app:endIconDrawable="@drawable/selector_password_toggle"
                 app:endIconMode="password_toggle"
                 app:errorEnabled="true"
+                app:helperTextTextColor="@color/red_50"
                 app:hintTextColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -336,7 +331,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/_4dp"
                     android:fontFamily="@font/urbanist_regular"
-                    android:text="@string/zaten_hesab_n_z_var_m"
+                    android:text="@string/already_have_an_account"
                     android:textSize="@dimen/_16sp" />
 
                 <TextView

@@ -1,6 +1,5 @@
 package com.mobven.fitai.presentation.home.screens
 
-
 import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.mobven.fitai.R
@@ -12,7 +11,6 @@ import com.mobven.fitai.presentation.login.sign_up.adapter.SignUpListAdapter
 import com.mobven.fitai.presentation.login.sign_up.model.ListSelectorItem
 import com.mobven.fitai.util.enums.HomeFragmentType
 import dagger.hilt.android.AndroidEntryPoint
-
 
 @AndroidEntryPoint
 class GoalsFragmentTraining : BaseFragment<FragmentGoalsBinding>(FragmentGoalsBinding::inflate) {
