@@ -1,10 +1,10 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.application) // Bu satırı koruyorum
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.hilt.plugin)
     alias(libs.plugins.kapt)
     alias(libs.plugins.safeArgs)
-    id("com.android.application")
+    // id("com.android.application") // Bu satırı kaldırıyorum
     id("com.google.gms.google-services")
 }
 
