@@ -4,6 +4,8 @@ plugins {
     alias(libs.plugins.hilt.plugin)
     alias(libs.plugins.kapt)
     alias(libs.plugins.safeArgs)
+    id("com.android.application")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -58,6 +60,8 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     testImplementation(libs.bundles.testImplementation)
     androidTestImplementation(libs.bundles.androidTestImplementation)
+    implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
+    implementation("com.google.firebase:firebase-analytics")
 
     // Navigation
     implementation(libs.bundles.navigation)
