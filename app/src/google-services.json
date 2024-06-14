@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "329259434558",
+    "project_id": "fitai-ca3af",
+    "storage_bucket": "fitai-ca3af.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:329259434558:android:70b45350fbc4e5b0b4c76f",
+        "android_client_info": {
+          "package_name": "com.mobven.fitai"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAoHKWon2p0gqLjqU2j3dQAjEG2e6oZ0JA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
