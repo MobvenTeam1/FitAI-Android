@@ -40,4 +40,11 @@ interface FitAIService {
         @Header("Authorization") token: String
     ): GeneratePlanResponse
 
+    @GET("api/WorkoutPlan/update")
+    suspend fun updateWorkoutPlan(
+        @Header("Authorization") token: String,
+        @Body workoutDetailsModel: WorkoutDetailsDto
+    ): GeneratePlanResponse
+
+
 }

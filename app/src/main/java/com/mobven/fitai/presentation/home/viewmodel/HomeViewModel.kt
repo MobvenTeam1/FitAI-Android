@@ -101,7 +101,8 @@ class HomeViewModel @Inject constructor(
                         this@HomeViewModel.generatedWorkoutPlan =
                             responseState.data.fitness_antrenman
                         _homeUiState.value = _homeUiState.value?.copy(
-                            isLoading = false
+                            isLoading = false,
+                            isGenerated = true
                         )
                     }
                 }
@@ -131,7 +132,8 @@ class HomeViewModel @Inject constructor(
                         workoutModelList = responseState.data.first()
                         _homeUiState.value = _homeUiState.value?.copy(
                             isError = false,
-                            isLoading = false
+                            isLoading = false,
+                            isGenerated = false,
                         )
                     }
                 }
@@ -364,12 +366,13 @@ data class HomeUiState(
     val isLoading: Boolean = false,
     val isError: Boolean = false,
     val isSuccess: Boolean = false,
+    val isGenerated: Boolean = false,
     val errorMessage: String = "",
     val signUpSelectorList: List<ListSelectorItem> = emptyList(),
     val trainingCategoryList: List<CategoryItem> = emptyList(),
     val foodCategoryList: List<CategoryItem> = emptyList(),
     val foodPlanList: List<PersonalPlanModel> = emptyList(),
-    val foodSuggestList: List<SuggestModel> = emptyList(),
+    val foodSuggestList: List<SuggestModel> = emptyList()
 ) {
     companion object {
         fun initial() = HomeUiState(isLoading = true)

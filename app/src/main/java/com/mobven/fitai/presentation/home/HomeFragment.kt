@@ -1,5 +1,6 @@
 package com.mobven.fitai.presentation.home
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.view.View
 import android.widget.Button
@@ -27,13 +28,13 @@ import com.mobven.fitai.presentation.home.suggest.SuggestModel
 import com.mobven.fitai.presentation.home.viewmodel.HomeAction
 import com.mobven.fitai.presentation.home.viewmodel.HomeViewModel
 import com.mobven.fitai.util.LoadingDialogHelper
-import com.mobven.fitai.util.enums.CategoryType
 import dagger.hilt.android.AndroidEntryPoint
 
 typealias HDirections = HomeFragmentDirections
 
 @AndroidEntryPoint
 @RequiresApi(Build.VERSION_CODES.O)
+@SuppressLint("NotifyDataSetChanged")
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
 
     private val homeViewModel: HomeViewModel by viewModels()
@@ -59,6 +60,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     handleLoading()
                 }
 
+                homeState.isGenerated -> {
+                    handleGenerated()
+                }
+
                 else -> {
                     handleSuccess(
                         trainingList = homeState.trainingCategoryList,
@@ -78,6 +83,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     }
 
+    private fun handleGenerated() {
+        homeViewModel.onAction(HomeAction.GetWorkoutList)
+        trainingPlanAdapter.submitList(
+            homeViewModel.workoutModelList.workoutList.toPersonalPlanModelList()
+        )
+        trainingPlanAdapter.notifyDataSetChanged()
+    }
 
     override fun navigate(action: NavDirections) {
         findNavController().navigate(action)
