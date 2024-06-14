@@ -9,7 +9,6 @@ import com.mobven.fitai.data.model.response.LoginResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
-import retrofit2.http.HeaderMap
 import retrofit2.http.POST
 
 interface FitAIService {
@@ -30,7 +29,7 @@ interface FitAIService {
         @Body saveFirstLoginModel: FirstLoginDto
     ): Boolean
 
-    @POST("api/User/workoutdetails")
+    @POST("api/WorkoutPlan/workoutdetails")
     suspend fun saveWorkoutDetails(
         @Header("Authorization") token: String,
         @Body workoutDetailsModel: WorkoutDetailsDto

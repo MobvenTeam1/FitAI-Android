@@ -16,6 +16,7 @@ import com.mobven.fitai.infrastructure.string_resource.StringResourceProvider
 import com.mobven.fitai.presentation.home.adapter.CategoryItem
 import com.mobven.fitai.presentation.home.calendar.CalendarItem
 import com.mobven.fitai.presentation.home.personal_plan.PersonalPlanModel
+import com.mobven.fitai.presentation.home.suggest.SuggestModel
 import com.mobven.fitai.presentation.login.sign_up.model.ListSelectorItem
 import com.mobven.fitai.util.enums.CategoryType
 import com.mobven.fitai.util.enums.HomeFragmentType
@@ -71,6 +72,10 @@ class HomeViewModel @Inject constructor(
 
             HomeAction.GetBreakfastItems -> {
                 getBreakfastItems()
+            }
+
+            HomeAction.GetSuggestItems -> {
+                getFoodSuggests()
             }
         }
     }
@@ -159,27 +164,60 @@ class HomeViewModel @Inject constructor(
                     PersonalPlanModel(
                         image = R.drawable.food_tomato,
                         name = stringRes.getString(R.string.tomato),
-                        detail = stringRes.getString(R.string.one_piece_40_kcal)
+                        detail = stringRes.getString(R.string.one_piece_40_kcal),
+                        personalPlanType = CategoryType.NUTRITION
                     ),
                     PersonalPlanModel(
                         image = R.drawable.food_bread,
                         name = stringRes.getString(R.string.bread),
-                        detail = stringRes.getString(R.string.one_slice_75_kcal)
+                        detail = stringRes.getString(R.string.one_slice_75_kcal),
+                        personalPlanType = CategoryType.NUTRITION
                     ),
                     PersonalPlanModel(
                         image = R.drawable.cheese,
                         name = stringRes.getString(R.string.cheese),
-                        detail = stringRes.getString(R.string.one_portion_93_kcal)
+                        detail = stringRes.getString(R.string.one_portion_93_kcal),
+                        personalPlanType = CategoryType.NUTRITION
                     ),
                     PersonalPlanModel(
                         image = R.drawable.food_egg,
                         name = stringRes.getString(R.string.egg),
-                        detail = stringRes.getString(R.string.two_piece_180_kcal)
+                        detail = stringRes.getString(R.string.two_piece_180_kcal),
+                        personalPlanType = CategoryType.NUTRITION
                     ),
                     PersonalPlanModel(
                         image = R.drawable.honey,
                         name = stringRes.getString(R.string.honey),
-                        detail = stringRes.getString(R.string.one_spoon_64_kcal)
+                        detail = stringRes.getString(R.string.one_spoon_64_kcal),
+                        personalPlanType = CategoryType.NUTRITION
+                    )
+                )
+            )
+    }
+
+    private fun getFoodSuggests() {
+        _homeUiState.value =
+            _homeUiState.value?.copy(
+                foodSuggestList = listOf(
+                    SuggestModel(
+                        image = R.drawable.granola,
+                        name = stringRes.getString(R.string.granola),
+                        detail = stringRes.getString(R.string.three_spoon_64_kcal)
+                    ),
+                    SuggestModel(
+                        image = R.drawable.another_egg,
+                        name = stringRes.getString(R.string.egg_with_butter),
+                        detail = stringRes.getString(R.string.one_piece_138_kcal)
+                    ),
+                    SuggestModel(
+                        image = R.drawable.peanut_butter,
+                        name = stringRes.getString(R.string.peanut_butter),
+                        detail = stringRes.getString(R.string.one_spoon_95_kcal)
+                    ),
+                    SuggestModel(
+                        image = R.drawable.food_avocado,
+                        name = stringRes.getString(R.string.avocado),
+                        detail = stringRes.getString(R.string.one_piece_40_kcal)
                     )
                 )
             )
@@ -330,7 +368,8 @@ data class HomeUiState(
     val signUpSelectorList: List<ListSelectorItem> = emptyList(),
     val trainingCategoryList: List<CategoryItem> = emptyList(),
     val foodCategoryList: List<CategoryItem> = emptyList(),
-    val foodPlanList: List<PersonalPlanModel> = emptyList()
+    val foodPlanList: List<PersonalPlanModel> = emptyList(),
+    val foodSuggestList: List<SuggestModel> = emptyList(),
 ) {
     companion object {
         fun initial() = HomeUiState(isLoading = true)

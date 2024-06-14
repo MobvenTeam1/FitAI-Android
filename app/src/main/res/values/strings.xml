@@ -330,9 +330,15 @@
     <string name="bread">Tambuğday Ekmeği</string>
     <string name="one_slice_75_kcal">1 dilim, 75 kcal</string>
     <string name="one_piece_40_kcal">1 tane, 40 kcal</string>
+    <string name="one_piece_138_kcal">1 adet, 138 kcal</string>
     <string name="one_half_220_kcal">Yarım, 220 kcal</string>
     <string name="two_piece_180_kcal">2 tane, 180 kcal</string>
     <string name="one_piece_30_kcal">1 tane, 30 kcal</string>
+    <string name="one_spoon_95_kcal">1 Kaşık, 95 kcal</string>
     <string name="one_spoon_64_kcal">1 Kaşık, 64 kcal</string>
+    <string name="three_spoon_64_kcal">3 Kaşık, 156 kcal</string>
     <string name="one_portion_93_kcal">1 porsiyon, 93 kcal</string>
+    <string name="egg_with_butter">Sahanda Yumurta</string>
+    <string name="try_that_nutrition">Bu yemek yerine bunu deneyin!</string>
+    <string name="_150_kcal">150 kcal</string>
 </resources>
