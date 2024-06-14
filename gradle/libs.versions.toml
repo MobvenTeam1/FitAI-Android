@@ -20,6 +20,8 @@ chucker = "4.0.0"
 room_version = "2.6.1"
 lottieVersion = "4.2.0"
 gson = "2.8.8"
+firebase-bom = "33.1.0"
+google-services = "4.4.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -46,6 +48,8 @@ room-compiler = { group = "androidx.room", name = "room-compiler", version.ref =
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room_version" }
 lottie = { group = "com.airbnb.android", name = "lottie", version.ref = "lottieVersion" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -53,6 +57,7 @@ jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = 
 hilt-plugin = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 safeArgs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "androidxNavigation"}
+google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }
 
 [bundles]
 navigation = ["navigation-fragment", "navigation-ui"]
