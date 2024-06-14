@@ -1,8 +1,8 @@
 package com.mobven.fitai.presentation.home.screens
 
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
-import androidx.viewpager2.widget.ViewPager2
 import com.mobven.fitai.R
 import com.mobven.fitai.common.SharedPreferencesHelper
 import com.mobven.fitai.databinding.FragmentDietTypeBinding
@@ -13,7 +13,6 @@ import com.mobven.fitai.presentation.login.sign_up.adapter.SignUpListAdapter
 import com.mobven.fitai.presentation.login.sign_up.model.ListSelectorItem
 import com.mobven.fitai.util.enums.HomeFragmentType
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.math.truncate
 
 @AndroidEntryPoint
 class DietTypeFragment : BaseFragment<FragmentDietTypeBinding>(FragmentDietTypeBinding::inflate) {
@@ -48,7 +47,15 @@ class DietTypeFragment : BaseFragment<FragmentDietTypeBinding>(FragmentDietTypeB
                 true
             )
 
-            findNavController().navigate(R.id.action_nutritionFragment_to_planCreatingFragment)
+            val navOptions =
+                NavOptions.Builder()
+                    .setPopUpTo(R.id.nutritionFragment, true)
+                    .build()
+            findNavController().navigate(
+                R.id.action_nutritionFragment_to_planCreatingFragment,
+                null,
+                navOptions
+            )
         }
     }
 

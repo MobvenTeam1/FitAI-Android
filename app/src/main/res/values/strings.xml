@@ -322,10 +322,17 @@
     <string name="one_hour_280_kcal">1 saatte 280 kcal</string>
     <string name="egg">Haşlanmış Yumurta</string>
     <string name="avocado">Avokado</string>
+    <string name="honey">Bal</string>
+    <string name="cheese">Ezine Peynir</string>
+    <string name="granola">Granola</string>
+    <string name="peanut_butter">Fıstık Ezmesi</string>
     <string name="tomato">Domates</string>
     <string name="bread">Tambuğday Ekmeği</string>
     <string name="one_slice_75_kcal">1 dilim, 75 kcal</string>
     <string name="one_piece_40_kcal">1 tane, 40 kcal</string>
     <string name="one_half_220_kcal">Yarım, 220 kcal</string>
     <string name="two_piece_180_kcal">2 tane, 180 kcal</string>
+    <string name="one_piece_30_kcal">1 tane, 30 kcal</string>
+    <string name="one_spoon_64_kcal">1 Kaşık, 64 kcal</string>
+    <string name="one_portion_93_kcal">1 porsiyon, 93 kcal</string>
 </resources>

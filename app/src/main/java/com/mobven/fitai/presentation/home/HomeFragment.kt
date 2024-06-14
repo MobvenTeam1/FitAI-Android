@@ -16,6 +16,7 @@ import com.mobven.fitai.presentation.home.adapter.HomeCategoryAdapter
 import com.mobven.fitai.presentation.home.calendar.CalendarItem
 import com.mobven.fitai.presentation.home.calendar.HomeCalendarAdapter
 import com.mobven.fitai.presentation.home.personal_plan.PersonalPlanAdapter
+import com.mobven.fitai.presentation.home.personal_plan.PersonalPlanModel
 import com.mobven.fitai.presentation.home.viewmodel.HomeAction
 import com.mobven.fitai.presentation.home.viewmodel.HomeViewModel
 import com.mobven.fitai.util.LoadingDialogHelper
@@ -52,7 +53,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     handleSuccess(
                         trainingList = homeState.trainingCategoryList,
                         foodList = homeState.foodCategoryList,
-                        dateList = homeViewModel.dateList
+                        dateList = homeViewModel.dateList,
+                        foodPlanList = homeState.foodPlanList
                     )
                 }
             }
@@ -75,7 +77,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private fun handleSuccess(
         trainingList: List<CategoryItem>,
         foodList: List<CategoryItem>,
-        dateList: List<CalendarItem>
+        dateList: List<CalendarItem>,
+        foodPlanList: List<PersonalPlanModel>
     ) {
         with(binding) {
 
@@ -153,6 +156,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                         else
                             View.VISIBLE
                 }
+                foodAdapter.submitList(foodList)
+                planRecyclerView.adapter = foodPlanAdapter
             }
 
             with(includeHomePersonalizedTraining) {
@@ -170,7 +175,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                             View.VISIBLE
                 }
                 with(homeViewModel) {
-                    foodPlanAdapter.submitList(
+                    trainingPlanAdapter.submitList(
                         workoutModelList.workoutList.toPersonalPlanModelList()
                     )
                 }
@@ -190,7 +195,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
             calendarAdapter.submitList(dateList)
             trainingAdapter.submitList(trainingList)
-            foodAdapter.submitList(foodList)
+            foodPlanAdapter.submitList(foodPlanList)
 
             rvHomeCalendar.adapter = calendarAdapter
             rvHomeTrainingCategory.adapter = trainingAdapter
@@ -212,5 +217,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     override fun callInitialViewModelFunction() {
         homeViewModel.onAction(HomeAction.GetCategoryItem)
         homeViewModel.onAction(HomeAction.GetCalendarItem)
+        homeViewModel.onAction(HomeAction.GetBreakfastItems)
     }
 }

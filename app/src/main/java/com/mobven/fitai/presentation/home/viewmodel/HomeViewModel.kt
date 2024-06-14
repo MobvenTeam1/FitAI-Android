@@ -12,10 +12,10 @@ import com.mobven.fitai.data.model.entity.WorkoutEntity
 import com.mobven.fitai.data.model.response.FitnessAntrenman
 import com.mobven.fitai.domain.usecase.GenerateWorkoutPlanUseCase
 import com.mobven.fitai.domain.usecase.GetWorkoutListUseCase
-import com.mobven.fitai.domain.usecase.InsertWorkoutUseCase
 import com.mobven.fitai.infrastructure.string_resource.StringResourceProvider
 import com.mobven.fitai.presentation.home.adapter.CategoryItem
 import com.mobven.fitai.presentation.home.calendar.CalendarItem
+import com.mobven.fitai.presentation.home.personal_plan.PersonalPlanModel
 import com.mobven.fitai.presentation.login.sign_up.model.ListSelectorItem
 import com.mobven.fitai.util.enums.CategoryType
 import com.mobven.fitai.util.enums.HomeFragmentType
@@ -45,7 +45,7 @@ class HomeViewModel @Inject constructor(
         DateTimeFormatter.ofPattern(stringRes.getString(R.string.dd))
 
     var generatedWorkoutPlan: List<FitnessAntrenman> = emptyList()
-    var workoutModelList : WorkoutEntity = WorkoutEntity()
+    var workoutModelList: WorkoutEntity = WorkoutEntity()
 
     fun onAction(action: HomeAction) {
         when (action) {
@@ -67,6 +67,10 @@ class HomeViewModel @Inject constructor(
 
             HomeAction.GetWorkoutList -> {
                 getWorkoutPlan()
+            }
+
+            HomeAction.GetBreakfastItems -> {
+                getBreakfastItems()
             }
         }
     }
@@ -146,6 +150,39 @@ class HomeViewModel @Inject constructor(
             )
             this.dateList = tempDateList
         }
+    }
+
+    private fun getBreakfastItems() {
+        _homeUiState.value =
+            _homeUiState.value?.copy(
+                foodPlanList = listOf(
+                    PersonalPlanModel(
+                        image = R.drawable.food_tomato,
+                        name = stringRes.getString(R.string.tomato),
+                        detail = stringRes.getString(R.string.one_piece_40_kcal)
+                    ),
+                    PersonalPlanModel(
+                        image = R.drawable.food_bread,
+                        name = stringRes.getString(R.string.bread),
+                        detail = stringRes.getString(R.string.one_slice_75_kcal)
+                    ),
+                    PersonalPlanModel(
+                        image = R.drawable.cheese,
+                        name = stringRes.getString(R.string.cheese),
+                        detail = stringRes.getString(R.string.one_portion_93_kcal)
+                    ),
+                    PersonalPlanModel(
+                        image = R.drawable.food_egg,
+                        name = stringRes.getString(R.string.egg),
+                        detail = stringRes.getString(R.string.two_piece_180_kcal)
+                    ),
+                    PersonalPlanModel(
+                        image = R.drawable.honey,
+                        name = stringRes.getString(R.string.honey),
+                        detail = stringRes.getString(R.string.one_spoon_64_kcal)
+                    )
+                )
+            )
     }
 
     private fun getCategoryItems() {
@@ -292,7 +329,8 @@ data class HomeUiState(
     val errorMessage: String = "",
     val signUpSelectorList: List<ListSelectorItem> = emptyList(),
     val trainingCategoryList: List<CategoryItem> = emptyList(),
-    val foodCategoryList: List<CategoryItem> = emptyList()
+    val foodCategoryList: List<CategoryItem> = emptyList(),
+    val foodPlanList: List<PersonalPlanModel> = emptyList()
 ) {
     companion object {
         fun initial() = HomeUiState(isLoading = true)
