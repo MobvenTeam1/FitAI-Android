@@ -57,12 +57,13 @@
         app:layout_constraintEnd_toStartOf="@id/iv_home_profile"
         app:layout_constraintTop_toTopOf="@id/tv_home_welcome_message" />
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/iv_home_profile"
         android:layout_width="@dimen/_32dp"
         android:layout_height="@dimen/_32dp"
         android:layout_marginEnd="@dimen/_20dp"
-        android:src="@drawable/ic_circle_selected"
+        android:src="@drawable/profile_default_image"
+        app:shapeAppearanceOverlay="@style/CircularImageView"
         app:layout_constraintBottom_toBottomOf="@+id/tv_home_welcome_message"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tv_home_welcome_message" />

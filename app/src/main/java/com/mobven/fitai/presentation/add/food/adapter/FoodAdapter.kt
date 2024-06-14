@@ -1,25 +1,32 @@
-package com.mobven.fitai.presentation.add.food
+package com.mobven.fitai.presentation.add.food.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.mobven.fitai.R
 import com.mobven.fitai.databinding.CardAiPoweredFoodBinding
 
-class FoodAdapter : ListAdapter<FoodModel, FoodAdapter.FoodViewHolder>(FoodDiffUtil()) {
+class FoodAdapter(
+    private val onFoodCountDecreased: (FoodModel) -> Unit,
+) : ListAdapter<FoodModel, FoodAdapter.FoodViewHolder>(FoodDiffUtil()) {
 
-    class FoodViewHolder (val binding: CardAiPoweredFoodBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class FoodViewHolder(val binding: CardAiPoweredFoodBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(foodModel: FoodModel) {
             with(binding) {
                 ivAiPoweredFood.setImageResource(foodModel.image!!)
-                tvAiPoweredTime.text = foodModel.count.toString()
+                tvAiPoweredCount.text =
+                    root.context.getString(R.string.x_how_many_food, foodModel.count)
 
-                if (foodModel.count == 0 || foodModel.count == 1) {
-                    tvAiPoweredTime.visibility = android.view.View.GONE
-                    ivAiPoweredTimeBackground.visibility = android.view.View.GONE
-                } else {
-                    tvAiPoweredTime.visibility = android.view.View.VISIBLE
-                    ivAiPoweredTimeBackground.visibility = android.view.View.VISIBLE
+                if (foodModel.count >= 2) {
+                    tvAiPoweredCount.visibility = View.VISIBLE
+                }
+
+                imageAiPoweredMinus.setOnClickListener {
+                    onFoodCountDecreased(foodModel)
+                    notifyDataSetChanged()
                 }
             }
         }

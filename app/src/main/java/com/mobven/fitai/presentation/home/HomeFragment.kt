@@ -1,13 +1,19 @@
 package com.mobven.fitai.presentation.home
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.view.View
+import android.widget.Button
+import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.mobven.fitai.R
 import com.mobven.fitai.common.SharedPreferencesHelper
+import com.mobven.fitai.data.mapper.toPersonalPlanModel
 import com.mobven.fitai.data.mapper.toPersonalPlanModelList
 import com.mobven.fitai.databinding.FragmentHomeBinding
 import com.mobven.fitai.presentation.base.BaseFragment
@@ -16,6 +22,9 @@ import com.mobven.fitai.presentation.home.adapter.HomeCategoryAdapter
 import com.mobven.fitai.presentation.home.calendar.CalendarItem
 import com.mobven.fitai.presentation.home.calendar.HomeCalendarAdapter
 import com.mobven.fitai.presentation.home.personal_plan.PersonalPlanAdapter
+import com.mobven.fitai.presentation.home.personal_plan.PersonalPlanModel
+import com.mobven.fitai.presentation.home.suggest.SuggestAdapter
+import com.mobven.fitai.presentation.home.suggest.SuggestModel
 import com.mobven.fitai.presentation.home.viewmodel.HomeAction
 import com.mobven.fitai.presentation.home.viewmodel.HomeViewModel
 import com.mobven.fitai.util.LoadingDialogHelper
@@ -24,16 +33,20 @@ import dagger.hilt.android.AndroidEntryPoint
 typealias HDirections = HomeFragmentDirections
 
 @AndroidEntryPoint
+@RequiresApi(Build.VERSION_CODES.O)
+@SuppressLint("NotifyDataSetChanged")
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
+
+    private val homeViewModel: HomeViewModel by viewModels()
 
     private val calendarAdapter = HomeCalendarAdapter()
     private val trainingAdapter = HomeCategoryAdapter()
     private val foodAdapter = HomeCategoryAdapter()
 
     private val trainingPlanAdapter = PersonalPlanAdapter()
-    private val foodPlanAdapter = PersonalPlanAdapter()
-
-    private val homeViewModel: HomeViewModel by viewModels()
+    private val foodPlanAdapter = PersonalPlanAdapter(
+        personalPlanAiClickListener = { openBottomSheet() }
+    )
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun observeUi() {
@@ -47,12 +60,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     handleLoading()
                 }
 
+                homeState.isGenerated -> {
+                    handleGenerated()
+                }
+
                 else -> {
-                    LoadingDialogHelper.dismissLoadingDialog()
                     handleSuccess(
                         trainingList = homeState.trainingCategoryList,
                         foodList = homeState.foodCategoryList,
-                        dateList = homeViewModel.dateList
+                        dateList = homeViewModel.dateList,
+                        foodPlanList = homeState.foodPlanList
                     )
                 }
             }
@@ -66,6 +83,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     }
 
+    private fun handleGenerated() {
+        homeViewModel.onAction(HomeAction.GetWorkoutList)
+        trainingPlanAdapter.submitList(
+            homeViewModel.workoutModelList.workoutList.toPersonalPlanModelList()
+        )
+        trainingPlanAdapter.notifyDataSetChanged()
+    }
 
     override fun navigate(action: NavDirections) {
         findNavController().navigate(action)
@@ -75,9 +99,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private fun handleSuccess(
         trainingList: List<CategoryItem>,
         foodList: List<CategoryItem>,
-        dateList: List<CalendarItem>
+        dateList: List<CalendarItem>,
+        foodPlanList: List<PersonalPlanModel>
     ) {
         with(binding) {
+            LoadingDialogHelper.dismissLoadingDialog()
 
             if (SharedPreferencesHelper.getNutritionPlan(requireContext())) {
                 includeHomeCreateNutrition.cardHomePersonalized.visibility = View.GONE
@@ -153,6 +179,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                         else
                             View.VISIBLE
                 }
+                foodAdapter.submitList(foodList)
+                planRecyclerView.adapter = foodPlanAdapter
             }
 
             with(includeHomePersonalizedTraining) {
@@ -162,6 +190,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 tvCardHeader.text = getString(R.string.pilates)
                 tvTime.text = getString(R.string._15_minutes)
                 tvKcal.text = getString(R.string._250_kcal)
+
+                this.planCardButton.setOnClickListener {
+                    homeViewModel.onAction(
+                        HomeAction.GenerateWorkoutPlan(
+                            SharedPreferencesHelper.getUserAuthKey(requireActivity()) ?: ""
+                        )
+                    )
+                }
+
                 cardViewImage.setOnClickListener {
                     llPlanCardDetail.visibility =
                         if (llPlanCardDetail.visibility == View.VISIBLE)
@@ -169,11 +206,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                         else
                             View.VISIBLE
                 }
+
                 with(homeViewModel) {
-                    foodPlanAdapter.submitList(
+                    trainingPlanAdapter.submitList(
                         workoutModelList.workoutList.toPersonalPlanModelList()
                     )
                 }
+                this.planRecyclerView.adapter = trainingPlanAdapter
             }
 
             ivHomeProfile.setOnClickListener {
@@ -190,7 +229,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
             calendarAdapter.submitList(dateList)
             trainingAdapter.submitList(trainingList)
-            foodAdapter.submitList(foodList)
+            foodPlanAdapter.submitList(foodPlanList)
 
             rvHomeCalendar.adapter = calendarAdapter
             rvHomeTrainingCategory.adapter = trainingAdapter
@@ -208,9 +247,40 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         println(getString(R.string.loading))
     }
 
+    private fun openBottomSheet(): PersonalPlanModel {
+        val trainingBottomSheet = BottomSheetDialog(requireContext())
+        val view = layoutInflater.inflate(R.layout.bottom_sheet_ai_suggestions, null)
+        trainingBottomSheet.setContentView(view)
+
+        var selectedItem = SuggestModel()
+
+        homeViewModel.onAction(HomeAction.GetSuggestItems)
+
+        val suggestList = homeViewModel.homeUiState.value?.foodSuggestList
+        val suggestAdapter = SuggestAdapter()
+        suggestAdapter.submitList(suggestList)
+
+        view.findViewById<ImageView>(R.id.iv_suggest_closeButton).setOnClickListener {
+            trainingBottomSheet.dismiss()
+        }
+
+        view.findViewById<RecyclerView>(R.id.rv_ai_suggestions).adapter = suggestAdapter
+
+        view.findViewById<Button>(R.id.btn_update_meal).setOnClickListener {
+            suggestList?.find { it.isSelected }?.let {
+                selectedItem = it
+            }
+        }
+
+        trainingBottomSheet.show()
+        return selectedItem.toPersonalPlanModel()
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun callInitialViewModelFunction() {
         homeViewModel.onAction(HomeAction.GetCategoryItem)
         homeViewModel.onAction(HomeAction.GetCalendarItem)
+        homeViewModel.onAction(HomeAction.GetBreakfastItems)
+        homeViewModel.onAction(HomeAction.GetWorkoutList)
     }
 }

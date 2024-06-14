@@ -22,15 +22,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/urbanist_semibold"
-        android:text="Açıklama"
+        android:text="@string/try_that_nutrition"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_ai_suggestions_title" />
 
     <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/iv_suggest_closeButton"
+        android:layout_width="12dp"
+        android:layout_height="14dp"
         android:src="@drawable/close"
         app:layout_constraintBottom_toBottomOf="@+id/tv_ai_suggestions_title"
         app:layout_constraintEnd_toEndOf="parent"
@@ -51,7 +51,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_ai_suggestions_description" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_average_sleep_continue"
+        android:id="@+id/btn_update_meal"
         style="@style/nextButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

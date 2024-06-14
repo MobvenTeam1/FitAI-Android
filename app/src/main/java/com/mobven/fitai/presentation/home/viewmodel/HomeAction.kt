@@ -9,4 +9,6 @@ sealed class HomeAction {
     data object GetCalendarItem : HomeAction()
     data class GenerateWorkoutPlan(val authToken: String) : HomeAction()
     data object GetWorkoutList : HomeAction()
+    data object GetBreakfastItems : HomeAction()
+    data object GetSuggestItems : HomeAction()
 }

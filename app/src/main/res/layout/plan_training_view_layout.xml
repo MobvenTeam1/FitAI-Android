@@ -47,7 +47,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="@dimen/_24dp"
                 android:fontFamily="@font/urbanist_bold"
-                android:text="Pilates"
+                android:text="@string/pilates"
                 android:textColor="@color/white_50"
                 android:textSize="24sp" />
 
@@ -103,7 +103,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_4dp"
                     android:fontFamily="@font/urbanist_regular"
-                    android:text="150 kcal"
+                    android:text="@string/_150_kcal"
                     android:textColor="@color/white_100"
                     android:textSize="@dimen/_16sp" />
             </LinearLayout>

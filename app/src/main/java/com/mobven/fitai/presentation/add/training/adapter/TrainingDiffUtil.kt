@@ -1,4 +1,4 @@
-package com.mobven.fitai.presentation.add.training
+package com.mobven.fitai.presentation.add.training.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 

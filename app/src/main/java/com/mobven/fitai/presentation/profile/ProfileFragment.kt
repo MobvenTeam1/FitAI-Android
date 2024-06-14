@@ -9,7 +9,7 @@ import android.view.Window
 import android.widget.Button
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.mobven.fitai.LoginActivity
+import com.mobven.fitai.presentation.LoginActivity
 import com.mobven.fitai.R
 import com.mobven.fitai.common.SharedPreferencesHelper
 import com.mobven.fitai.databinding.FragmentProfileBinding

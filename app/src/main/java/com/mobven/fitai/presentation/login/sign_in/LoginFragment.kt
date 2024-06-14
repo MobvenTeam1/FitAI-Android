@@ -3,7 +3,7 @@ package com.mobven.fitai.presentation.login.sign_in
 import android.content.Intent
 import android.util.Log
 import androidx.fragment.app.viewModels
-import com.mobven.fitai.MainActivity
+import com.mobven.fitai.presentation.MainActivity
 import com.mobven.fitai.R
 import com.mobven.fitai.common.SharedPreferencesHelper
 import com.mobven.fitai.data.model.dto.SignInDto

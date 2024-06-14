@@ -19,14 +19,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/iv_ai_powered_food"
-            android:layout_width="@dimen/_64dp"
-            android:layout_height="@dimen/_64dp"
-            android:layout_gravity="center"
-            android:contentDescription="@string/contentDescription"
-            android:padding="@dimen/_8dp"
-            tools:src="@drawable/food_egg" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/iv_ai_powered_food"
+                android:layout_width="@dimen/_64dp"
+                android:layout_height="@dimen/_64dp"
+                android:contentDescription="@string/contentDescription"
+                android:padding="@dimen/_8dp"
+                tools:src="@drawable/food_egg" />
+
+            <TextView
+                android:id="@+id/tv_ai_powered_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:layout_marginTop="-12dp"
+                android:elevation="@dimen/_10dp"
+                android:fontFamily="@font/urbanist_semibold"
+                tools:text="@string/x2"
+                android:textColor="@color/gray_300"
+                android:visibility="invisible" />
+
+        </LinearLayout>
     </androidx.cardview.widget.CardView>
 
     <ImageView
@@ -44,19 +63,15 @@
         app:layout_constraintStart_toEndOf="@+id/card_ai_powered_food"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tv_ai_powered_time"
+    <ImageView
+        android:id="@+id/image_ai_powered_minus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:src="@drawable/minus"
         android:elevation="@dimen/_10dp"
-        android:fontFamily="@font/urbanist_semibold"
-        android:visibility="visible"
-        android:text="@string/x2"
-        android:textColor="@color/gray_300"
         app:layout_constraintBottom_toBottomOf="@+id/iv_ai_powered_time_background"
         app:layout_constraintEnd_toEndOf="@+id/iv_ai_powered_time_background"
         app:layout_constraintStart_toStartOf="@+id/iv_ai_powered_time_background"
         app:layout_constraintTop_toTopOf="@id/iv_ai_powered_time_background" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,9 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mobven.fitai.databinding.PlanRecyclerItemBinding
+import com.mobven.fitai.util.enums.CategoryType
 
-class PersonalPlanAdapter() :
-    ListAdapter<PersonalPlanModel, PersonalPlanAdapter.PersonalPlanViewHolder>(PersonalPlanDiffUtil()) {
+class PersonalPlanAdapter(
+    val personalPlanAiClickListener: (PersonalPlanModel) -> PersonalPlanModel = { it }
+) : ListAdapter<PersonalPlanModel, PersonalPlanAdapter.PersonalPlanViewHolder>(PersonalPlanDiffUtil()) {
     inner class PersonalPlanViewHolder(private val binding: PlanRecyclerItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(personalPlanModel: PersonalPlanModel) {
@@ -15,6 +17,13 @@ class PersonalPlanAdapter() :
                 itemImage.setImageResource(personalPlanModel.image)
                 itemName.text = personalPlanModel.name
                 itemDetail.text = personalPlanModel.detail
+
+                ivAiButton.setOnClickListener {
+                    if (personalPlanModel.personalPlanType == CategoryType.NUTRITION) {
+                        personalPlanAiClickListener(personalPlanModel)
+                    }
+                }
+
             }
         }
     }
