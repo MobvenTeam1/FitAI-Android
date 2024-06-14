@@ -5,4 +5,5 @@ plugins {
     alias(libs.plugins.hilt.plugin) apply false
     alias(libs.plugins.kapt) apply false
     id("org.sonarqube") version "5.0.0.4638"
+    id("com.google.gms.google-services") version "4.4.2" apply false
 }
