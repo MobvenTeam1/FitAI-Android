@@ -40,7 +40,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private val homeViewModel: HomeViewModel by viewModels()
 
     private val calendarAdapter = HomeCalendarAdapter()
-    private val trainingAdapter = HomeCategoryAdapter()
+    private val trainingAdapter = HomeCategoryAdapter { findNavController().navigate(R.id.action_homeFragment_to_trainingDetailFragment) }
     private val foodAdapter = HomeCategoryAdapter()
 
     private val trainingPlanAdapter = PersonalPlanAdapter()

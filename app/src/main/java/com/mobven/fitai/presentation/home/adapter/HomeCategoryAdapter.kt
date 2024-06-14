@@ -8,9 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mobven.fitai.databinding.CardHomeCategoriesBinding
 import com.mobven.fitai.util.enums.CategoryType
 
-class HomeCategoryAdapter :
+class HomeCategoryAdapter(
+    val trainingClick: () -> Unit = {}
+) :
     ListAdapter<CategoryItem, HomeCategoryAdapter.ViewHolder>(CategoryDiffUtil()) {
-    class ViewHolder(private val binding: CardHomeCategoriesBinding) :
+    inner class ViewHolder(private val binding: CardHomeCategoriesBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: CategoryItem) {
             with(binding) {
@@ -23,6 +25,10 @@ class HomeCategoryAdapter :
                         } else {
                             750
                         }
+                }
+
+                ivCategory.setOnClickListener {
+                    trainingClick()
                 }
 
                 binding.ivCategory.setImageResource(item.image)

@@ -29,6 +29,9 @@
         <action
             android:id="@+id/action_homeFragment_to_bottomSheetFragment"
             app:destination="@id/bottomSheetFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_trainingDetailFragment"
+            app:destination="@id/trainingDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/nutritionFragment"
@@ -99,4 +102,18 @@
         android:name="com.mobven.fitai.presentation.home.screens.PlanCreatingFragment"
         android:label="fragment_plan_creating"
         tools:layout="@layout/fragment_plan_creating" />
+    <fragment
+        android:id="@+id/trainingDetailFragment"
+        android:name="com.mobven.fitai.presentation.training_detail.TrainingDetailFragment"
+        android:label="fragment_training_detail"
+        tools:layout="@layout/fragment_training_detail" >
+        <action
+            android:id="@+id/action_trainingDetailFragment_to_startTrainingFragment"
+            app:destination="@id/startTrainingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/startTrainingFragment"
+        android:name="com.mobven.fitai.presentation.start_training.StartTrainingFragment"
+        android:label="fragment_start_training"
+        tools:layout="@layout/fragment_start_training" />
 </navigation>

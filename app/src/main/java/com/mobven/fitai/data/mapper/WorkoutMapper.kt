@@ -7,13 +7,6 @@ import com.mobven.fitai.data.model.response.Program
 import com.mobven.fitai.presentation.home.personal_plan.PersonalPlanModel
 import com.mobven.fitai.util.enums.CategoryType
 
-fun FitnessAntrenman.toWorkoutEntity() {
-    WorkoutEntity(
-        day = this.day,
-        workoutList = this.program
-    )
-}
-
 fun Program.toPersonalPlanModelList(): List<PersonalPlanModel> {
     return listOf(
         PersonalPlanModel(
