@@ -1,39 +1,52 @@
 package com.mobven.fitai.presentation.home
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.mobven.fitai.R
+import com.mobven.fitai.common.SharedPreferencesHelper
+import com.mobven.fitai.data.mapper.toPersonalPlanModel
+import com.mobven.fitai.data.mapper.toPersonalPlanModelList
 import com.mobven.fitai.databinding.FragmentHomeBinding
 import com.mobven.fitai.presentation.base.BaseFragment
 import com.mobven.fitai.presentation.home.adapter.CategoryItem
 import com.mobven.fitai.presentation.home.adapter.HomeCategoryAdapter
 import com.mobven.fitai.presentation.home.calendar.CalendarItem
 import com.mobven.fitai.presentation.home.calendar.HomeCalendarAdapter
-import com.mobven.fitai.presentation.home.personal_plan.PersonalPlanData
-import com.mobven.fitai.presentation.home.personal_plan.PlanAdapter
+import com.mobven.fitai.presentation.home.personal_plan.PersonalPlanAdapter
+import com.mobven.fitai.presentation.home.personal_plan.PersonalPlanModel
+import com.mobven.fitai.presentation.home.suggest.SuggestAdapter
+import com.mobven.fitai.presentation.home.suggest.SuggestModel
 import com.mobven.fitai.presentation.home.viewmodel.HomeAction
 import com.mobven.fitai.presentation.home.viewmodel.HomeViewModel
+import com.mobven.fitai.util.LoadingDialogHelper
 import dagger.hilt.android.AndroidEntryPoint
 
 typealias HDirections = HomeFragmentDirections
 
 @AndroidEntryPoint
+@RequiresApi(Build.VERSION_CODES.O)
+@SuppressLint("NotifyDataSetChanged")
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
+
+    private val homeViewModel: HomeViewModel by viewModels()
+
     private val calendarAdapter = HomeCalendarAdapter()
     private val trainingAdapter = HomeCategoryAdapter()
     private val foodAdapter = HomeCategoryAdapter()
-    private var isExpanded = false
-    private lateinit var llPlanCard: LinearLayout
-    private val homeViewModel: HomeViewModel by viewModels()
+
+    private val trainingPlanAdapter = PersonalPlanAdapter()
+    private val foodPlanAdapter = PersonalPlanAdapter(
+        personalPlanAiClickListener = { openBottomSheet() }
+    )
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun observeUi() {
@@ -47,89 +60,36 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     handleLoading()
                 }
 
+                homeState.isGenerated -> {
+                    handleGenerated()
+                }
+
                 else -> {
                     handleSuccess(
                         trainingList = homeState.trainingCategoryList,
                         foodList = homeState.foodCategoryList,
-                        dateList = homeState.dateList
+                        dateList = homeViewModel.dateList,
+                        foodPlanList = homeState.foodPlanList
                     )
                 }
             }
         }
 
-        binding.ivHomeProfile.setOnClickListener {
-            val action = HomeFragmentDirections.actionHomeFragmentToProfileFragment()
-            navigate(action)
-        }
 
         binding.tvHomeDailyGoals.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToBottomSheetFragment()
             navigate(action)
         }
 
-        getUserData()
-
-        val arrow : ImageView = requireView().findViewById(R.id.ivArrow)
-
-        binding.cardViewPlan.setOnClickListener {
-            if (isExpanded) {
-                arrow.setImageResource(R.drawable.ic_arrow_down)
-                llPlanCard.visibility = View.GONE
-            } else {
-                arrow.setImageResource(R.drawable.ic_arrow_up)
-                llPlanCard.visibility = View.VISIBLE
-            }
-            isExpanded = !isExpanded
-        }
-
     }
 
-    private fun getUserData() {
-
-        binding.cardViewImage.setImageResource(R.drawable.pilates)
-        val planRecyclerView : RecyclerView = requireView().findViewById(R.id.plan_recycler_view)
-        llPlanCard  = requireView().findViewById(R.id.llPlanCardDetail)
-        planRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        planRecyclerView.setHasFixedSize(true)
-        val planArrayList : ArrayList<PersonalPlanData> = arrayListOf()
-
-        val header: TextView = requireView().findViewById(R.id.tvHeader)
-        val cardHeader : TextView = requireView().findViewById(R.id.tv_card_header)
-        val time : TextView = requireView().findViewById(R.id.tvTime)
-        val kcal : TextView = requireView().findViewById(R.id.tvKcal)
-
-        header.text = "Setler"
-        cardHeader.text = "Pilates"
-        time.text = "15 dakika"
-        kcal.text = "150 kcal"
-
-
-       val imageId : Array<Int> = arrayOf(
-            R.drawable.ic_warm_up,
-            R.drawable.ic_main_set,
-            R.drawable.ic_cool_down
+    private fun handleGenerated() {
+        homeViewModel.onAction(HomeAction.GetWorkoutList)
+        trainingPlanAdapter.submitList(
+            homeViewModel.workoutModelList.workoutList.toPersonalPlanModelList()
         )
-
-        val name : Array<String> = arrayOf(
-            "Isınma Seti",
-            "Ana Set",
-            "Soğuma Seti"
-        )
-
-        val detail : Array<String> = arrayOf(
-            "Mat",
-            "Mat - Direnç Bandı",
-            "Mat"
-        )
-
-        for (i in imageId.indices) {
-            val planData = PersonalPlanData(imageId[i], name[i], detail[i])
-            planArrayList.add(planData)
-        }
-
-        planRecyclerView.adapter = PlanAdapter(planArrayList)
+        trainingPlanAdapter.notifyDataSetChanged()
     }
-
 
     override fun navigate(action: NavDirections) {
         findNavController().navigate(action)
@@ -139,9 +99,28 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private fun handleSuccess(
         trainingList: List<CategoryItem>,
         foodList: List<CategoryItem>,
-        dateList: List<CalendarItem>
+        dateList: List<CalendarItem>,
+        foodPlanList: List<PersonalPlanModel>
     ) {
         with(binding) {
+            LoadingDialogHelper.dismissLoadingDialog()
+
+            if (SharedPreferencesHelper.getNutritionPlan(requireContext())) {
+                includeHomeCreateNutrition.cardHomePersonalized.visibility = View.GONE
+                includeHomePersonalizedNutrition.planCardView.visibility = View.VISIBLE
+            } else {
+                includeHomeCreateNutrition.cardHomePersonalized.visibility = View.VISIBLE
+                includeHomePersonalizedNutrition.planCardView.visibility = View.GONE
+            }
+
+            if (SharedPreferencesHelper.getExercisePlan(requireContext())) {
+                includeHomeCreateExercise.cardHomePersonalized.visibility = View.GONE
+                includeHomePersonalizedTraining.planCardView.visibility = View.VISIBLE
+            } else {
+                includeHomeCreateExercise.cardHomePersonalized.visibility = View.VISIBLE
+                includeHomePersonalizedTraining.planCardView.visibility = View.GONE
+            }
+
             with(includeHomeIntakeCalorie) {
                 ivCalorieCardIcon.setImageResource(
                     R.drawable.intake_calorie,
@@ -166,7 +145,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 this.tvCalorieCardValue.text = getString(R.string._2500_kcal)
             }
 
-            with(includeHomePersonalizedFood) {
+            with(includeHomeCreateNutrition) {
                 ivPersonalizedCardIcon.setImageResource(
                     R.drawable.pan,
                 )
@@ -174,6 +153,66 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 cardHomePersonalized.setOnClickListener {
                     findNavController().navigate(R.id.action_homeFragment_to_nutritionFragment)
                 }
+            }
+
+            with(includeHomeCreateExercise) {
+                ivPersonalizedCardIcon.setImageResource(
+                    R.drawable.dumbell,
+                )
+                tvCreatePersonalized.text = getString(R.string.create_personalized_training)
+                cardHomePersonalized.setOnClickListener {
+                    findNavController().navigate(R.id.action_homeFragment_to_trainingFragment)
+                }
+            }
+
+            with(includeHomePersonalizedNutrition) {
+                cardViewImage.setImageResource(
+                    R.drawable.breakfast_category,
+                )
+                tvCardHeader.text = getString(R.string.breakfast)
+                tvTime.text = getString(R.string._15_minutes)
+                tvKcal.text = getString(R.string._550_kcal)
+                cardViewImage.setOnClickListener {
+                    llPlanCardDetail.visibility =
+                        if (llPlanCardDetail.visibility == View.VISIBLE)
+                            View.GONE
+                        else
+                            View.VISIBLE
+                }
+                foodAdapter.submitList(foodList)
+                planRecyclerView.adapter = foodPlanAdapter
+            }
+
+            with(includeHomePersonalizedTraining) {
+                cardViewImage.setImageResource(
+                    R.drawable.pilates_woman,
+                )
+                tvCardHeader.text = getString(R.string.pilates)
+                tvTime.text = getString(R.string._15_minutes)
+                tvKcal.text = getString(R.string._250_kcal)
+
+                this.planCardButton.setOnClickListener {
+                    homeViewModel.onAction(
+                        HomeAction.GenerateWorkoutPlan(
+                            SharedPreferencesHelper.getUserAuthKey(requireActivity()) ?: ""
+                        )
+                    )
+                }
+
+                cardViewImage.setOnClickListener {
+                    llPlanCardDetail.visibility =
+                        if (llPlanCardDetail.visibility == View.VISIBLE)
+                            View.GONE
+                        else
+                            View.VISIBLE
+                }
+
+                with(homeViewModel) {
+                    trainingPlanAdapter.submitList(
+                        workoutModelList.workoutList.toPersonalPlanModelList()
+                    )
+                }
+                this.planRecyclerView.adapter = trainingPlanAdapter
             }
 
             ivHomeProfile.setOnClickListener {
@@ -190,7 +229,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
             calendarAdapter.submitList(dateList)
             trainingAdapter.submitList(trainingList)
-            foodAdapter.submitList(foodList)
+            foodPlanAdapter.submitList(foodPlanList)
 
             rvHomeCalendar.adapter = calendarAdapter
             rvHomeTrainingCategory.adapter = trainingAdapter
@@ -199,16 +238,49 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
 
     private fun handleError(error: String) {
+        LoadingDialogHelper.dismissLoadingDialog()
         println(error)
     }
 
     private fun handleLoading() {
+        LoadingDialogHelper.showLoadingDialog(requireActivity())
         println(getString(R.string.loading))
+    }
+
+    private fun openBottomSheet(): PersonalPlanModel {
+        val trainingBottomSheet = BottomSheetDialog(requireContext())
+        val view = layoutInflater.inflate(R.layout.bottom_sheet_ai_suggestions, null)
+        trainingBottomSheet.setContentView(view)
+
+        var selectedItem = SuggestModel()
+
+        homeViewModel.onAction(HomeAction.GetSuggestItems)
+
+        val suggestList = homeViewModel.homeUiState.value?.foodSuggestList
+        val suggestAdapter = SuggestAdapter()
+        suggestAdapter.submitList(suggestList)
+
+        view.findViewById<ImageView>(R.id.iv_suggest_closeButton).setOnClickListener {
+            trainingBottomSheet.dismiss()
+        }
+
+        view.findViewById<RecyclerView>(R.id.rv_ai_suggestions).adapter = suggestAdapter
+
+        view.findViewById<Button>(R.id.btn_update_meal).setOnClickListener {
+            suggestList?.find { it.isSelected }?.let {
+                selectedItem = it
+            }
+        }
+
+        trainingBottomSheet.show()
+        return selectedItem.toPersonalPlanModel()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun callInitialViewModelFunction() {
         homeViewModel.onAction(HomeAction.GetCategoryItem)
         homeViewModel.onAction(HomeAction.GetCalendarItem)
+        homeViewModel.onAction(HomeAction.GetBreakfastItems)
+        homeViewModel.onAction(HomeAction.GetWorkoutList)
     }
 }

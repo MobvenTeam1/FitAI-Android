@@ -82,5 +82,10 @@ dependencies {
     // Room
     implementation(libs.bundles.room)
     kapt(libs.room.compiler)
+    // Lottie
+    implementation(libs.lottie)
+
+    // Gson
+    implementation(libs.gson)
 
 }

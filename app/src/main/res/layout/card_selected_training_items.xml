@@ -65,7 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/urbanist_bold"
-                android:text="Egersizlerim"
+                android:text="@string/my_exercises"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_18sp"
@@ -76,8 +76,9 @@
                 android:id="@+id/tv_selected_add_items_description_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:fontFamily="@font/urbanist_regular"
-                android:text="0"
+                android:text="@string/_0"
                 android:textAlignment="center"
                 android:textSize="@dimen/_12sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -89,7 +90,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="2dp"
                 android:fontFamily="@font/urbanist_regular"
-                android:text="Egzersiz"
+                android:visibility="gone"
+                android:text="@string/exercise"
                 android:textAlignment="center"
                 android:textSize="@dimen/_12sp"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_selected_add_items_description_number"
@@ -101,8 +103,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/contentDescription"
+                android:layout_marginBottom="@dimen/_8dp"
                 android:src="@drawable/my_exercises"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_selected_add_items_description"
+                app:layout_constraintBottom_toTopOf="@+id/rv_selected_training_items"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tv_selected_add_items_title" />
 
@@ -114,9 +117,24 @@
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="@+id/iv_selected_training_items_image"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="@+id/tv_selected_add_items_description_number"
                 app:layout_constraintTop_toBottomOf="@+id/tv_selected_add_items_description"
                 tools:listitem="@layout/card_ai_powered_training" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_complete_exercise_add"
+                style="@style/nextButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/_24dp"
+                android:paddingVertical="@dimen/_16dp"
+                android:text="@string/complete_exercise_add"
+                app:cornerRadius="@dimen/button_corner_radius"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/rv_selected_training_items"
+                app:layout_constraintTop_toBottomOf="@+id/rv_selected_training_items" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

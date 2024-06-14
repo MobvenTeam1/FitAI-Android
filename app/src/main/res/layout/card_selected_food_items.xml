@@ -61,7 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/urbanist_bold"
-                android:text="Besinlerim"
+                android:text="@string/my_nutritions"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_18sp"
@@ -73,7 +73,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/urbanist_regular"
-                android:text="0"
+                android:text="@string/_0"
+                android:visibility="gone"
                 android:textAlignment="center"
                 android:textSize="@dimen/_12sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -85,7 +86,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="2dp"
                 android:fontFamily="@font/urbanist_regular"
-                android:text="Besin"
+                android:text="@string/nutrition"
+                android:visibility="gone"
                 android:textAlignment="center"
                 android:textSize="@dimen/_12sp"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_selected_add_items_description_number"
@@ -97,8 +99,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/contentDescription"
+                android:layout_marginBottom="@dimen/_8dp"
                 android:src="@drawable/food_ai"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_selected_add_items_description"
+                app:layout_constraintBottom_toTopOf="@+id/rv_selected_ai_food_items"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tv_selected_add_items_title" />
 
@@ -114,7 +117,20 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_selected_add_items_description"
                 tools:listitem="@layout/card_ai_powered_food" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_complete_exercise_add"
+                style="@style/nextButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/_24dp"
+                android:paddingVertical="@dimen/_16dp"
+                android:text="@string/complete_nutrition_add"
+                app:cornerRadius="@dimen/button_corner_radius"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/rv_selected_ai_food_items"
+                app:layout_constraintTop_toBottomOf="@+id/rv_selected_ai_food_items" />
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </RelativeLayout>

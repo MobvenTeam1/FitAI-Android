@@ -1,7 +1,9 @@
 package com.mobven.fitai.data.di
 
-import com.mobven.fitai.data.repository.FitAIRepositoryImpl
-import com.mobven.fitai.domain.repository.FitAIRepository
+import com.mobven.fitai.data.repository.UserRepositoryImpl
+import com.mobven.fitai.data.repository.WorkoutRepositoryImpl
+import com.mobven.fitai.domain.repository.UserRepository
+import com.mobven.fitai.domain.repository.WorkoutRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -12,6 +14,9 @@ import javax.inject.Singleton
 abstract class RepositoryModule {
 
     @[Binds Singleton]
-    abstract fun bindFitAIRepository(fitAIRepositoryImpl: FitAIRepositoryImpl) : FitAIRepository
+    abstract fun bindFitAIRepository(fitAIRepositoryImpl: UserRepositoryImpl) : UserRepository
+
+    @[Binds Singleton]
+    abstract fun bindWorkoutRepository(workoutRepositoryImpl: WorkoutRepositoryImpl) : WorkoutRepository
 
 }

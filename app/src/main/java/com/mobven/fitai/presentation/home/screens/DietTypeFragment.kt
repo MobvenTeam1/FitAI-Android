@@ -1,8 +1,10 @@
 package com.mobven.fitai.presentation.home.screens
 
 import androidx.fragment.app.viewModels
-import androidx.viewpager2.widget.ViewPager2
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
 import com.mobven.fitai.R
+import com.mobven.fitai.common.SharedPreferencesHelper
 import com.mobven.fitai.databinding.FragmentDietTypeBinding
 import com.mobven.fitai.presentation.base.BaseFragment
 import com.mobven.fitai.presentation.home.viewmodel.HomeAction
@@ -40,11 +42,20 @@ class DietTypeFragment : BaseFragment<FragmentDietTypeBinding>(FragmentDietTypeB
         binding.rvDietType.adapter = adapter
 
         binding.btnDietTypeContinue.setOnClickListener {
-            val currentItem =
-                requireActivity().findViewById<ViewPager2>(R.id.vp_nutrition).currentItem
-            val nextItem = currentItem + 1
-            requireActivity().findViewById<ViewPager2>(R.id.vp_nutrition)
-                .setCurrentItem(nextItem, true)
+            SharedPreferencesHelper.saveNutritionPlan(
+                requireActivity(),
+                true
+            )
+
+            val navOptions =
+                NavOptions.Builder()
+                    .setPopUpTo(R.id.nutritionFragment, true)
+                    .build()
+            findNavController().navigate(
+                R.id.action_nutritionFragment_to_planCreatingFragment,
+                null,
+                navOptions
+            )
         }
     }
 

@@ -1,6 +1,7 @@
 package com.mobven.fitai.data.di
 
 import com.mobven.fitai.data.local.dao.UserDao
+import com.mobven.fitai.data.local.dao.WorkoutDao
 import com.mobven.fitai.data.remote.FitAIService
 import com.mobven.fitai.data.source.LocalDataSourceImpl
 import com.mobven.fitai.data.source.RemoteDataSourceImpl
@@ -22,7 +23,8 @@ object SourceModule {
 
     @[Provides Singleton]
     fun provideLocalDataSource(
-        userDao: UserDao
-    ): LocalDataSource = LocalDataSourceImpl(userDao)
+        userDao: UserDao,
+        workoutDao: WorkoutDao
+    ): LocalDataSource = LocalDataSourceImpl(userDao, workoutDao)
 
 }

@@ -1,6 +1,6 @@
 package com.mobven.fitai.presentation.home.screens
 
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.mobven.fitai.R
 import com.mobven.fitai.presentation.base.BaseFragment
@@ -17,7 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class OtherHealthProblemFragment : BaseFragment<FragmentOtherHealthProblemBinding>(FragmentOtherHealthProblemBinding::inflate) {
 
     private val adapter = SignUpListAdapter()
-    private val homeViewModel: HomeViewModel by viewModels()
+    private val homeViewModel: HomeViewModel by activityViewModels()
 
     override fun observeUi() {
         homeViewModel.homeUiState.observe(viewLifecycleOwner) { homeState ->

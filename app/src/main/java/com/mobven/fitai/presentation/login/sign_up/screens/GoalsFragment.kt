@@ -2,17 +2,16 @@ package com.mobven.fitai.presentation.login.sign_up.screens
 
 import android.content.Intent
 import android.util.Log
-import android.widget.Toast
 import androidx.fragment.app.activityViewModels
-import com.mobven.fitai.MainActivity
+import com.mobven.fitai.presentation.MainActivity
 import com.mobven.fitai.R
 import com.mobven.fitai.common.SharedPreferencesHelper
 import com.mobven.fitai.databinding.FragmentGoalsBinding
 import com.mobven.fitai.presentation.base.BaseFragment
 import com.mobven.fitai.presentation.login.sign_up.adapter.SignUpListAdapter
-import com.mobven.fitai.presentation.login.sign_up.model.ListSelectorItem
 import com.mobven.fitai.presentation.login.sign_up.viewmodel.SignUpAction
 import com.mobven.fitai.presentation.login.sign_up.viewmodel.SignUpViewModel
+import com.mobven.fitai.util.LoadingDialogHelper
 import com.mobven.fitai.util.enums.SignUpFragmentType
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -33,14 +32,18 @@ class GoalsFragment : BaseFragment<FragmentGoalsBinding>(FragmentGoalsBinding::i
                 }
 
                 else -> {
-                    handleSuccess(signUpState.signUpSelectorList)
+                    handleSuccess()
                 }
             }
         }
     }
 
-    private fun handleSuccess(goalList: List<ListSelectorItem>) {
+    private fun handleSuccess() {
+        LoadingDialogHelper.dismissLoadingDialog()
         with(binding) {
+
+            val goalList = signUpViewModel.signUpSelectorList
+
             adapter.submitList(goalList)
             rvGoals.adapter = adapter
 
@@ -57,23 +60,17 @@ class GoalsFragment : BaseFragment<FragmentGoalsBinding>(FragmentGoalsBinding::i
                         )
 
                         Log.e(
-                            "GoalsFragment",
-                            "User auth key: ${
-                                SharedPreferencesHelper.getUserAuthKey(
+                            getString(R.string.goalsfragment),
+                            getString(
+                                R.string.auth_user_key, SharedPreferencesHelper.getUserAuthKey(
                                     requireActivity()
                                 )
-                            }"
+                            )
                         )
 
                         val intent = Intent(requireActivity(), MainActivity::class.java)
                         startActivity(intent)
                         requireActivity().finish()
-                    } else {
-                        Toast.makeText(
-                            requireContext(),
-                            getString(R.string.please_enter_your_goals),
-                            Toast.LENGTH_SHORT
-                        ).show()
                     }
                 }
             }
@@ -81,13 +78,14 @@ class GoalsFragment : BaseFragment<FragmentGoalsBinding>(FragmentGoalsBinding::i
     }
 
     private fun handleError(error: String) {
+        LoadingDialogHelper.dismissLoadingDialog()
         println(error)
     }
 
     private fun handleLoading() {
+        LoadingDialogHelper.showLoadingDialog(requireActivity())
         println(getString(R.string.loading))
     }
-
     override fun callInitialViewModelFunction() {
         signUpViewModel.onAction(SignUpAction.GetSelectorItem(SignUpFragmentType.GOALS))
     }

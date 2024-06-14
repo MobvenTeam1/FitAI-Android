@@ -11,8 +11,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.mobven.fitai.LoginActivity
-import com.mobven.fitai.MainActivity
+import com.mobven.fitai.presentation.LoginActivity
+import com.mobven.fitai.presentation.MainActivity
 import com.mobven.fitai.R
 import com.mobven.fitai.common.SharedPreferencesHelper
 import com.mobven.fitai.databinding.ActivitySplashBinding

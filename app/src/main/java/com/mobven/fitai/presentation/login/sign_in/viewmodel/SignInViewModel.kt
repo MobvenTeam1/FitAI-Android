@@ -46,7 +46,7 @@ class SignInViewModel @Inject constructor(
                         _signInUiState.value = _signInUiState.value?.copy(
                             isLoading = false,
                             isError = false,
-                            userAuthKey = it.data.userToken
+                            userAuthKey = it.data.token
                         )
                     }
                 }

@@ -2,16 +2,15 @@ package com.mobven.fitai.presentation.login.sign_up.screens
 
 import android.widget.ImageView
 import android.widget.ProgressBar
-import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.mobven.fitai.R
 import com.mobven.fitai.databinding.FragmentGenderSignUpBinding
 import com.mobven.fitai.presentation.base.BaseFragment
 import com.mobven.fitai.presentation.login.sign_up.adapter.SignUpListAdapter
-import com.mobven.fitai.presentation.login.sign_up.model.ListSelectorItem
 import com.mobven.fitai.presentation.login.sign_up.viewmodel.SignUpAction
 import com.mobven.fitai.presentation.login.sign_up.viewmodel.SignUpViewModel
+import com.mobven.fitai.util.LoadingDialogHelper
 import com.mobven.fitai.util.enums.SignUpFragmentType
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -26,21 +25,26 @@ class GenderSignUpFragment :
         viewModel.signUpState.observe(viewLifecycleOwner) { signUpState ->
             when {
                 signUpState.isError -> {
+                    LoadingDialogHelper.dismissLoadingDialog()
                     handleError(signUpState.errorMessage)
                 }
 
                 signUpState.isLoading -> {
+                    LoadingDialogHelper.showLoadingDialog(requireActivity())
                     handleLoading()
                 }
 
                 else -> {
-                    handleSuccess(signUpState.signUpSelectorList)
+                    LoadingDialogHelper.dismissLoadingDialog()
+                    handleSuccess()
                 }
             }
         }
     }
 
-    private fun handleSuccess(genderList: List<ListSelectorItem>) {
+    private fun handleSuccess() {
+
+        val genderList = viewModel.signUpSelectorList
 
         adapter.submitList(genderList)
         binding.rvGender.adapter = adapter
@@ -57,9 +61,6 @@ class GenderSignUpFragment :
                         .setCurrentItem(nextItem, true)
 
                     requireActivity().findViewById<ImageView>(R.id.toolbar_back).visibility = ProgressBar.VISIBLE
-                }else{
-                    Toast.makeText(requireContext(),
-                        getString(R.string.please_give_gender), Toast.LENGTH_SHORT).show()
                 }
             }
         }

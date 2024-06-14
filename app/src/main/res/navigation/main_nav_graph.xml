@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav_graph"
     app:startDestination="@id/homeFragment">
+
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.mobven.fitai.presentation.home.HomeFragment"
@@ -37,6 +38,9 @@
         <action
             android:id="@+id/action_nutritionFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_nutritionFragment_to_planCreatingFragment"
+            app:destination="@id/planCreatingFragment" />
     </fragment>
     <fragment
         android:id="@+id/trainingFragment"
@@ -46,6 +50,10 @@
         <action
             android:id="@+id/action_trainingFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_trainingFragment_to_planCreatingFragment"
+            app:destination="@id/planCreatingFragment"
+            app:popUpTo="@id/trainingFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -79,5 +87,16 @@
         <action
             android:id="@+id/action_bottomSheetFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_bottomSheetFragment_to_nutritionFragment"
+            app:destination="@id/nutritionFragment" />
+        <action
+            android:id="@+id/action_bottomSheetFragment_to_trainingFragment"
+            app:destination="@id/trainingFragment" />
     </dialog>
+    <fragment
+        android:id="@+id/planCreatingFragment"
+        android:name="com.mobven.fitai.presentation.home.screens.PlanCreatingFragment"
+        android:label="fragment_plan_creating"
+        tools:layout="@layout/fragment_plan_creating" />
 </navigation>

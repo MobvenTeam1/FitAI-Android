@@ -27,10 +27,8 @@ class TrainingFragment : BaseFragment<FragmentTrainingBinding>(FragmentTrainingB
                 else -> {
                     handleSuccess()
                 }
-
             }
         }
-
     }
 
     private fun handleSuccess() {
