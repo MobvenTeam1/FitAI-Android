@@ -4,15 +4,18 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mobven.fitai.R
+import com.mobven.fitai.infrastructure.string_resource.StringResourceProvider
 import com.mobven.fitai.presentation.add.adapter.AddItemModel
-import com.mobven.fitai.presentation.add.food.FoodModel
-import com.mobven.fitai.presentation.add.training.TrainingModel
+import com.mobven.fitai.presentation.add.food.adapter.FoodModel
+import com.mobven.fitai.presentation.add.training.adapter.TrainingModel
 import com.mobven.fitai.util.enums.SelectItemType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class AddViewModel @Inject constructor() : ViewModel() {
+class AddViewModel @Inject constructor(
+    private val stringResource: StringResourceProvider
+) : ViewModel() {
 
     private val _uiState = MutableLiveData(AddUiState())
     val uiState: LiveData<AddUiState> = _uiState
@@ -23,6 +26,8 @@ class AddViewModel @Inject constructor() : ViewModel() {
             AddOnAction.GetFoodItems -> getFoodItemList()
             is AddOnAction.AddSelectedFood -> addFoodItem(action.food)
             is AddOnAction.AddSelectedTraining -> addTrainingItem(action.training)
+            is AddOnAction.RemoveSelectedFood -> removeFoodItem(action.food)
+            is AddOnAction.RemoveSelectedTraining -> removeTrainingItem(action.training)
         }
     }
 
@@ -30,11 +35,36 @@ class AddViewModel @Inject constructor() : ViewModel() {
         _uiState.value = _uiState.value?.copy(
             trainingItemList =
             listOf(
-                AddItemModel("Yürüyüş", R.drawable.walking, "Düşük Tempo - 1 saatte 65 kcal", SelectItemType.TRAINING),
-                AddItemModel("Koşu", R.drawable.running, "1 saatte 178 kcal", SelectItemType.TRAINING),
-                AddItemModel("Bisiklet", R.drawable.biceyle, "1 saatte 178 kcal", SelectItemType.TRAINING),
-                AddItemModel("Yüzme", R.drawable.swimming, "1 saatte 178 kcal", SelectItemType.TRAINING),
-                AddItemModel("Tennis", R.drawable.tennis, "1 saatte 280 kcal", SelectItemType.TRAINING)
+                AddItemModel(
+                    stringResource.getString(R.string.walking),
+                    R.drawable.walking,
+                    stringResource.getString(R.string.low_temp_one_hour_65_kcal),
+                    SelectItemType.TRAINING
+                ),
+                AddItemModel(
+                    stringResource.getString(R.string.running),
+                    R.drawable.running,
+                    stringResource.getString(R.string.one_hour_178_kcal),
+                    SelectItemType.TRAINING
+                ),
+                AddItemModel(
+                    stringResource.getString(R.string.biceyle),
+                    R.drawable.biceyle,
+                    stringResource.getString(R.string.one_hour_178_kcal),
+                    SelectItemType.TRAINING
+                ),
+                AddItemModel(
+                    stringResource.getString(R.string.swimming),
+                    R.drawable.swimming,
+                    stringResource.getString(R.string.one_hour_178_kcal),
+                    SelectItemType.TRAINING
+                ),
+                AddItemModel(
+                    stringResource.getString(R.string.tennis),
+                    R.drawable.tennis,
+                    stringResource.getString(R.string.one_hour_280_kcal),
+                    SelectItemType.TRAINING
+                )
             ).toMutableList()
         )
     }
@@ -43,26 +73,83 @@ class AddViewModel @Inject constructor() : ViewModel() {
         _uiState.value = _uiState.value?.copy(
             foodItemList =
             listOf(
-                AddItemModel("Haşlanmış Yumurta", R.drawable.food_egg, "2 tane, 180 kcal", SelectItemType.FOOD),
-                AddItemModel("Avokado", R.drawable.food_avocado, "Yarım, 220 kcal", SelectItemType.FOOD),
-                AddItemModel("Domates", R.drawable.food_tomato, "1 tane, 40 kcal", SelectItemType.FOOD),
-                AddItemModel("Tambuğday Ekmeği", R.drawable.food_bread, "1 dilim, 75 kcal", SelectItemType.FOOD)
+                AddItemModel(
+                    stringResource.getString(R.string.egg),
+                    R.drawable.food_egg,
+                    stringResource.getString(R.string.two_piece_180_kcal),
+                    SelectItemType.FOOD
+                ),
+                AddItemModel(
+                    stringResource.getString(R.string.avocado),
+                    R.drawable.food_avocado,
+                    stringResource.getString(R.string.one_half_220_kcal),
+                    SelectItemType.FOOD
+                ),
+                AddItemModel(
+                    stringResource.getString(R.string.tomato),
+                    R.drawable.food_tomato,
+                    stringResource.getString(R.string.one_piece_40_kcal),
+                    SelectItemType.FOOD
+                ),
+                AddItemModel(
+                    stringResource.getString(R.string.bread),
+                    R.drawable.food_bread,
+                    stringResource.getString(R.string.one_slice_75_kcal),
+                    SelectItemType.FOOD
+                )
             ).toMutableList()
         )
     }
 
     private fun addTrainingItem(trainingModel: TrainingModel) {
         _uiState.value = _uiState.value?.copy(
+            trainingSelectedList = _uiState.value?.trainingSelectedList?.toMutableList()?.apply {
+                val existingTraining = find { it.name == trainingModel.name }
+                if (existingTraining != null) {
+                    val index = indexOf(existingTraining)
+                    val updatedFood = existingTraining.copy(
+                        minute = (existingTraining.minute.toInt() + trainingModel.minute.toInt()).toString()
+                    )
+                    set(index, updatedFood)
+                } else {
+                    add(trainingModel)
+                }
+            } ?: mutableListOf()
+        )
+    }
+
+    private fun removeTrainingItem(trainingModel: TrainingModel) {
+        _uiState.value = _uiState.value?.copy(
             trainingSelectedList = _uiState.value?.trainingSelectedList?.apply {
-                add(trainingModel)
+                remove(trainingModel)
             } ?: mutableListOf()
         )
     }
 
     private fun addFoodItem(foodModel: FoodModel) {
         _uiState.value = _uiState.value?.copy(
+            foodSelectedList = _uiState.value?.foodSelectedList?.toMutableList()?.apply {
+                val existingFood = find { it.name == foodModel.name }
+                if (existingFood != null) {
+                    val index = indexOf(existingFood)
+                    val updatedFood = existingFood.copy(count = existingFood.count + 1)
+                    set(index, updatedFood)
+                } else {
+                    add(foodModel)
+                }
+            } ?: mutableListOf()
+        )
+    }
+
+    private fun removeFoodItem(foodModel: FoodModel) {
+        _uiState.value = _uiState.value?.copy(
             foodSelectedList = _uiState.value?.foodSelectedList?.apply {
-                add(foodModel)
+                if (contains(foodModel)) {
+                    val index = indexOf(foodModel)
+                    val food = get(index)
+                    food.count -= 1
+                    set(index, food)
+                }
             } ?: mutableListOf()
         )
     }
@@ -74,6 +161,6 @@ data class AddUiState(
     val isError: Boolean = false,
     val trainingItemList: MutableList<AddItemModel> = mutableListOf(),
     val foodItemList: MutableList<AddItemModel> = mutableListOf(),
-    val trainingSelectedList : MutableList<TrainingModel> = mutableListOf(),
-    val foodSelectedList : MutableList<FoodModel> = mutableListOf(),
+    val trainingSelectedList: MutableList<TrainingModel> = mutableListOf(),
+    val foodSelectedList: MutableList<FoodModel> = mutableListOf(),
 )

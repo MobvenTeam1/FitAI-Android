@@ -6,7 +6,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.mobven.fitai.databinding.FragmentAddFoodBinding
 import com.mobven.fitai.presentation.add.adapter.AddItemAdapter
-import com.mobven.fitai.presentation.add.training.TrainingAdapter
+import com.mobven.fitai.presentation.add.food.adapter.FoodAdapter
+import com.mobven.fitai.presentation.add.food.adapter.FoodModel
 import com.mobven.fitai.presentation.add.viewmodel.AddOnAction
 import com.mobven.fitai.presentation.add.viewmodel.AddViewModel
 import com.mobven.fitai.presentation.base.BaseFragment
@@ -16,7 +17,19 @@ import dagger.hilt.android.AndroidEntryPoint
 class AddFoodFragment : BaseFragment<FragmentAddFoodBinding>(FragmentAddFoodBinding::inflate) {
 
     private val viewModel: AddViewModel by viewModels()
-    private val selectedFoodAdapter = FoodAdapter()
+    private val selectedFoodAdapter = FoodAdapter(
+        onFoodCountDecreased = {
+            viewModel.onAction(
+                AddOnAction.RemoveSelectedFood(
+                    FoodModel(
+                        name = it.name,
+                        count = it.count,
+                        image = it.image
+                    )
+                )
+            )
+        }
+    )
 
     @SuppressLint("NotifyDataSetChanged")
     private val adapter = AddItemAdapter(

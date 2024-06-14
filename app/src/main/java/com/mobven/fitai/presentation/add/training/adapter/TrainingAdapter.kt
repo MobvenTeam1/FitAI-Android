@@ -1,21 +1,31 @@
-package com.mobven.fitai.presentation.add.training
+package com.mobven.fitai.presentation.add.training.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.mobven.fitai.R
 import com.mobven.fitai.databinding.CardAiPoweredTrainingBinding
 
-class TrainingAdapter :
+class TrainingAdapter(
+    private val onTrainingItemClicked: (TrainingModel) -> Unit
+) :
     ListAdapter<TrainingModel, TrainingAdapter.TrainingViewHolder>(TrainingDiffUtil()) {
-    class TrainingViewHolder(val binding: CardAiPoweredTrainingBinding) :
+
+    inner class TrainingViewHolder(val binding: CardAiPoweredTrainingBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(trainingModel: TrainingModel) {
             with(binding) {
                 addItemImage.setImageResource(trainingModel.image!!)
-                tvAiPoweredTime.text = trainingModel.minute
+                tvSelectedAddItemsMinute.text =
+                    root.context.getString(R.string.training_card_minute, trainingModel.minute)
                 tvSelectedAddItemsTitle.text = trainingModel.name
                 tvSelectedAddItemsDescription.text = trainingModel.description
+
+                imageAiPoweredMinus.setOnClickListener {
+                    onTrainingItemClicked(trainingModel)
+                    notifyDataSetChanged()
+                }
             }
         }
     }

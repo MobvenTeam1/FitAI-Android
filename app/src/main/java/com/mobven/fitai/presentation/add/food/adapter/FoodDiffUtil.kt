@@ -1,4 +1,4 @@
-package com.mobven.fitai.presentation.add.food
+package com.mobven.fitai.presentation.add.food.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 

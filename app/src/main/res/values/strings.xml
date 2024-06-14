@@ -305,4 +305,27 @@
     <string name="nutritions">Besinler</string>
     <string name="auth_user_key">User auth key: %1$s</string>
     <string name="logout_succesfully">Başarıyla çıkış yapıldı.</string>
+    <string name="my_exercises">Egersizlerim</string>
+    <string name="_0">0</string>
+    <string name="exercise">Egzersiz</string>
+    <string name="complete_exercise_add">Egzersiz Eklemeyi Tamamla</string>
+    <string name="complete_nutrition_add">Besin Eklemeyi Tamamla</string>
+    <string name="my_nutritions">Besinlerim</string>
+    <string name="nutrition">Besin</string>
+    <string name="training_card_minute">%1$s dakika</string>
+    <string name="x_how_many_food">x%1$s</string>
+    <string name="low_temp_one_hour_65_kcal">Düşük Tempo - 1 saatte 65 kcal</string>
+    <string name="one_hour_178_kcal">1 saatte 178 kcal</string>
+    <string name="biceyle">Bisiklet</string>
+    <string name="swimming">Yüzme</string>
+    <string name="tennis">Tennis</string>
+    <string name="one_hour_280_kcal">1 saatte 280 kcal</string>
+    <string name="egg">Haşlanmış Yumurta</string>
+    <string name="avocado">Avokado</string>
+    <string name="tomato">Domates</string>
+    <string name="bread">Tambuğday Ekmeği</string>
+    <string name="one_slice_75_kcal">1 dilim, 75 kcal</string>
+    <string name="one_piece_40_kcal">1 tane, 40 kcal</string>
+    <string name="one_half_220_kcal">Yarım, 220 kcal</string>
+    <string name="two_piece_180_kcal">2 tane, 180 kcal</string>
 </resources>

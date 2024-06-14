@@ -11,6 +11,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.mobven.fitai.R
 import com.mobven.fitai.databinding.FragmentAddTrainingBinding
 import com.mobven.fitai.presentation.add.adapter.AddItemAdapter
+import com.mobven.fitai.presentation.add.training.adapter.TrainingAdapter
+import com.mobven.fitai.presentation.add.training.adapter.TrainingModel
 import com.mobven.fitai.presentation.add.viewmodel.AddOnAction
 import com.mobven.fitai.presentation.add.viewmodel.AddViewModel
 import com.mobven.fitai.presentation.base.BaseFragment
@@ -21,17 +23,23 @@ class AddTrainingFragment :
     BaseFragment<FragmentAddTrainingBinding>(FragmentAddTrainingBinding::inflate) {
 
     private val viewModel: AddViewModel by viewModels()
-    private val selectedTrainingAdapter = TrainingAdapter()
+    private val selectedTrainingAdapter = TrainingAdapter(
+        onTrainingItemClicked = {
+            viewModel.onAction(
+                AddOnAction.RemoveSelectedTraining(it)
+            )
+        }
+    )
 
     @SuppressLint("NotifyDataSetChanged")
     private val adapter = AddItemAdapter(
         onTrainingItemClicked = { position ->
-            val bottomNavigation = BottomSheetDialog(requireContext())
+            val trainingBottomSheet = BottomSheetDialog(requireContext())
             val view = layoutInflater.inflate(R.layout.bottom_sheet_add_training, null)
-            bottomNavigation.setContentView(view)
+            trainingBottomSheet.setContentView(view)
 
             view.findViewById<ImageView>(R.id.iv_close_time_training).setOnClickListener {
-                bottomNavigation.dismiss()
+                trainingBottomSheet.dismiss()
             }
             view.findViewById<Button>(R.id.btn_add_training_time).setOnClickListener {
                 val trainingItem = TrainingModel(
@@ -43,9 +51,9 @@ class AddTrainingFragment :
                 viewModel.onAction(AddOnAction.AddSelectedTraining(trainingItem))
                 selectedTrainingAdapter.submitList(viewModel.uiState.value?.trainingSelectedList)
                 selectedTrainingAdapter.notifyDataSetChanged()
-                bottomNavigation.dismiss()
+                trainingBottomSheet.dismiss()
             }
-            bottomNavigation.show()
+            trainingBottomSheet.show()
         }
     )
 
