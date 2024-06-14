@@ -4,7 +4,6 @@ plugins {
     alias(libs.plugins.hilt.plugin)
     alias(libs.plugins.kapt)
     alias(libs.plugins.safeArgs)
-    // id("com.android.application") // Bu satırı kaldırıyorum
     id("com.google.gms.google-services")
 }
 
@@ -60,8 +59,10 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     testImplementation(libs.bundles.testImplementation)
     androidTestImplementation(libs.bundles.androidTestImplementation)
-    implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
-    implementation("com.google.firebase:firebase-analytics")
+
+    // Firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
 
     // Navigation
     implementation(libs.bundles.navigation)
@@ -82,6 +83,7 @@ dependencies {
     // Room
     implementation(libs.bundles.room)
     kapt(libs.room.compiler)
+
     // Lottie
     implementation(libs.lottie)
 

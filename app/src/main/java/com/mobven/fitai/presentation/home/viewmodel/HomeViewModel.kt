@@ -129,7 +129,8 @@ class HomeViewModel @Inject constructor(
                     }
 
                     is ResponseState.Success -> {
-                        workoutModelList = responseState.data.first()
+                        if (responseState.data.isEmpty()) WorkoutEntity()
+                        else responseState.data.first()
                         _homeUiState.value = _homeUiState.value?.copy(
                             isError = false,
                             isLoading = false,
